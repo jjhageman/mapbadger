@@ -1,4 +1,11 @@
-<div id="regions"></div>
+<div id="map-container">
+  <div class="well">
+    <button id="select-regions" class="btn primary">Select</button>
+    <button id="reset-map" class="btn">Reset</button>
+    <button id="save-select" class="btn">Save</button>
+  </div>
+  <div id="map-canvas"></div>
+</div>
 
 <script type="text/javascript">
   $(function() {
@@ -8,30 +15,4 @@
   });
 </script>
 
-<h1>Listing regions</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Fipscode</th>
-    <th>Coords</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @regions.each do |region| %>
-  <tr>
-    <td><%= region.name %></td>
-    <td><%= region.fipscode %></td>
-    <td><%= region.coords %></td>
-    <td><%= link_to 'Show', region %></td>
-    <td><%= link_to 'Edit', edit_region_path(region) %></td>
-    <td><%= link_to 'Destroy', region, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Region', new_region_path %>
