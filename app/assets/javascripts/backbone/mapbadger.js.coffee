@@ -4,6 +4,8 @@
 #= require_tree ./views
 #= require_tree ./routers
 
+root = exports ? this
+
 window.Mapbadger =
   Models: {}
   Collections: {}

@@ -29,6 +29,8 @@ class Mapbadger.Views.Regions.IndexView extends Backbone.View
     @map.fitBounds(usBnds)
     # boxselmrk = new google.maps.Marker({draggable:true, clickable: true, position: new google.maps.LatLng(0,0), icon :mrkimage, map : gmap, raiseOnDrag : false })
     # infoWindow = new google.maps.InfoWindow()
+    window.map = @map
+    window.regionPolys = @regionpolys
 
   addAll: () ->
     @options.regions.each(@addOne)
