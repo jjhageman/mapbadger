@@ -1,7 +1,18 @@
 startPt = ''
 endPt = ''
 rect = ''
-regionPolys = window.regionPolys
+mrkImage = ''
+boxSelMrk = ''
+lstnr = ''
+tempSel = [[],[]]
+selected_style =
+  fillColor: '#FF6633'
+  fillOpacity: 0.35
+  strokeColor: '#111111'
+  strokeWeight: 1
+  strokeOpacity : 0.5
+
+@regionPolys = window.regionPolys
 
 startRect = (ll) ->
   startPt = ll
@@ -28,22 +39,43 @@ getSel = (ll) ->
   rect.setBounds tempBnd
   rect.setMap null
   rectBnd = rect.getBounds()
-  for polys, ii in regionPolys
-    if rectBnd.contains(regionPolys[ii].bnd.getSouthWest()) && rectBnd.contains(regionPolys[ii].bnd.getNorthEast())
-      if statypolys[ii].selected == 0
+  for polys, ii in @regionPolys
+    if rectBnd.contains(@regionPolys[ii].bnd.getSouthWest()) && rectBnd.contains(@regionPolys[ii].bnd.getNorthEast())
+      if @regionPolys[ii].selected == 0
         tempSel[0].push ii
-        tempSel[1].push regionPolys[ii].code
-        regionPolys[ii].setOptions(selected_style)
-        regionPolys[ii].selected = -1
+        tempSel[1].push @regionPolys[ii].code
+        @regionPolys[ii].setOptions(selected_style)
+        @regionPolys[ii].selected = -1
   refreshList()
   google.maps.event.clearInstanceListeners boxSelMrk
   google.maps.event.removeListener lstnr
   boxSelMrk.setMap null
+  
+refreshList = ->
+  $('#selected-states').empty
+  for poly in @regionPolys
+    $('#selected-states').append poly.name if poly.selected == -1
 
 $(document).ready ->
+  mrkImage = new google.maps.MarkerImage("../images/rails.png", new google.maps.Size(24,24), new google.maps.Point(0,0),new google.maps.Point(12,12),new google.maps.Size(24,24))
+  boxSelMrk = new google.maps.Marker
+    draggable: true
+    clickable: true
+    position: new google.maps.LatLng(0,0)
+    icon: mrkImage
+    map: window.map
+    raiseOnDrag: false
+
   $('#select-regions').click ->
-    mrkimage = new google.maps.MarkerImage("./test.PNG", new google.maps.Size(24,24), new google.maps.Point(0,0),new google.maps.Point(12,12),new google.maps.Size(24,24))
-    boxSelMrk = new google.maps.Marker ({draggable:true, clickable: true, position: new google.maps.LatLng(0,0), icon :mrkimage, map : window.map, raiseOnDrag : false })
+    mrkImage = new google.maps.MarkerImage("../images/rails.png", new google.maps.Size(24,24), new google.maps.Point(0,0),new google.maps.Point(12,12),new google.maps.Size(24,24))
+    boxSelMrk = new google.maps.Marker
+      draggable: true
+      clickable: true
+      position: new google.maps.LatLng(0,0)
+      icon: mrkImage
+      map: window.map
+      raiseOnDrag: false
+
     google.maps.event.addListener boxSelMrk, 'dragstart', (event) =>
       startRect(event.latLng)
     google.maps.event.addListener boxSelMrk, 'drag', (event) =>
