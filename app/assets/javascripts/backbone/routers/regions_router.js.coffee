@@ -16,7 +16,9 @@ class Mapbadger.Routers.RegionsRouter extends Backbone.Router
 
   index: ->
     @view = new Mapbadger.Views.Regions.IndexView(regions: @regions)
-    $("#regions").html(@view.render().el)
+    $(".content").html(@view.render().el)
+    @view.map_view.render()
+    @view.addAll()
 
   show: (id) ->
     region = @regions.get(id)
