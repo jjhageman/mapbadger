@@ -6,7 +6,8 @@ class Mapbadger.Views.Regions.IndexView extends Backbone.View
   id: "map-container"
 
   events:
-    "click #select-regions": "selectRegions"
+    "click #select-regions": "selectRegions",
+    "click #reset-map": "clearSel"
 
   initialize: () ->
     _.bindAll(this, 'addOne', 'addAll', 'render', 'refreshList')
@@ -17,6 +18,7 @@ class Mapbadger.Views.Regions.IndexView extends Backbone.View
     @endPt = ''
     @rect = ''
     @mrkImage = ''
+    @selMarker = ''
     @lstnr = ''
     @tempSel = [[],[]]
 
@@ -35,6 +37,8 @@ class Mapbadger.Views.Regions.IndexView extends Backbone.View
       strokeOpacity: 0.5
 
     @map_view = new Mapbadger.Views.MapView
+    
+  selectRegions: ->
     @markerImg = new google.maps.MarkerImage("rails.png", new google.maps.Size(24,24), new google.maps.Point(0,0), new google.maps.Point(12,12), new google.maps.Size(24,24))
     @selMarker = new google.maps.Marker
       draggable: true
@@ -44,7 +48,6 @@ class Mapbadger.Views.Regions.IndexView extends Backbone.View
       map: @map_view.map
       raiseOnDrag: false
 
-  selectRegions: ->
     google.maps.event.addListener @selMarker, 'dragstart', (event) =>
       @startRect(event.latLng)
     google.maps.event.addListener @selMarker, 'drag', (event) =>
@@ -64,40 +67,40 @@ class Mapbadger.Views.Regions.IndexView extends Backbone.View
       strokeColor: '#0000FF'
       strokeOpacity: 1
       strokeWeight: 1
-      map: window.map
+      map: @map_view.map
     return
 
   drawRect: (ll) ->
-    tempBnd = new google.maps.LatLngBounds startPt,startPt
+    tempBnd = new google.maps.LatLngBounds @startPt,@startPt
     tempBnd.extend ll
-    rect.setBounds tempBnd
+    @rect.setBounds tempBnd
     return
 
   getSel: (ll) ->
-    endPt = ll
-    tempBnd = new google.maps.LatLngBounds startPt,startPt
+    @endPt = ll
+    tempBnd = new google.maps.LatLngBounds @startPt,@startPt
     tempBnd.extend ll
-    rect.setBounds tempBnd
-    rect.setMap null
-    rectBnd = rect.getBounds()
+    @rect.setBounds tempBnd
+    @rect.setMap null
+    rectBnd = @rect.getBounds()
     for polys, ii in @regionPolys
       if rectBnd.contains(@regionPolys[ii].bnd.getSouthWest()) && rectBnd.contains(@regionPolys[ii].bnd.getNorthEast())
         if @regionPolys[ii].selected == 0
-          tempSel[0].push ii
-          tempSel[1].push @regionPolys[ii].code
-          @regionPolys[ii].setOptions(selected_style)
+          @tempSel[0].push ii
+          @tempSel[1].push @regionPolys[ii].code
+          @regionPolys[ii].setOptions(@selected_style)
           @regionPolys[ii].selected = -1
-    refreshList()
+    @refreshList()
     google.maps.event.clearInstanceListeners @selMarker
-    google.maps.event.removeListener lstnr
+    google.maps.event.removeListener @lstnr
     @selMarker.setMap null
 
   clearSel: ->
     for poly in @regionPolys
       if poly.selected == -1
-        poly.setOptions(unselected_style)
+        poly.setOptions(@unselected_style)
         poly.selected = 0
-    tempSel = [[],[]]
+    @tempSel = [[],[]]
     $('#selected-states').empty()
 
   refreshList: ->

@@ -56,32 +56,32 @@
 #   for poly in @regionPolys
 #     $('#selected-states').append poly.name if poly.selected == -1
 
-$(document).ready ->
-  mrkImage = new google.maps.MarkerImage("images/rails.png", new google.maps.Size(24,24), new google.maps.Point(0,0),new google.maps.Point(12,12),new google.maps.Size(24,24))
-  boxSelMrk = new google.maps.Marker
-    draggable: true
-    clickable: true
-    position: new google.maps.LatLng(0,0)
-    icon: mrkImage
-    map: window.map
-    raiseOnDrag: false
+# $(document).ready ->
+#   mrkImage = new google.maps.MarkerImage("images/rails.png", new google.maps.Size(24,24), new google.maps.Point(0,0),new google.maps.Point(12,12),new google.maps.Size(24,24))
+#   boxSelMrk = new google.maps.Marker
+#     draggable: true
+#     clickable: true
+#     position: new google.maps.LatLng(0,0)
+#     icon: mrkImage
+#     map: window.map
+#     raiseOnDrag: false
 
-  $('#select-regions').click ->
-    mrkImage = new google.maps.MarkerImage("images/rails.png", new google.maps.Size(24,24), new google.maps.Point(0,0),new google.maps.Point(12,12),new google.maps.Size(24,24))
-    boxSelMrk = new google.maps.Marker
-      draggable: true
-      clickable: true
-      position: new google.maps.LatLng(0,0)
-      icon: mrkImage
-      map: window.map
-      raiseOnDrag: false
+#   $('#select-regions').click ->
+#     mrkImage = new google.maps.MarkerImage("images/rails.png", new google.maps.Size(24,24), new google.maps.Point(0,0),new google.maps.Point(12,12),new google.maps.Size(24,24))
+#     boxSelMrk = new google.maps.Marker
+#       draggable: true
+#       clickable: true
+#       position: new google.maps.LatLng(0,0)
+#       icon: mrkImage
+#       map: window.map
+#       raiseOnDrag: false
 
-    google.maps.event.addListener boxSelMrk, 'dragstart', (event) =>
-      startRect(event.latLng)
-    google.maps.event.addListener boxSelMrk, 'drag', (event) =>
-      drawRect(event.latLng)
-    google.maps.event.addListener boxSelMrk, 'dragend', (event) =>
-      getSel(event.latLng)
-    lstnr = google.maps.event.addListener window.map, 'mousemove', (event) =>
-      boxSelMrk.setPosition(event.latLng)
-    return
+#     google.maps.event.addListener boxSelMrk, 'dragstart', (event) =>
+#       startRect(event.latLng)
+#     google.maps.event.addListener boxSelMrk, 'drag', (event) =>
+#       drawRect(event.latLng)
+#     google.maps.event.addListener boxSelMrk, 'dragend', (event) =>
+#       getSel(event.latLng)
+#     lstnr = google.maps.event.addListener window.map, 'mousemove', (event) =>
+#       boxSelMrk.setPosition(event.latLng)
+#     return

@@ -1,0 +1,23 @@
+<h1>Listing territories</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @territories.each do |territory| %>
+  <tr>
+    <td><%= territory.name %></td>
+    <td><%= link_to 'Show', territory %></td>
+    <td><%= link_to 'Edit', edit_territory_path(territory) %></td>
+    <td><%= link_to 'Destroy', territory, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Territory', new_territory_path %>

@@ -10,7 +10,7 @@ namespace :import do
       keys.each_with_index do |key,i|
         params[key] = values[i+1].gsub( /\A"/m, "" ).gsub( /"\Z/m, "" )
       end
-      puts params
+      # puts params
       Region.create(params)
     end
   end
