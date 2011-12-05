@@ -1,13 +1,16 @@
 Mapbadger.Views.Territories ||= {}
 
 class Mapbadger.Views.Territories.IndexView extends Backbone.View
-  template: JST["backbone/templates/territories/index"]
     
   initialize: () ->
     _.bindAll(this, 'addOne', 'addAll', 'render')
     
     @options.territories.bind('reset', @addAll)
+    @map = new Mapbadger.Views.MapView({regions : @options.regions})
    
+  saveSelect: ->
+    alert('save select')
+
   addAll: () ->
     @options.territories.each(@addOne)
   
@@ -16,7 +19,9 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     @$("tbody").append(view.render().el)
        
   render: ->
-    $(@el).html(@template(territories: @options.territories.toJSON() ))
+    $(".content").html(@map.render().el)
+    @map.renderMap()
+    $("#save-select").bind("click", @saveSelect)
     @addAll()
     
     return this

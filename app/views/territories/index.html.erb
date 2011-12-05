@@ -1,23 +1,15 @@
-<h1>Listing territories</h1>
+<div id="map-container">
+  <div class="well">
+    <button id="select-regions" class="btn primary">Select</button>
+    <button id="reset-map" class="btn">Reset</button>
+    <button id="save-select" class="btn">Save</button>
+  </div>
+  <div id="map-canvas"></div>
+</div>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @territories.each do |territory| %>
-  <tr>
-    <td><%= territory.name %></td>
-    <td><%= link_to 'Show', territory %></td>
-    <td><%= link_to 'Edit', edit_territory_path(territory) %></td>
-    <td><%= link_to 'Destroy', territory, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Territory', new_territory_path %>
+<script type="text/javascript">
+  $(function() {
+      window.router = new Mapbadger.Routers.TerritoriesRouter({territories: <%= @territories.to_json.html_safe -%>, regions: <%= @regions.to_json.html_safe -%>});
+    Backbone.history.start();
+  });
+</script>

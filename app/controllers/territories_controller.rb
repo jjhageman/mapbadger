@@ -1,13 +1,12 @@
 class TerritoriesController < ApplicationController
+  respond_to :html, :json
+
   # GET /territories
   # GET /territories.json
   def index
     @territories = Territory.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @territories }
-    end
+    @regions = Region.all
+    respond_with(@territories)
   end
 
   # GET /territories/1

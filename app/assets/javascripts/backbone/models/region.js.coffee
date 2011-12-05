@@ -1,4 +1,4 @@
-class Mapbadger.Models.Region extends Backbone.Model
+class Mapbadger.Models.Region extends Backbone.RelationalModel
   paramRoot: 'region'
 
   defaults:

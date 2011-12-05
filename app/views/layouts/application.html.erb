@@ -1,14 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Mapbadger</title>
-  <%= stylesheet_link_tag    "application" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+<!doctype html>
 
-<%= yield %>
+<!--[if lt IE 7]> <html lang="en" class="no-js ie6"> <![endif]-->
+  <!--[if IE 7]>    <html lang="en" class="no-js ie7"> <![endif]-->
+    <!--[if IE 8]>    <html lang="en" class="no-js ie8"> <![endif]-->
+      <!--[if IE 9]>    <html lang="en" class="no-js ie9"> <![endif]-->
+        <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+          <head>
+            <meta charset="utf-8">
 
-</body>
-</html>
+            <title>Mapbadger</title>
+            <%= stylesheet_link_tag    "http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css" %>
+            <%= stylesheet_link_tag    "application" %>
+            <%= javascript_include_tag "http://maps.google.com/maps/api/js?libraries=geometry&sensor=false" %>
+            <%= javascript_include_tag "application" %>
+            <%= csrf_meta_tags %>
+          </head>
+          <body>
+            <div class="topbar">
+              <div class="topbar-inner">
+                <%= link_to_unless_current 'MapBadger', root_path, :class => 'brand' %> 
+                <div class="container-fluid">
+                  <ul class="nav">
+                    <li><%= link_to 'Nav1', '#' %></li>
+                    <li><%= link_to 'Nav2', '#' %></li>
+                  </ul>
+                </div>
+              </div>
+            </div> <!-- end topbar -->
+
+            <div class="container-fluid">
+              <div class="sidebar">
+                <ul class="tabs" data-tabs="tabs">
+                  <li class="active"><a href="#new">New</a></li>
+                  <li><a href="#saved">Saved</a></li>
+                </ul>
+                <div id="sidebar-tab-content" class="tab-content">
+                  <div id="new" class="active tab-pane">
+                    <h5>New Territory</h5>
+                    <strong>Selected States</strong>
+                    <ul id="selected-states"></ul>
+                  </div>
+                  <div id="saved" class="tab-pane">
+                    <h5>Saved Territories</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="content">
+                <%= yield %>
+              </div>
+            </div>
+          </body>
+        </html>
+
+

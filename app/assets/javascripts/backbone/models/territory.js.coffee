@@ -1,5 +1,11 @@
-class Mapbadger.Models.Territory extends Backbone.Model
+class Mapbadger.Models.Territory extends Backbone.RelationalModel
   paramRoot: 'territory'
+  
+  relations:
+    type: Backbone.HasMany
+    key: 'regions'
+    relatedModel: 'Region'
+    collectionType: 'RegionsCollection'
 
   defaults:
     name: null
