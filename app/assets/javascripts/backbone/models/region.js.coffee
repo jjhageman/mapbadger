@@ -1,11 +1,14 @@
-class Mapbadger.Models.Region extends Backbone.RelationalModel
+class Mapbadger.Models.Region extends Backbone.Model
   paramRoot: 'region'
 
-  defaults:
-    name: null
-    fipscode: null
-    coords: null
-  
+  # relations: [
+  #   type: 'HasMany'
+  #   key: 'territories'
+  #   relatedModel: 'Mapbadger.Models.TerritoryRegion'
+  #   reverseRelation:
+  #     key: 'region'
+  # ]
+
 class Mapbadger.Collections.RegionsCollection extends Backbone.Collection
   model: Mapbadger.Models.Region
   url: '/regions'

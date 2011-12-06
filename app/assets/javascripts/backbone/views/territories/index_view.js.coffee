@@ -25,7 +25,7 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     @model.unset("errors")
 
     for region in @map.regionPolys
-      @model.get('regions').add(region.id) if region.selected == -1
+      @model.regions.add({id: region.modelId}) if region.selected == -1
 
     @options.territories.create(@model.toJSON(),
       success: (territory) =>

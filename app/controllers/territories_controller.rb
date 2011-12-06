@@ -39,18 +39,21 @@ class TerritoriesController < ApplicationController
   # POST /territories
   # POST /territories.json
   def create
-    @territory = Territory.new(params[:territory])
-
-    respond_to do |format|
-      if @territory.save
-        format.html { redirect_to @territory, notice: 'Territory was successfully created.' }
-        format.json { render json: @territory, status: :created, location: @territory }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @territory.errors, status: :unprocessable_entity }
-      end
-    end
+    respond_with(Territory.create(params[:territory]))
   end
+  # def create
+  #   @territory = Territory.new(params[:territory])
+
+  #   respond_to do |format|
+  #     if @territory.save
+  #       format.html { redirect_to @territory, notice: 'Territory was successfully created.' }
+  #       format.json { render json: @territory, status: :created, location: @territory }
+  #     else
+  #       format.html { render action: "new" }
+  #       format.json { render json: @territory.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # PUT /territories/1
   # PUT /territories/1.json

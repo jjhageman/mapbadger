@@ -27,14 +27,14 @@ ActiveRecord::Schema.define(:version => 20111130083655) do
     t.datetime "updated_at"
   end
 
-  create_table "territory_regions", :force => true do |t|
-    t.integer  "territory_id"
+  create_table "territories_regions", :id => false, :force => true do |t|
     t.integer  "region_id"
+    t.integer  "territory_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "territory_regions", ["region_id"], :name => "index_territory_regions_on_region_id"
-  add_index "territory_regions", ["territory_id"], :name => "index_territory_regions_on_territory_id"
+  add_index "territories_regions", ["region_id", "territory_id"], :name => "index_territories_regions_on_region_id_and_territory_id"
+  add_index "territories_regions", ["territory_id", "region_id"], :name => "index_territories_regions_on_territory_id_and_region_id"
 
 end

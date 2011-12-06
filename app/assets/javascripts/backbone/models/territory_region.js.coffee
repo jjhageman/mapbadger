@@ -1,0 +1,1 @@
+class Mapbadger.Models.TerritoryRegion extends Backbone.RelationalModel
