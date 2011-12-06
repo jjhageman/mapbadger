@@ -1,15 +1,40 @@
 Mapbadger.Views.Territories ||= {}
 
 class Mapbadger.Views.Territories.IndexView extends Backbone.View
-    
+  template: JST["backbone/templates/territories/new"]
+  id: "territory-form"
+  className: "modal hide fade"
+
+  events:
+    "submit #new-territory": "saveTerritory"
+
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addAll', 'render')
+    _.bindAll(this, 'addOne', 'addAll', 'render', 'saveTerritory')
     
     @options.territories.bind('reset', @addAll)
     @map = new Mapbadger.Views.MapView({regions : @options.regions})
+    @model = new @options.territories.model()
+    @model.bind("change:errors", () =>
+      this.render()
+    )
    
-  saveSelect: ->
-    alert('save select')
+  saveTerritory: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+
+    @model.unset("errors")
+
+    for region in @map.regionPolys
+      @model.get('regions').add(region.id) if region.selected == -1
+
+    @options.territories.create(@model.toJSON(),
+      success: (territory) =>
+        @model = territory
+        $(@el).modal('hide')
+
+      error: (territory, jqXHR) =>
+        @model.set({errors: $.parseJSON(jqXHR.responseText)})
+    )
 
   addAll: () ->
     @options.territories.each(@addOne)
@@ -21,7 +46,9 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
   render: ->
     $(".content").html(@map.render().el)
     @map.renderMap()
-    $("#save-select").bind("click", @saveSelect)
-    @addAll()
+    # @addAll()
+    $(@el).html(@template(@model.toJSON() ))
+    
+    @$("form").backboneLink(@model)
     
     return this
