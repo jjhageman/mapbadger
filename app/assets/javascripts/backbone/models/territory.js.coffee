@@ -29,10 +29,10 @@ class Mapbadger.Models.Territory extends Backbone.Model
   defaults:
     name: null
 
-  # toJSON: ->
-  #   json = {territory : this.attributes}
-  #   json.territory.regions_attributes = this.regions.toJSON()
-  #   json
+  toJSON: ->
+    json = {territory : this.attributes}
+    json.territory.regions_attributes = this.regions.toJSON()
+    json
   
 class Mapbadger.Collections.TerritoriesCollection extends Backbone.Collection
   model: Mapbadger.Models.Territory
