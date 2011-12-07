@@ -39,7 +39,12 @@ class TerritoriesController < ApplicationController
   # POST /territories
   # POST /territories.json
   def create
-    respond_with(Territory.create(params[:territory]))
+    @territory = Territory.new(params[:territory])
+    if @territory.save
+      respond_with(@territory)
+    else
+      respond_with(@territory, :status => :unprocessable_entity)
+    end
   end
   # def create
   #   @territory = Territory.new(params[:territory])

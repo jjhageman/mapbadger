@@ -1,4 +1,5 @@
 class Mapbadger.Models.Territory extends Backbone.Model
+  paramRoot: 'territory'
   url: '/territories'
 
   # relations: [
@@ -30,9 +31,10 @@ class Mapbadger.Models.Territory extends Backbone.Model
     name: null
 
   toJSON: ->
-    json = {territory : this.attributes}
-    json.territory.regions_attributes = this.regions.toJSON()
-    json
+    json = {territory : _.clone(@attributes)}
+    _.extend(json.territory, {regions_attributes: @regions.toJSON()})
+    # json.territory.regions_attributes = this.regions.toJSON()
+    # json
   
 class Mapbadger.Collections.TerritoriesCollection extends Backbone.Collection
   model: Mapbadger.Models.Territory

@@ -27,7 +27,7 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     for region in @map.regionPolys
       @model.regions.add({id: region.modelId}) if region.selected == -1
 
-    @options.territories.create(@model.toJSON(),
+    @options.territories.create(@model,
       success: (territory) =>
         @model = territory
         $(@el).modal('hide')
