@@ -39,6 +39,7 @@ class Mapbadger.Views.MapView extends Backbone.View
       strokeColor: '#111111'
       strokeWeight: 1
       strokeOpacity: 0.5
+    @palette = ['#AA00A2','#0A64A4','#FF9700','#7F207B','#24577B','#BF8530','#6E0069','#03406A','#A66200','#D435CD','#3E94D1','#FFB140','#D460CF','#65A5D1','#FFC673','#808000','#00FF00','#008000'] ;
     
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())

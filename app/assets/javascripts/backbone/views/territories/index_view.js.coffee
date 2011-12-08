@@ -9,9 +9,10 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     "submit #new-territory": "saveTerritory"
 
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addAll', 'render', 'saveTerritory')
+    _.bindAll(this, 'addOne', 'addAll', 'render', 'renderTerritories', 'saveTerritory')
     
     @options.territories.bind('reset', @addAll)
+    @options.territories.bind('add', @renderTerritories)
     @map = new Mapbadger.Views.MapView({regions : @options.regions})
     @model = new @options.territories.model()
     @model.bind("change:errors", () =>
@@ -25,7 +26,14 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     @model.unset("errors")
 
     for region in @map.regionPolys
-      @model.regions.add({region_id: region.modelId}) if region.selected == -1
+      if region.selected == -1
+        @model.regions.add({region_id: region.modelId})
+        region.selected = @options.territories.length
+        region.setOptions({
+          fillColor: @map.palette[@options.territories.length%@map.palette.length]
+          fillOpacity: 0.75
+        })
+        @map.tempSel = [[],[]]
 
     @options.territories.create(@model,
       success: (territory) =>
@@ -41,14 +49,18 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
   
   addOne: (territory) ->
     view = new Mapbadger.Views.Territories.TerritoryView({model : territory})
-    @$("tbody").append(view.render().el)
+    $("#territories").append(view.render().el)
        
   render: ->
     $(".content").html(@map.render().el)
     @map.renderMap()
-    # @addAll()
+    @renderTerritories()
     $(@el).html(@template(@model.toJSON() ))
     
     @$("form").backboneLink(@model)
     
+    return this
+
+  renderTerritories: ->
+    @addAll()
     return this
