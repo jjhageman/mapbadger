@@ -32,9 +32,7 @@ class Mapbadger.Models.Territory extends Backbone.Model
 
   toJSON: ->
     json = {territory : _.clone(@attributes)}
-    _.extend(json.territory, {regions_attributes: @regions.toJSON()})
-    # json.territory.regions_attributes = this.regions.toJSON()
-    # json
+    _.extend(json.territory, {territory_regions_attributes: @regions.toJSON()})
   
 class Mapbadger.Collections.TerritoriesCollection extends Backbone.Collection
   model: Mapbadger.Models.Territory

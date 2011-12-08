@@ -175,6 +175,6 @@ class Mapbadger.Views.MapView extends Backbone.View
 
       self = this;
       kk = @regionPolys.length
-      @regionPolys.push(new google.maps.Polygon({paths:paths , map: @map , clickable : true , modelId:rid, code:rcode, name:rname , id:kk, bnd:polybnd, selected : 0}))
+      @regionPolys.push(new google.maps.Polygon({paths:paths , map: @map , clickable : true , cId:region.cid, modelId:rid, code:rcode, name:rname , id:kk, bnd:polybnd, selected : 0}))
       google.maps.event.addListener(@regionPolys[kk], 'click', -> self.addState(@id))
       @regionPolys[kk].setOptions(@unselected_style)
