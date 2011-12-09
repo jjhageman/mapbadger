@@ -19,7 +19,7 @@ class Mapbadger.Routers.TerritoriesRouter extends Backbone.Router
   index: ->
     @view = new Mapbadger.Views.Territories.IndexView(territories: @territories, regions: @regions)
     # @view.render()
-    $(".sidebar").append(@view.render().el)
+    $("#saved").append(@view.render().el)
 
   show: (id) ->
     territory = @territories.get(id)

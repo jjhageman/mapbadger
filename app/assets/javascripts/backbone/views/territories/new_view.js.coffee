@@ -2,6 +2,8 @@ Mapbadger.Views.Territories ||= {}
 
 class Mapbadger.Views.Territories.NewView extends Backbone.View    
   template: JST["backbone/templates/territories/new"]
+  id: "territory-form"
+  className: "modal hide fade"
   
   events:
     "submit #new-territory": "save"
@@ -13,17 +15,28 @@ class Mapbadger.Views.Territories.NewView extends Backbone.View
     @model.bind("change:errors", () =>
       this.render()
     )
+    @map = options.map
     
   save: (e) ->
     e.preventDefault()
     e.stopPropagation()
       
     @model.unset("errors")
+
+    for region in @map.regionPolys
+      if region.selected == -1
+        @model.regions.add({region_id: region.modelId})
+        region.selected = @collection.length
+        region.setOptions({
+          fillColor: @map.palette[@collection.length%@map.palette.length]
+          fillOpacity: 0.75
+        })
+        @map.tempSel = [[],[]]
     
-    @collection.create(@model.toJSON(), 
+    @collection.create(@model, 
       success: (territory) =>
         @model = territory
-        window.location.hash = "/#{@model.id}"
+        $(@el).modal('hide')
         
       error: (territory, jqXHR) =>
         @model.set({errors: $.parseJSON(jqXHR.responseText)})
