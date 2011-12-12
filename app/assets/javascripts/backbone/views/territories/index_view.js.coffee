@@ -19,7 +19,12 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
   addOne: (territory) ->
     view = new Mapbadger.Views.Territories.TerritoryView({model : territory})
     $(@el).append(view.render().el)
-    # for region in territory.regions
+    for region in territory.regions
+      region.selected = @options.territories.length
+      region.setOptions({
+        fillColor: @map.palette[@options.territories.length%@map.palette.length]
+        fillOpacity: 0.75
+      })
 
        
   render: ->
