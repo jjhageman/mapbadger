@@ -17,6 +17,7 @@ class Mapbadger.Views.MapView extends Backbone.View
       center: @mapCenter
       minZoom: @minZoom
 
+    @polygons = new Mapbadger.Collections.PolygonsCollection()
     @regionPolys = []
     @startPt = ''
     @endPt = ''
@@ -151,31 +152,33 @@ class Mapbadger.Views.MapView extends Backbone.View
     @options.regions.each(@addOne)
   
   addOne: (region) ->
-    polybnd = null
-    paths = []
-    rname = region.get('name')
-    rcode = region.get('fipscode')
-    rid = region.get('id')
-    coords = region.get('coords').split('~')
-    for parts, ii in coords
-      coordArr = parts.split('|')
-      paths.push([])
-      baseLat = 0
-      baseLng = 0
-      for arr in coordArr
-        point = arr.split(',')
-        baseLat += parseInt(point[0],36)/10000.0
-        baseLng += parseInt(point[1],36)/10000.0
-        newPnt = new google.maps.LatLng(baseLat,baseLng)
-        if !polybnd
-          polybnd = new google.maps.LatLngBounds(newPnt,newPnt)
-        else
-          polybnd.extend(newPnt)
+    ply = new Mapbadger.Models.Polygon({region: region, map: @map})
+    @polygons.add(ply)
+    # polybnd = null
+    # paths = []
+    # rname = region.get('name')
+    # rcode = region.get('fipscode')
+    # rid = region.get('id')
+    # coords = region.get('coords').split('~')
+    # for parts, ii in coords
+    #   coordArr = parts.split('|')
+    #   paths.push([])
+    #   baseLat = 0
+    #   baseLng = 0
+    #   for arr in coordArr
+    #     point = arr.split(',')
+    #     baseLat += parseInt(point[0],36)/10000.0
+    #     baseLng += parseInt(point[1],36)/10000.0
+    #     newPnt = new google.maps.LatLng(baseLat,baseLng)
+    #     if !polybnd
+    #       polybnd = new google.maps.LatLngBounds(newPnt,newPnt)
+    #     else
+    #       polybnd.extend(newPnt)
 
-        paths[ii].push(newPnt)
+    #     paths[ii].push(newPnt)
 
-      self = this;
-      kk = @regionPolys.length
-      @regionPolys.push(new google.maps.Polygon({paths:paths , map: @map , clickable : true , cId:region.cid, modelId:rid, code:rcode, name:rname , id:kk, bnd:polybnd, selected : 0}))
-      google.maps.event.addListener(@regionPolys[kk], 'click', -> self.addState(@id))
-      @regionPolys[kk].setOptions(@unselected_style)
+    #   self = this;
+    #   kk = @regionPolys.length
+    #   @regionPolys.push(new google.maps.Polygon({paths:paths , map: @map , clickable : true , cId:region.cid, modelId:rid, code:rcode, name:rname , id:kk, bnd:polybnd, selected : 0}))
+    #   google.maps.event.addListener(@regionPolys[kk], 'click', -> self.addState(@id))
+    #   @regionPolys[kk].setOptions(@unselected_style)

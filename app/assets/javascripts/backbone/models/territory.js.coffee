@@ -3,16 +3,15 @@ class Mapbadger.Models.Territory extends Backbone.Model
   url: '/territories'
 
   initialize: ->
-    # @regions = new Mapbadger.Collections.RegionsCollection()
-    var regions = new Mapbadger.Collections.RegionsCollecton.reset(@get('regions`'))
-    @setTasks(regions);
+    regions = new Mapbadger.Collections.RegionsCollection()
+    regions.reset(@get('regions'))
+    @setRegions(regions)
 
   defaults:
     name: null
 
-  setRegions: function(regions) {
-    @regions = regions;
-  }
+  setRegions: (regions) ->
+    @regions = regions
 
   toJSON: ->
     json = {territory : _.clone(@attributes)}
