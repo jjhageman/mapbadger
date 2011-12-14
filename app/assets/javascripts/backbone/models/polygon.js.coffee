@@ -1,20 +1,8 @@
 class Mapbadger.Models.Polygon extends Backbone.Model
   initialize: ->
-    @selected_style = 
-      fillColor: '#FF6633'
-      fillOpacity: 0.35
-      strokeColor: '#111111'
-      strokeWeight: 1
-      strokeOpacity : 0.5
-
-    @unselected_style = 
-      fillColor: '#AAAAAA'
-      fillOpacity:0.35
-      strokeColor: '#111111'
-      strokeWeight: 1
-      strokeOpacity: 0.5
-
     @region = @get('region')
+    @region.set({polygon: this})
+    @map = @get('map')
     @name = @region.get('name')
     @fips = @region.get('fipscode')
     coords = @region.get('coords').split('~')
@@ -40,13 +28,22 @@ class Mapbadger.Models.Polygon extends Backbone.Model
     @google_poly = new google.maps.Polygon({
       paths: paths
       map: @map
-      clickable: @clickable
+      bnd: polybnd
+      clickable: @get('clickable')
     })
-    @google_poly.setOptions(@unselected_style)
 
   defaults:
     clickable: true
     selected: 0
+
+  isSelected: ->
+    @get('selected') == -1
+
+  select: ->
+    @set({selected: -1})
+
+  unSelect: ->
+    @set({selected: 0}) 
   
 class Mapbadger.Collections.PolygonsCollection extends Backbone.Collection
   model: Mapbadger.Models.Polygon

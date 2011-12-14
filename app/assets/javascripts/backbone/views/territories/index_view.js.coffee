@@ -20,6 +20,10 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     view = new Mapbadger.Views.Territories.TerritoryView({model : territory})
     $(@el).append(view.render().el)
     territory.regions.each (reg) =>
+      @map.polygons.find( (p) =>
+        
+      )
+
       # region = _.find(@map.regionPolys, (r) =>
       #   r.modelId == reg.id
       # )
