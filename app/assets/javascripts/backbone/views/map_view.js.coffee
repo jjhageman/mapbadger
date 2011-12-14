@@ -44,11 +44,18 @@ class Mapbadger.Views.MapView extends Backbone.View
       strokeWeight: 1
       strokeOpacity: 0.5
 
-    @palette = ['#AA00A2','#0A64A4','#FF9700','#7F207B','#24577B','#BF8530','#6E0069','#03406A','#A66200','#D435CD','#3E94D1','#FFB140','#D460CF','#65A5D1','#FFC673','#808000','#00FF00','#008000'] ;
+    @palette = ['#AA00A2','#0A64A4','#FF9700','#7F207B','#24577B','#BF8530','#6E0069','#03406A','#A66200','#D435CD','#3E94D1','#FFB140','#D460CF','#65A5D1','#FFC673','#808000','#00FF00','#008000']
+    @palette_pointer = 0
     
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
     return this
+
+  nextColor: ->
+    @palette_pointer = 0 if @palette_pointer >= @palette.length
+    color = @palette[@palette_pointer]
+    @palette_pointer++
+    color
 
   renderMap: ->
     @map = new google.maps.Map(document.getElementById("map-canvas"), @opts)

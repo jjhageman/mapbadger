@@ -19,21 +19,17 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
   addOne: (territory) ->
     view = new Mapbadger.Views.Territories.TerritoryView({model : territory})
     $(@el).append(view.render().el)
+    color = @map.nextColor()
     territory.regions.each (reg) =>
-      @map.polygons.find( (p) =>
-        
-      )
+      region_id = reg.id || reg.get("region_id")
+      poly = @map.polygons.get(region_id)
+      poly.select()
+      poly.google_poly.setOptions({
+        fillColor: color
+        fillOpacity: 0.75
+        clickable: false
+      })
 
-      # region = _.find(@map.regionPolys, (r) =>
-      #   r.modelId == reg.id
-      # )
-      # region.selected = @options.territories.length
-      # region.setOptions({
-      #   fillColor: @map.palette[@options.territories.length%@map.palette.length]
-      #   fillOpacity: 0.75
-      # })
-
-       
   render: ->
     $(".content").html(@map.render().el)
     @map.renderMap()

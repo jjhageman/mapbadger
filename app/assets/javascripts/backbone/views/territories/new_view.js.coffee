@@ -23,15 +23,23 @@ class Mapbadger.Views.Territories.NewView extends Backbone.View
       
     @model.unset("errors")
 
-    for region in @map.regionPolys
-      if region.selected == -1
-        @model.regions.add({region_id: region.modelId})
-        region.selected = @collection.length
-        region.setOptions({
-          fillColor: @map.palette[@collection.length%@map.palette.length]
-          fillOpacity: 0.75
-        })
-        @map.tempSel = [[],[]]
+    @map.selected_polygons.each (poly) =>
+      # poly.select()
+      # poly.google_poly.setOptions({
+      #   fillColor: @map.palette[@collection.length%@map.palette.length]
+      #   fillOpacity: 0.75
+      # })
+      @model.regions.add({region_id: poly.id}, {silent: true})
+    @map.selected_polygons.reset()
+
+      # if region.selected == -1
+      #   @model.regions.add({region_id: region.modelId})
+      #   region.selected = @collection.length
+      #   region.setOptions({
+      #     fillColor: @map.palette[@collection.length%@map.palette.length]
+      #     fillOpacity: 0.75
+      #   })
+      #   @map.tempSel = [[],[]]
     
     @collection.create(@model, 
       success: (territory) =>

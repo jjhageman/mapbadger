@@ -2,6 +2,7 @@ class Mapbadger.Models.Polygon extends Backbone.Model
   initialize: ->
     @region = @get('region')
     @region.set({polygon: this})
+    @id = @region.id
     @map = @get('map')
     @name = @region.get('name')
     @fips = @region.get('fipscode')
