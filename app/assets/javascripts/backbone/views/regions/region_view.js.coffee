@@ -6,7 +6,7 @@ class Mapbadger.Views.Regions.RegionView extends Backbone.View
   events:
     "click .destroy" : "destroy"
       
-  tagName: "tr"
+  tagName: "li"
   
   destroy: () ->
     @model.destroy()

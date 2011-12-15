@@ -21,3 +21,9 @@ body { height: 100%; margin: 0px; padding: 0px }
 #sidebar-tab-content { padding: 0 15px; }
 #map-container { position: fixed; width: 100%; }
 #map-container .well { margin-bottom: 0}
+ul#territories li.territory {
+margin: 1px;
+padding: 3px 10px;
+cursor: pointer;
+position: relative;
+}

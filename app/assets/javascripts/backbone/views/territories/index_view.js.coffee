@@ -14,6 +14,7 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     @territoryForm = new Mapbadger.Views.Territories.NewView(collection: @options.territories, map: @map)
    
   addAll: () ->
+    $(@el).empty()
     @options.territories.each(@addOne)
   
   addOne: (territory) ->
