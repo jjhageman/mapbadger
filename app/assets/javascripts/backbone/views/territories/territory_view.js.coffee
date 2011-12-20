@@ -5,13 +5,13 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   
   events:
     "click .destroy" : "destroy"
-    "click .territory" : "showRegions"
+    "click .toggle" : "showRegions"
       
   tagName: "li"
-  className: "territory"
+  className: "plus"
 
   showRegions: ->
-    this.next(".regions").slideToggle(500)
+    @$(".regions").slideToggle(500)
   
   destroy: () ->
     @model.destroy()
@@ -24,6 +24,4 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
     unless @model.regions.isEmpty()
       view = new Mapbadger.Views.Regions.IndexView(collection: @model.regions)
       $(@el).append(view.render().el)
-    $(@el).click () =>
-      @$(".regions").slideToggle(500)
     return this

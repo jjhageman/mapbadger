@@ -35,7 +35,6 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     $(".content").html(@map.render().el)
     @map.renderMap()
     @addAll()
-    # $(@el).html(@template(@model.toJSON() ))
     $(".sidebar").append(@territoryForm.render().el)
     
     return this

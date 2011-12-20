@@ -1,3 +1,38 @@
-// Place all the styles related to the Territories controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+html { height: 100% }
+body { height: 100%; margin: 0px; padding: 0px }
+.container-fluid, .content, #map-container, #map-canvas { height: 100%; }
+.container-fluid { padding: 0; }
+.container-fluid > .sidebar {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 240px;
+  height: 100%
+}
+.sidebar, .content { margin-top: 40px; }
+.sidebar {
+  z-index: 2; 
+  border: 1px solid #ccc;
+  background: rgba(248,248,248, 0.9);
+  -webkit-box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);
+  -moz-box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);
+  box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);
+  position: relative;
+  div { padding: 0 2px 0 5px; }
+}
+#sidebar-tab-content { padding: 0 15px; }
+#map-container { position: fixed; width: 100%; }
+#map-container .well { margin-bottom: 0; }
+#map-buttons { position: absolute; bottom: 0; }
+ul#territories { 
+  margin: 0; padding: 5px;
+  li {
+    margin: 1px;
+    padding: 3px 5px;
+    cursor: pointer;
+    position: relative;
+    list-style: none;
+    a.toggle {margin: 0 3px 2px 0;}
+    ul {margin:0; padding:0;}
+  }
+}

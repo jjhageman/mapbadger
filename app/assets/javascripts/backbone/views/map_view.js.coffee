@@ -49,6 +49,7 @@ class Mapbadger.Views.MapView extends Backbone.View
     
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
+    $(".sidebar").append(JST["backbone/templates/maps/map_buttons"])
     return this
 
   nextColor: ->

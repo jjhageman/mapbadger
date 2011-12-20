@@ -15,7 +15,7 @@ class Mapbadger.Models.Territory extends Backbone.Model
 
   territory_regions_attributes: ->
     @regions.map (r) ->
-      {region_id: r.get("id")};
+      {region_id: r.get("id")}
 
   toJSON: ->
     json = {territory : _.clone(@attributes)}
