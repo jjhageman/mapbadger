@@ -25,14 +25,25 @@ body { height: 100%; margin: 0px; padding: 0px }
 #map-container .well { margin-bottom: 0; }
 #map-buttons { position: absolute; bottom: 0; }
 ul#territories { 
-  margin: 0; padding: 5px;
+  margin: 0; padding: 5px 5px 5px 0;
   li {
     margin: 1px;
     padding: 3px 5px;
     cursor: pointer;
     position: relative;
     list-style: none;
-    a.toggle {margin: 0 3px 2px 0;}
-    ul {margin:0; padding:0;}
+    a {margin: 0 3px 2px 0;}
+    span.toggle {
+      width: 13px;
+      height: 11px;
+      margin:3px 7px 0 0;
+      float: left;
+      background:url(toggle.png) no-repeat 0 0;
+    }
+    span.minus {background-position:0 -11px;}
+    ul {
+      margin:0; padding:0 0 5px 21px;
+      li {padding:0 5px;}
+    }
   }
 }

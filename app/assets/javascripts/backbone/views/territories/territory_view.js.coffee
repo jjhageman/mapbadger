@@ -5,12 +5,16 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   
   events:
     "click .destroy" : "destroy"
-    "click .toggle" : "showRegions"
+    "click .toggle" : "toggleRegion"
+    "click .territory" : "displayTerritory"
       
   tagName: "li"
-  className: "plus"
 
-  showRegions: ->
+  displayTerritory: ->
+    @model
+
+  toggleRegion: ->
+    @$(".toggle").toggleClass("minus")
     @$(".regions").slideToggle(500)
   
   destroy: () ->
