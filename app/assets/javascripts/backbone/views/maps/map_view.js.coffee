@@ -49,7 +49,7 @@ class Mapbadger.Views.MapView extends Backbone.View
     
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
-    $(".sidebar").append(JST["backbone/templates/maps/map_buttons"])
+    # $(".sidebar").append(JST["backbone/templates/maps/map_buttons"])
     return this
 
   nextColor: ->
@@ -64,6 +64,22 @@ class Mapbadger.Views.MapView extends Backbone.View
     @map.fitBounds(@usBnds)
     @addAll()
     return
+
+  clearTerritories: ->
+    @polygons.each (ply) =>
+      ply.google_poly.setOptions(@unselected_style)
+
+  displayTerritory: (territory) ->
+    color = @nextColor()
+    territory.regions.each (reg) =>
+      region_id = reg.id || reg.get("region_id")
+      poly = @polygons.get(region_id)
+      poly.select()
+      poly.google_poly.setOptions({
+        fillColor: color
+        fillOpacity: 0.75
+        clickable: false
+      })
 
   selectRegions: ->
     @markerImg = new google.maps.MarkerImage("rails.png", new google.maps.Size(24,24), new google.maps.Point(0,0), new google.maps.Point(12,12), new google.maps.Size(24,24))

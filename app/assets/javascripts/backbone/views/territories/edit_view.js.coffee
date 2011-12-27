@@ -13,12 +13,15 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
     @model.save(null,
       success : (territory) =>
         @model = territory
-        window.location.hash = "/#{@model.id}"
+        window.location.hash = "/#index"
     )
     
   render : ->
-    $(this.el).html(this.template(@model.toJSON() ))
+    $(@el).html(@template(@model.toJSON() ))
+    unless @model.regions.isEmpty()
+      view = new Mapbadger.Views.Regions.IndexView(collection: @model.regions)
+      @$(".actions").before(view.render().el)
     
-    this.$("form").backboneLink(@model)
+    @$("form").backboneLink(@model)
     
     return this

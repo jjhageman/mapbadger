@@ -1,7 +1,7 @@
 Mapbadger.Views.Territories ||= {}
 
 class Mapbadger.Views.Territories.IndexView extends Backbone.View
-  # template: JST["backbone/templates/territories/index"]
+  template: JST["backbone/templates/territories/index"]
   tagName: "ul"
   id: "territories"
 
@@ -10,31 +10,31 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     
     @options.territories.bind('reset', @addAll)
     @options.territories.bind('add', @addAll)
-    @map = new Mapbadger.Views.MapView({regions : @options.regions})
+    @map = @options.map
     @territoryForm = new Mapbadger.Views.Territories.NewView(collection: @options.territories, regions: @options.regions, map: @map)
    
   addAll: () ->
-    $(@el).empty()
     @options.territories.each(@addOne)
   
   addOne: (territory) ->
-    view = new Mapbadger.Views.Territories.TerritoryView({model : territory})
-    $(@el).append(view.render().el)
-    color = @map.nextColor()
-    territory.regions.each (reg) =>
-      region_id = reg.id || reg.get("region_id")
-      poly = @map.polygons.get(region_id)
-      poly.select()
-      poly.google_poly.setOptions({
-        fillColor: color
-        fillOpacity: 0.75
-        clickable: false
-      })
+    view = new Mapbadger.Views.Territories.TerritoryView({model : territory, map: @map})
+    terr_view = view.render().el
+    # $(terr_view).find(".territory").bind "click", (territory) =>
+    #   view = new Mapbadger.Views.Territories.EditView(model: territory)
+    #   $(".sidebar").html(view.render().el)
+    @$("#saved").append(terr_view)
+    # @$(".territory").bind("click", @renderEditTerritory, territory)
+    # @map.displayTerritory(territory)
 
-  render: ->
-    $(".content").html(@map.render().el)
-    @map.renderMap()
+  renderEditTerritory: (territory) ->
+    view = new Mapbadger.Views.Territories.EditView(model: territory)
+    $(".sidebar").html(view.render().el)
+
+  renderSidebar: ->
+    $(@el).html(@template)
     @addAll()
     $(".sidebar").append(@territoryForm.render().el)
-    
+
+  render: ->
+    @renderSidebar() 
     return this

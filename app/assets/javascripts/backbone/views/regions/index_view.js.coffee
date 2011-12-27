@@ -15,8 +15,10 @@ class Mapbadger.Views.Regions.IndexView extends Backbone.View
     view = new Mapbadger.Views.Regions.RegionView(model: region)
     $(@el).append(view.render().el)
 
+  hide: ->
+    $(@el).hide()
+
   render: ->
     @addAll()
-    $(@el).hide()
     
     return this

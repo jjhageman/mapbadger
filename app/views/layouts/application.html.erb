@@ -9,7 +9,7 @@
             <meta charset="utf-8">
 
             <title>Mapbadger</title>
-            <%= stylesheet_link_tag    "http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css" %>
+            <%= stylesheet_link_tag    "bootstrap.min.css" %>
             <%= stylesheet_link_tag    "application" %>
             <%= javascript_include_tag "http://maps.google.com/maps/api/js?libraries=geometry&sensor=false" %>
             <%= javascript_include_tag "application" %>
@@ -30,15 +30,6 @@
 
             <div class="container-fluid">
               <div class="sidebar">
-                <div id="new">
-                  <h5>New Territory</h5>
-                  <strong>Selected States</strong>
-                  <ul id="selected-states"></ul>
-                </div>
-                <hr />
-                <div id="saved">
-                  <h5>Saved Territories</h5>
-                </div>
               </div>
               <div class="content">
                 <%= yield %>

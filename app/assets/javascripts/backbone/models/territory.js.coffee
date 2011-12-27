@@ -1,6 +1,5 @@
 class Mapbadger.Models.Territory extends Backbone.Model
   paramRoot: 'territory'
-  url: '/territories'
 
   initialize: ->
     regions = new Mapbadger.Collections.RegionsCollection()
@@ -13,13 +12,19 @@ class Mapbadger.Models.Territory extends Backbone.Model
   setRegions: (regions) ->
     @regions = regions
 
-  territory_regions_attributes: ->
+  territoryRegionsAttributes: ->
     @regions.map (r) ->
       {region_id: r.get("id")}
 
+  railsSafeAttributes: ->
+    attrs = _.clone @attributes
+    delete attrs.id
+    delete attrs.regions
+    attrs
+
   toJSON: ->
-    json = {territory : _.clone(@attributes)}
-    _.extend(json.territory, {territory_regions_attributes: @territory_regions_attributes()})
+    json = {territory : @railsSafeAttributes()}
+    _.extend(json.territory, {territory_regions_attributes: @territoryRegionsAttributes()})
 
 class Mapbadger.Collections.TerritoriesCollection extends Backbone.Collection
   model: Mapbadger.Models.Territory

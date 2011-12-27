@@ -27,7 +27,6 @@ class Mapbadger.Views.Territories.NewView extends Backbone.View
 
     @map.selected_polygons.each (poly) =>
       @model.regions.add(poly.region, {silent: true})
-      # @model.regions.add({region_id: poly.id}, {silent: true})
 
     @map.selected_polygons.reset()
 

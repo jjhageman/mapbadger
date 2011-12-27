@@ -46,33 +46,19 @@ class TerritoriesController < ApplicationController
       respond_with(@territory, :status => :unprocessable_entity)
     end
   end
-  # def create
-  #   @territory = Territory.new(params[:territory])
-
-  #   respond_to do |format|
-  #     if @territory.save
-  #       format.html { redirect_to @territory, notice: 'Territory was successfully created.' }
-  #       format.json { render json: @territory, status: :created, location: @territory }
-  #     else
-  #       format.html { render action: "new" }
-  #       format.json { render json: @territory.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
 
   # PUT /territories/1
   # PUT /territories/1.json
   def update
     @territory = Territory.find(params[:id])
 
-    respond_to do |format|
-      if @territory.update_attributes(params[:territory])
-        format.html { redirect_to @territory, notice: 'Territory was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @territory.errors, status: :unprocessable_entity }
-      end
+    # hack to determine new and deleted regions
+    adjust_region_ids      
+
+    if @territory.update_attributes(params[:territory])
+      respond_with(@territory)
+    else
+      respond_with(@territory, :status => :unprocessable_entity)
     end
   end
 
@@ -87,4 +73,33 @@ class TerritoriesController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def adjust_region_ids
+    tr = params.fetch(:territory, {}).fetch(:territory_regions_attributes, nil)
+    return unless tr
+
+    new_attrs = []
+    region_ids = tr.map {|h| h['region_id'].to_i}.flatten
+
+    new_ids = new_region_ids(@territory, region_ids)
+    new_ids.each {|id| new_attrs << {"region_id"=>id.to_s}}
+
+    deleted_assoc_ids = deleted_territory_region_ids(@territory, region_ids)
+    deleted_assoc_ids.each {|id| new_attrs << {'id'=>id.to_s, '_destroy'=>'1'}}
+
+    params[:territory][:territory_regions_attributes] = new_attrs
+  end
+
+  def new_region_ids(territory, ids)
+    @persisted_ids ||= territory.region_ids
+    (@persisted_ids | ids) - @persisted_ids
+  end
+
+  def deleted_territory_region_ids(territory, ids)
+    @persisted_ids ||= territory.region_ids
+    region_ids = (@persisted_ids | ids) - ids
+    region_ids.collect{|region_id| territory.territory_regions.find_by_region_id(region_id).id}
+  end
 end
+
+

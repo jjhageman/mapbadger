@@ -10,6 +10,6 @@
 <script type="text/javascript">
   $(function() {
       window.router = new Mapbadger.Routers.TerritoriesRouter({territories: <%= @territories.to_json.html_safe -%>, regions: <%= @regions.to_json.html_safe -%>});
-    Backbone.history.start();
+      Backbone.history.start({root: "/territories/"});
   });
 </script>

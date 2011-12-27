@@ -41,6 +41,8 @@ ul#territories {
       background:url(toggle.png) no-repeat 0 0;
     }
     span.minus {background-position:0 -11px;}
+    span.edit {display: none; color: #00CC33;}
+    span.show {display: inline;}
     ul {
       margin:0; padding:0 0 5px 21px;
       li {padding:0 5px;}
