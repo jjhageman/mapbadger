@@ -6,19 +6,17 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   events:
     "click .destroy" : "destroy"
     "click .toggle" : "toggleRegion"
+    "click .territory" : "editTerritory"
     # "hover .territory" : "toggleEdit"
       
   tagName: "li"
 
   initialize: () ->
     @map = @options.map
+    @parentView = @options.parent
 
-  displayTerritory: ->
-    if @map
-      @map.clearTerritories()
-      @map.displayTerritory(@model)
-    view = new Mapbadger.Views.Territories.EditView(model: @model)
-    $(".sidebar").html(view.render().el)
+  editTerritory: ->
+    @parentView.renderEditTerritory(@model)
 
   toggleEdit: ->
     @$(".edit").toggleClass("show")

@@ -18,12 +18,14 @@ body { height: 100%; margin: 0px; padding: 0px }
   -moz-box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);
   box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);
   position: relative;
-  div { padding: 0 2px 0 5px; }
+  padding: 0 2px 0 5px;
+  form { padding: 0; }
+  ul { padding-left: 25px; }
 }
 #sidebar-tab-content { padding: 0 15px; }
 #map-container { position: fixed; width: 100%; }
 #map-container .well { margin-bottom: 0; }
-#map-buttons { position: absolute; bottom: 0; }
+#map-buttons { position: absolute; bottom: 30px; }
 ul#territories { 
   margin: 0; padding: 5px 5px 5px 0;
   li {

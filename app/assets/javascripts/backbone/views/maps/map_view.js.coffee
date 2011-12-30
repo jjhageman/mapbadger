@@ -1,10 +1,6 @@
 class Mapbadger.Views.MapView extends Backbone.View
   id: 'map-container'
 
-  events:
-    "click #select-regions": "selectRegions",
-    "click #reset-map": "clearSel"
-
   initialize: () ->
     _.bindAll(this, 'addOne', 'addAll', 'render')
     @zoom = 4
@@ -43,13 +39,16 @@ class Mapbadger.Views.MapView extends Backbone.View
       strokeColor: '#111111'
       strokeWeight: 1
       strokeOpacity: 0.5
+      clickable: true
 
     @palette = ['#AA00A2','#0A64A4','#FF9700','#7F207B','#24577B','#BF8530','#6E0069','#03406A','#A66200','#D435CD','#3E94D1','#FFB140','#D460CF','#65A5D1','#FFC673','#808000','#00FF00','#008000']
     @palette_pointer = 0
     
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
-    # $(".sidebar").append(JST["backbone/templates/maps/map_buttons"])
+    $(".sidebar").append(JST["backbone/templates/maps/map_buttons"]())
+    $(".sidebar #select-regions").bind("click", @selectRegions)
+    $(".sidebar #reset-map").bind("click", @clearSel)
     return this
 
   nextColor: ->
@@ -66,8 +65,22 @@ class Mapbadger.Views.MapView extends Backbone.View
     return
 
   clearTerritories: ->
+    @selected_polygons.reset()
     @polygons.each (ply) =>
       ply.google_poly.setOptions(@unselected_style)
+      ply.unSelect()
+
+  displayTerritoryEdit: (territory) ->
+    territory.regions.each (reg) =>
+      region_id = reg.id || reg.get("region_id")
+      poly = @polygons.get(region_id)
+      poly.select()
+      @selected_polygons.add(poly)
+      poly.google_poly.setOptions({
+        fillColor: '#777777'
+        fillOpacity: 0.75
+        clickable: true
+      })
 
   displayTerritory: (territory) ->
     color = @nextColor()

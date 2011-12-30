@@ -1,12 +1,3 @@
-<div id="map-container">
-  <div class="well">
-    <button id="select-regions" class="btn primary">Select</button>
-    <button id="reset-map" class="btn">Reset</button>
-    <button id="save-select" class="btn">Save</button>
-  </div>
-  <div id="map-canvas"></div>
-</div>
-
 <script type="text/javascript">
   $(function() {
       window.router = new Mapbadger.Routers.TerritoriesRouter({territories: <%= @territories.to_json.html_safe -%>, regions: <%= @regions.to_json.html_safe -%>});

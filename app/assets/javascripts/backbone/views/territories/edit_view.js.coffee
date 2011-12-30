@@ -5,16 +5,29 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
   
   events :
     "submit #edit-territory" : "update"
+    "click .cancel" : "cancel"
+
+  initialize: ->
+    @map = @options.map
+    @parentView = @options.parent
     
   update : (e) ->
     e.preventDefault()
     e.stopPropagation()
     
+    @map.selected_polygons.each (poly) =>
+      @model.regions.add(poly.region, {silent: true})
+
+    @map.selected_polygons.reset()
+    
     @model.save(null,
       success : (territory) =>
         @model = territory
-        window.location.hash = "/#index"
+        @options.parent.renderSidebar()
     )
+
+  cancel : ->
+    @parentView.renderSidebar()
     
   render : ->
     $(@el).html(@template(@model.toJSON() ))
