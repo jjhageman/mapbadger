@@ -15,6 +15,7 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
     e.preventDefault()
     e.stopPropagation()
     
+    @model.regions.reset()
     @map.selected_polygons.each (poly) =>
       @model.regions.add(poly.region, {silent: true})
 

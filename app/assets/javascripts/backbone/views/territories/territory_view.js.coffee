@@ -7,7 +7,7 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
     "click .destroy" : "destroy"
     "click .toggle" : "toggleRegion"
     "click .territory" : "editTerritory"
-    # "hover .territory" : "toggleEdit"
+    "hover .territory" : "toggleEdit"
       
   tagName: "li"
 
