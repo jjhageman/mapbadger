@@ -4,7 +4,6 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   template: JST["backbone/templates/territories/territory"]
   
   events:
-    "click .destroy" : "destroy"
     "click .toggle" : "toggleRegion"
     "click .territory" : "editTerritory"
     "hover .territory" : "toggleEdit"
@@ -25,11 +24,6 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
     @$(".toggle").toggleClass("minus")
     @$(".regions").slideToggle(500)
   
-  destroy: () ->
-    @model.destroy()
-    this.remove()
-    
-    return false
     
   render: ->
     $(@el).html(@template(@model.toJSON() ))    

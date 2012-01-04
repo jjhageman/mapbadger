@@ -5,11 +5,13 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
   
   events :
     "submit #edit-territory" : "update"
+    "click .destroy" : "destroy"
     "click .cancel" : "cancel"
 
   initialize: ->
     @map = @options.map
     @parentView = @options.parent
+    @territories = @options.collection
     
   update : (e) ->
     e.preventDefault()
@@ -24,10 +26,18 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
     @model.save(null,
       success : (territory) =>
         @model = territory
-        @options.parent.renderSidebar()
+        @parentView.renderSidebar()
     )
 
+  destroy: (e) ->
+    e.preventDefault()
+    
+    if confirm "Are you sure you want to delete this territory?"
+      @territories.remove(@model)
+      # @parentView.renderSidebar()
+
   cancel : ->
+    @remove
     @parentView.renderSidebar()
     
   render : ->

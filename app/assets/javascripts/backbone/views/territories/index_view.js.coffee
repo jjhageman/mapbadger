@@ -6,9 +6,10 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
 
   initialize: () ->
     _.bindAll(this, 'addOne', 'addAll', 'render')
-    
+    @territories = @options.territories
+    @options.territories.bind('remove', @rerender) 
     @options.territories.bind('reset', @addAll)
-    @options.territories.bind('add', @addAll)
+    @options.territories.bind('add', @addOne)
     @map = @options.map
    
   addAll: () ->
@@ -16,20 +17,25 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
   
   addOne: (territory) ->
     view = new Mapbadger.Views.Territories.TerritoryView({model : territory, map: @map, parent: this})
-    terr_view = view.render().el
-    @$("#saved ul#territories").append(terr_view)
+    @$("#saved ul#territories").append(view.render().el)
     @map.displayTerritory(territory)
 
   renderEditTerritory: (territory) ->
-    view = new Mapbadger.Views.Territories.EditView(model: territory, parent: this, map: @map)
+    view = new Mapbadger.Views.Territories.EditView(collection: @territories, model: territory, parent: this, map: @map)
     $(".sidebar #map-interactions").html(view.render().el)
     @map.clearTerritories()
     @map.displayTerritoryEdit(territory)
 
+  rerender: ->
+    @map.clearTerritories()
+    $(@el).html(@template)
+    $(".sidebar #map-interactions").html(@el)
+    @addAll()
+    
   renderSidebar: ->
+    @map.clearTerritories()
     $(@el).html(@template)
     @addAll()
-    $(".sidebar").prepend(@el)
 
   render: ->
     $(@el).html(@template)
