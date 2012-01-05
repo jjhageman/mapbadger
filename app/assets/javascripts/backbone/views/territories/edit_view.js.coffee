@@ -26,7 +26,7 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
     @model.save(null,
       success : (territory) =>
         @model = territory
-        @parentView.renderSidebar()
+        @parentView.rerender()
     )
 
   destroy: (e) ->
@@ -34,11 +34,10 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
     
     if confirm "Are you sure you want to delete this territory?"
       @territories.remove(@model)
-      # @parentView.renderSidebar()
 
   cancel : ->
     @remove
-    @parentView.renderSidebar()
+    @parentView.rerender()
     
   render : ->
     $(@el).html(@template(@model.toJSON() ))

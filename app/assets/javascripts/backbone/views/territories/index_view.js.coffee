@@ -5,7 +5,7 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
   id: "map-interactions"
 
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addAll', 'render')
+    _.bindAll(this, 'addOne', 'addAll', 'render', 'rerender')
     @territories = @options.territories
     @options.territories.bind('remove', @rerender) 
     @options.territories.bind('reset', @addAll)
@@ -29,7 +29,6 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
   rerender: ->
     @map.clearTerritories()
     $(@el).html(@template)
-    $(".sidebar #map-interactions").html(@el)
     @addAll()
     
   renderSidebar: ->
