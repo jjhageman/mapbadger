@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @opportunity.name %>
+</p>
+
+<p>
+  <b>Address1:</b>
+  <%= @opportunity.address1 %>
+</p>
+
+<p>
+  <b>Address2:</b>
+  <%= @opportunity.address2 %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @opportunity.city %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @opportunity.state %>
+</p>
+
+<p>
+  <b>Zipcode:</b>
+  <%= @opportunity.zipcode %>
+</p>
+
+
+<%= link_to 'Edit', edit_opportunity_path(@opportunity) %> |
+<%= link_to 'Back', opportunities_path %>

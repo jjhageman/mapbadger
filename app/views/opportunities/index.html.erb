@@ -1,0 +1,33 @@
+<h1>Listing opportunities</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Address1</th>
+    <th>Address2</th>
+    <th>City</th>
+    <th>State</th>
+    <th>Zipcode</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @opportunities.each do |opportunity| %>
+  <tr>
+    <td><%= opportunity.name %></td>
+    <td><%= opportunity.address1 %></td>
+    <td><%= opportunity.address2 %></td>
+    <td><%= opportunity.city %></td>
+    <td><%= opportunity.state %></td>
+    <td><%= opportunity.zipcode %></td>
+    <td><%= link_to 'Show', opportunity %></td>
+    <td><%= link_to 'Edit', edit_opportunity_path(opportunity) %></td>
+    <td><%= link_to 'Destroy', opportunity, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Opportunity', new_opportunity_path %>
