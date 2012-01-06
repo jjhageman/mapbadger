@@ -1,0 +1,14 @@
+<%= form_for :upload do |f| %>
+  <fieldset>
+    <legend>Opportunity File Import</legend>
+    <div class="clearfix">
+      <%= f.label :csv, 'CSV File' %>
+      <div class="input">
+        <%= f.file_field :csv, :class => 'input-file' %>
+      </div>
+    </div>
+    <div class="actions">
+      <%= f.submit 'Import', :class => 'btn primary' %>
+    </div>
+  </fieldset>
+<% end %>

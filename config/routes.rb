@@ -1,6 +1,9 @@
 Mapbadger::Application.routes.draw do
   resources :opportunities do
-    get 'import', :on => :collection
+    collection do
+      get 'import'
+      post 'import' => 'opportunities#upload'
+    end
   end
 
   resources :territories

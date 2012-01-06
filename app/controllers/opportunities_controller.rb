@@ -53,6 +53,20 @@ class OpportunitiesController < ApplicationController
     end
   end
 
+  def import
+  end
+
+  def upload
+    data = params[:upload][:csv].read
+
+    CSV.parse data do |row|
+      debugger
+      nil
+    end
+
+    redirect_to opportunities_path
+  end
+
   # PUT /opportunities/1
   # PUT /opportunities/1.json
   def update
