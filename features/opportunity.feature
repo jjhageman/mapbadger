@@ -3,6 +3,11 @@ Feature: Manage opportunity data
   As a user
   I want to import and manage sales opportunities
 
+  Scenario: User adds opportunity
+    Given a logged in user
+    When I create a new opportunity
+    Then I should see the opportunity details
+
   Scenario: Import opportunity CSV
     Given a logged in user
     When I upload an opportunity CSV file

@@ -57,14 +57,9 @@ class OpportunitiesController < ApplicationController
   end
 
   def upload
-    data = params[:upload][:csv].read
+    Opportunity.csv_import params[:upload][:csv]
 
-    CSV.parse data do |row|
-      debugger
-      nil
-    end
-
-    redirect_to opportunities_path
+    redirect_to opportunities_path, notice: 'Your file has been imported.'
   end
 
   # PUT /opportunities/1

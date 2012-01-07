@@ -1,5 +1,16 @@
-Given /^a logged in user$/ do
-  # nothing for now
+When /^I create a new opportunity$/ do
+  visit '/opportunities/import'
+  fill_in 'Prospect Name', :with => 'Acme Anvils, Inc.'
+  fill_in 'Address', :with => '123 Market St.'
+  fill_in 'Address 2', :with => 'Ste 100'
+  fill_in 'City', :with => 'San Francisco'
+  select 'CA', :from => 'State'
+  fill_in 'Zip Code', :with => '94101'
+  click_button 'Add'
+end
+
+Then /^I should see the opportunity details$/ do
+  page.should have_content 'Acme Anvils, Inc.'
 end
 
 When /^I upload an opportunity CSV file$/ do
@@ -9,5 +20,7 @@ When /^I upload an opportunity CSV file$/ do
 end
 
 Then /^I should see the CSV data table$/ do
-  pending # express the regexp above with the code you wish you had
+  CSV.foreach('spec/fixtures/opportunities.csv') do |row|
+    page.should have_content(row[0])
+  end
 end
