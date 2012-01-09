@@ -39,8 +39,8 @@ ActiveRecord::Schema.define(:version => 20120105090128) do
   end
 
   create_table "territory_regions", :force => true do |t|
-    t.integer  "region_id"
     t.integer  "territory_id"
+    t.integer  "region_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -2,7 +2,7 @@ class Mapbadger.Views.MapView extends Backbone.View
   id: 'map-container'
 
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addAll', 'render')
+    _.bindAll(this, 'addOne', 'addAll', 'render', 'addOpportunity')
     @zoom = 4
     @mapTypeId = google.maps.MapTypeId.ROADMAP
     @minZoom = 3
@@ -186,7 +186,7 @@ class Mapbadger.Views.MapView extends Backbone.View
     @polygons.add(ply)
 
   addOpportunity: (opportunity) ->
-    @geoCoder.geocode { 'address': opportunity.address }, (results, status) =>
+    @geoCoder.geocode { 'address': opportunity.address() }, (results, status) =>
       if (status == google.maps.GeocoderStatus.OK)
         @map.setCenter(results[0].geometry.location)
         marker = new google.maps.Marker({
