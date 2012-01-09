@@ -1,10 +1,10 @@
 When /^I create a new opportunity$/ do
   visit '/opportunities/import'
   fill_in 'Prospect Name', :with => 'Acme Anvils, Inc.'
-  fill_in 'Address', :with => '123 Market St.'
+  fill_in 'Address 1', :with => '123 Market St.'
   fill_in 'Address 2', :with => 'Ste 100'
   fill_in 'City', :with => 'San Francisco'
-  select 'CA', :from => 'State'
+  select 'California', :from => 'State'
   fill_in 'Zip Code', :with => '94101'
   click_button 'Add'
 end

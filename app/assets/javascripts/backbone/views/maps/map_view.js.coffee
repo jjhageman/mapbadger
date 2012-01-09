@@ -43,6 +43,8 @@ class Mapbadger.Views.MapView extends Backbone.View
 
     @palette = ['#AA00A2','#0A64A4','#FF9700','#7F207B','#24577B','#BF8530','#6E0069','#03406A','#A66200','#D435CD','#3E94D1','#FFB140','#D460CF','#65A5D1','#FFC673','#808000','#00FF00','#008000']
     @palette_pointer = 0
+
+    @geoCoder = new google.maps.Geocoder()
     
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
@@ -174,6 +176,7 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   addAll: () ->
     @options.regions.each(@addOne)
+    @options.opportunities.each(@addOpportunity)
   
   addOne: (region) ->
     ply = new Mapbadger.Models.Polygon({region: region, map: @map})
@@ -181,3 +184,13 @@ class Mapbadger.Views.MapView extends Backbone.View
     google.maps.event.addListener(ply.google_poly, 'click', -> self.addState(ply))
     ply.google_poly.setOptions(@unselected_style)
     @polygons.add(ply)
+
+  addOpportunity: (opportunity) ->
+    @geoCoder.geocode { 'address': opportunity.address }, (results, status) =>
+      if (status == google.maps.GeocoderStatus.OK)
+        @map.setCenter(results[0].geometry.location)
+        marker = new google.maps.Marker({
+          map: @map,
+          position: results[0].geometry.location})
+      else
+        alert("Geocode was not successful for the following reason: " + status)

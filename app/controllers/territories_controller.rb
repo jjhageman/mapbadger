@@ -6,6 +6,7 @@ class TerritoriesController < ApplicationController
   def index
     @territories = Territory.all
     @regions = Region.all
+    @opportunities = Opportunity.all
     respond_with(@territories)
   end
 

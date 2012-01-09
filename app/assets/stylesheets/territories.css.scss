@@ -1,5 +1,6 @@
 html { height: 100% }
 body { height: 100%; margin: 0px; padding: 0px }
+body.map .content { padding: 0; }
 .container-fluid, .content, #map-container, #map-canvas { height: 100%; }
 .container-fluid { padding: 0; }
 .container-fluid > .sidebar {

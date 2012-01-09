@@ -54,6 +54,7 @@ class OpportunitiesController < ApplicationController
   end
 
   def import
+    @opportunity = Opportunity.new
   end
 
   def upload

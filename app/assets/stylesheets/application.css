@@ -5,3 +5,4 @@
  *= require_self
  *= require_tree . 
 */
+.content { padding: 20px 0; }

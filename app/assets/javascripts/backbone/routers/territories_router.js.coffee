@@ -4,7 +4,9 @@ class Mapbadger.Routers.TerritoriesRouter extends Backbone.Router
     @territories.reset options.territories
     @regions = new Mapbadger.Collections.RegionsCollection()
     @regions.reset options.regions
-    @map = new Mapbadger.Views.MapView({regions : @regions})
+    @opportunities = new Mapbadger.Collections.OpportunitiesCollection()
+    @opportunities.reset options.opportunities
+    @map = new Mapbadger.Views.MapView({regions : @regions, opportunities: @opportunities})
 
   routes:
     "/new"      : "newTerritory"
