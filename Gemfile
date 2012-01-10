@@ -34,3 +34,4 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'ruby-debug19', :require => 'ruby-debug'
 end
+gem "rubber", "1.15.0"
