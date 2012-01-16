@@ -12,3 +12,4 @@ require 'rubber/capistrano'
 
 Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
 load 'config/deploy'
+load 'deploy/assets'
