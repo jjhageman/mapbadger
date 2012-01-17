@@ -5,7 +5,7 @@ class TerritoriesController < ApplicationController
   # GET /territories.json
   def index
     @territories = Territory.all
-    @regions = Region.all
+    @regions = Region.all_regions
     @opportunities = Opportunity.all
     respond_with(@territories)
   end
