@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120105090128) do
+ActiveRecord::Schema.define(:version => 20120118064044) do
 
   create_table "opportunities", :force => true do |t|
     t.string   "name"
@@ -32,6 +32,13 @@ ActiveRecord::Schema.define(:version => 20120105090128) do
     t.datetime "updated_at"
   end
 
+  create_table "representatives", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "territories", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -39,8 +46,8 @@ ActiveRecord::Schema.define(:version => 20120105090128) do
   end
 
   create_table "territory_regions", :force => true do |t|
-    t.integer  "territory_id"
     t.integer  "region_id"
+    t.integer  "territory_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

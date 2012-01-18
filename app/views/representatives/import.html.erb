@@ -3,11 +3,11 @@
   <%= tab_li 'Teams', import_representatives_path %>
 </ul>
 
-<h1>New opportunities</h1>
+<h1>New representatives</h1>
 
 <%= form_for :upload do |f| %>
   <fieldset>
-    <legend>Opportunity File Import</legend>
+    <legend>Representatives File Import</legend>
     <div class="clearfix">
       <%= f.label :csv, 'CSV File' %>
       <div class="input">
@@ -21,3 +21,4 @@
 <% end %>
 <hr />
 <%= render 'form' %>
+

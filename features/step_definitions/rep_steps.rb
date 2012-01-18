@@ -1,9 +1,13 @@
 When /^I create a new rep$/ do
-  pending # express the regexp above with the code you wish you had
+  visit '/representatives/import'
+  fill_in 'First Name', :with => 'Iris'
+  fill_in 'Last Name', :with => 'Iverson'
+  click_button 'Add'
 end
 
 Then /^I should see the rep's details$/ do
-  pending # express the regexp above with the code you wish you had
+  page.should have_content 'Iris'
+  page.should have_content 'Iverson'
 end
 
 When /^I upload a rep CSV file$/ do
@@ -14,5 +18,7 @@ When /^I upload a rep CSV file$/ do
 end
 
 Then /^I should see the rep CSV data table$/ do
-  pending # express the regexp above with the code you wish you had
+  CSV.foreach('spec/fixtures/reps.csv') do |row|
+    page.should have_content(row[0])
+  end
 end
