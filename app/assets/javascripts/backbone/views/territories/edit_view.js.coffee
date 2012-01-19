@@ -5,6 +5,7 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
   
   events :
     "submit #edit-territory" : "update"
+    "click .assign" : "assignRep"
     "click .destroy" : "destroy"
     "click .cancel" : "cancel"
 
