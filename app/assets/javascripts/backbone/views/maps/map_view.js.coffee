@@ -2,7 +2,7 @@ class Mapbadger.Views.MapView extends Backbone.View
   id: 'map-container'
 
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addAll', 'render', 'addOpportunity')
+    _.bindAll(this, 'addOne', 'addAll', 'render', 'addHeat')
     @zoom = 4
     @mapTypeId = google.maps.MapTypeId.ROADMAP
     @minZoom = 3
@@ -63,7 +63,9 @@ class Mapbadger.Views.MapView extends Backbone.View
     @map = new google.maps.Map(document.getElementById("map-canvas"), @opts)
     @usBnds = new google.maps.LatLngBounds(new google.maps.LatLng(23.5,-122), new google.maps.LatLng(76,-65))
     @map.fitBounds(@usBnds)
+    @heatmap = new HeatmapOverlay(@map, {"radius":25, "visible":true, "opacity":60})
     @addAll()
+    @addHeat()
     return
 
   clearTerritories: ->
@@ -176,7 +178,7 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   addAll: () ->
     @options.regions.each(@addOne)
-    @options.opportunities.each(@addOpportunity)
+    # @options.opportunities.each(@addOpportunity)
   
   addOne: (region) ->
     ply = new Mapbadger.Models.Polygon({region: region, map: @map})
@@ -185,12 +187,31 @@ class Mapbadger.Views.MapView extends Backbone.View
     ply.google_poly.setOptions(@unselected_style)
     @polygons.add(ply)
 
-  addOpportunity: (opportunity) ->
-    @geoCoder.geocode { 'address': opportunity.address() }, (results, status) =>
-      if (status == google.maps.GeocoderStatus.OK)
-        @map.setCenter(results[0].geometry.location)
-        marker = new google.maps.Marker({
-          map: @map,
-          position: results[0].geometry.location})
-      else
-        alert("Geocode was not successful for the following reason: " + status)
+  addHeat: ->
+    oppsData = @options.opportunities.map( (opp) ->
+      {
+        lat: opp.get('lat'),
+        lng: opp.get('lng'),
+        counts: 1
+      }
+    )
+    heatData = {
+      max: 40,
+      data: oppsData
+    }
+    google.maps.event.addListenerOnce(@map, 'idle', => @heatmap.setDataSet(heatData))
+
+  # addOpportunity: (opportunity) ->
+  #   latlng = new google.maps.LatLng(opportunity.get("lat"), opportunity.get("lng"))
+  #   new google.maps.Marker({
+  #     position: latlng
+  #     map: @map
+  #   })
+    # @geoCoder.geocode { 'address': opportunity.address() }, (results, status) =>
+    #   if (status == google.maps.GeocoderStatus.OK)
+    #     @map.setCenter(results[0].geometry.location)
+    #     marker = new google.maps.Marker({
+    #       map: @map,
+    #       position: results[0].geometry.location})
+    #   else
+    #     alert("Geocode was not successful for the following reason: " + status)
