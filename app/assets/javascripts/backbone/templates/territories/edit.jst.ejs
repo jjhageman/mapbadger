@@ -9,10 +9,37 @@
 
   <div class="actions">
     <input type="submit" value="Update Territory" class="btn" />
-    <a class="btn">Assign Territory</a>
+    <a class="btn" data-controls-modal="assign-rep"
+data-backdrop="true" data-keyboard="true">Assign Territory</a>
     <a class="destroy btn">Delete Territory</a>
   </div>
 
 </form>
 
 <a class="cancel">Cancel</a>
+
+<div id="assign-rep" class="modal hide fade">
+  <div class="modal-header">
+    <h3>Assign the territory</h3>
+  </div>
+
+  <div class="modal-body">
+    <form id="assign-rep" name="rep">
+      <div class="clearfix">
+        <div class="input">
+          <select id="normalSelect" name="normalSelect" size="5">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="actions">
+    <input type="submit" value="Assign Territory" />
+  </div>
+</div>

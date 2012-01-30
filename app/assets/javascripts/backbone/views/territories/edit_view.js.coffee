@@ -30,6 +30,8 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
         @parentView.rerender()
     )
 
+  assignRep: ->
+
   destroy: (e) ->
     e.preventDefault()
     
