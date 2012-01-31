@@ -6,6 +6,8 @@ class Mapbadger.Routers.TerritoriesRouter extends Backbone.Router
     @regions.reset options.regions
     @opportunities = new Mapbadger.Collections.OpportunitiesCollection()
     @opportunities.reset options.opportunities
+    @reps = new Mapbadger.Collections.RepresentativesCollection()
+    @reps.reset options.reps
     @map = new Mapbadger.Views.MapView({regions : @regions, opportunities: @opportunities})
 
   routes:
@@ -22,7 +24,7 @@ class Mapbadger.Routers.TerritoriesRouter extends Backbone.Router
   index: ->
     $(".content").html(@map.render().el)
     @map.renderMap()
-    @view = new Mapbadger.Views.Territories.IndexView(territories: @territories, regions: @regions, map: @map)
+    @view = new Mapbadger.Views.Territories.IndexView(territories: @territories, regions: @regions, map: @map, reps: @reps)
     $(".sidebar").prepend(@view.render().el)
     @territoryForm = new Mapbadger.Views.Territories.NewView(collection: @territories, regions: @regions, map: @map)
     $(".sidebar").append(@territoryForm.render().el)

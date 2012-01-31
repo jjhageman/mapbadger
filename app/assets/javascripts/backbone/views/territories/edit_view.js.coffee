@@ -11,6 +11,7 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
 
   initialize: ->
     @map = @options.map
+    @reps = @options.reps
     @parentView = @options.parent
     @territories = @options.collection
     
@@ -46,7 +47,11 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
     $(@el).html(@template(@model.toJSON() ))
     unless @model.regions.isEmpty()
       view = new Mapbadger.Views.Regions.IndexView(collection: @model.regions)
-      @$(".actions").before(view.render().el)
+      @$("#selected-states").html(view.render().el)
+
+    unless @reps.isEmpty()
+      reps = new Mapbadger.Views.Representatives.IndexView(collection: @reps)
+      @$("#available-reps").html(reps.render().el)
     
     @$("form").backboneLink(@model)
     

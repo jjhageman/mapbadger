@@ -7,6 +7,8 @@
     </div>
   </div>
 
+  <ul id="selected-states"></ul>
+
   <div class="actions">
     <input type="submit" value="Update Territory" class="btn" />
     <a class="btn" data-controls-modal="assign-rep"
@@ -27,13 +29,9 @@ data-backdrop="true" data-keyboard="true">Assign Territory</a>
     <form id="assign-rep" name="rep">
       <div class="clearfix">
         <div class="input">
-          <select id="normalSelect" name="normalSelect" size="5">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
+          <select id="available-reps" name="normalSelect" size="5">
+            <option disabled="disabled">No sales representatives</option>
+          </select>
         </div>
       </div>
     </form>

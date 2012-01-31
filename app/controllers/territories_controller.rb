@@ -7,6 +7,7 @@ class TerritoriesController < ApplicationController
     @territories = Territory.all
     @regions = Region.all_regions
     @opportunities = Opportunity.all
+    @reps = Representative.all
     respond_with(@territories)
   end
 

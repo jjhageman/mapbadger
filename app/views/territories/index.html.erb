@@ -1,6 +1,11 @@
 <script type="text/javascript">
   $(function() {
-      window.router = new Mapbadger.Routers.TerritoriesRouter({territories: <%= @territories.to_json.html_safe -%>, regions: <%= @regions.to_json.html_safe -%>, opportunities: <%= @opportunities.to_json.html_safe -%>});
+      window.router = new Mapbadger.Routers.TerritoriesRouter(
+        { territories: <%= @territories.to_json.html_safe -%>,
+          regions: <%= @regions.to_json.html_safe -%>,
+          opportunities: <%= @opportunities.to_json.html_safe -%>,
+          reps: <%= @reps.to_json.html_safe -%>
+        });
       Backbone.history.start({root: "/territories/"});
   });
 </script>

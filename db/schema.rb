@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120123071044) do
+ActiveRecord::Schema.define(:version => 20120131080541) do
 
   create_table "opportunities", :force => true do |t|
     t.string   "name"
@@ -20,38 +20,39 @@ ActiveRecord::Schema.define(:version => 20120123071044) do
     t.string   "city"
     t.string   "state"
     t.string   "zipcode"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
     t.float    "lat"
     t.float    "lng"
+    t.point    "location",   :limit => 0,                 :srid => 4326, :geographic => true
   end
 
   create_table "regions", :force => true do |t|
     t.string   "name"
     t.string   "fipscode"
     t.text     "coords"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "representatives", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "territories", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "territory_regions", :force => true do |t|
     t.integer  "region_id"
     t.integer  "territory_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   add_index "territory_regions", ["region_id"], :name => "index_territory_regions_on_region_id"

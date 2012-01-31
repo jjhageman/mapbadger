@@ -27,6 +27,7 @@ body.map .content { padding: 0; }
 #map-container { position: fixed; width: 100%; }
 #map-container .well { margin-bottom: 0; }
 #map-buttons { position: absolute; bottom: 30px; }
+select#available-reps { height: auto; }
 ul#territories { 
   margin: 0; padding: 5px 5px 5px 0;
   li {
