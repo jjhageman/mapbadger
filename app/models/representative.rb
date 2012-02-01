@@ -1,8 +1,9 @@
+require 'csv'
+
 class Representative < ActiveRecord::Base
-  def self.csv_import(file)
-    ActiveRecord::Base.connection.execute(<<-SQL)
-      COPY representatives (first_name, last_name) 
-      FROM '#{file.path}' CSV;
-      SQL
+  def self.csv_import(data)
+    CSV.parse(data) do |row|
+      Representative.create :first_name => row[0], :last_name => row[1]
+    end
   end
 end

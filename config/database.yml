@@ -5,6 +5,7 @@ development:
 test: &test
   adapter: postgresql
   database: mapbadger_test
+  template: template_postgis
 
 production:
   adapter: postgresql
