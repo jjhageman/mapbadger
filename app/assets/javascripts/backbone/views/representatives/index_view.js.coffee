@@ -2,9 +2,11 @@ Mapbadger.Views.Representatives ||= {}
 
 class Mapbadger.Views.Representatives.IndexView extends Backbone.View
   # template: JST["backbone/templates/representatives/index"]
-  tagName: "ul"
+  tagName: "select"
   className: "reps"
   id: "available-reps"
+  attributes:
+    size: "5"
 
   initialize: () ->
     _.bindAll(this, 'addOne', 'addAll', 'render')

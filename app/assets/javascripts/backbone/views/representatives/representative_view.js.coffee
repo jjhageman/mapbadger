@@ -6,7 +6,7 @@ class Mapbadger.Views.Representatives.RepresentativeView extends Backbone.View
   events:
     "click .destroy" : "destroy"
 
-  tagName: "tr"
+  tagName: "option"
 
   destroy: () ->
     @model.destroy()

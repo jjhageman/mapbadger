@@ -14,7 +14,7 @@ eos
       })
 
       expect {
-        Representative.csv_import(csv_upload)
+        Representative.csv_import(csv_upload.read)
       }.to change{ Representative.count }.from(0).to(3)
     end
   end
