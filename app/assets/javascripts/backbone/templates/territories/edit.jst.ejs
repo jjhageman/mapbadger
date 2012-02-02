@@ -20,13 +20,13 @@ data-backdrop="true" data-keyboard="true">Assign Territory</a>
 
 <a class="cancel">Cancel</a>
 
-<div id="assign-rep" class="modal hide fade">
+<div id="assign-rep" class="modal hide">
   <div class="modal-header">
     <h3>Assign the territory</h3>
   </div>
 
   <div class="modal-body">
-    <form id="assign-rep" name="rep">
+    <form id="edit-representative" name="representative">
       <div class="clearfix">
         <div class="input">
           <select id="available-reps" name="normalSelect" size="5">
@@ -36,7 +36,8 @@ data-backdrop="true" data-keyboard="true">Assign Territory</a>
       </div>
 
       <div class="actions">
-        <input type="submit" value="Assign Territory" />
+        <input type="submit" value="Update Territory" class="btn" />
+        <a id="assignBtn" class="btn assignBtn">Assign Territory</a>
       </div>
     </form>
   </div>

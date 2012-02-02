@@ -3,9 +3,6 @@ Mapbadger.Views.Representatives ||= {}
 class Mapbadger.Views.Representatives.RepresentativeView extends Backbone.View
   template: JST["backbone/templates/representatives/representative"]
 
-  events:
-    "click .destroy" : "destroy"
-
   tagName: "option"
 
   destroy: () ->
