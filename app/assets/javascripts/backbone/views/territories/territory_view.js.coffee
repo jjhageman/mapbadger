@@ -26,9 +26,13 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   
     
   render: ->
-    $(@el).html(@template(@model.toJSON() ))    
+    $(@el).html(@template(@model.toJSON() ))
+
+    $(@el).find('.rep').html(" - "+@model.rep.name()) if @model.rep
+
     unless @model.regions.isEmpty()
       view = new Mapbadger.Views.Regions.IndexView(collection: @model.regions)
       view.hide()
       $(@el).append(view.render().el)
+
     return this

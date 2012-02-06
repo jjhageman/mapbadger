@@ -5,7 +5,6 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
   
   events :
     "submit #edit-territory" : "update"
-    "submit form#edit-representative" : "assignRep"
     "click .destroy" : "destroy"
     "click .cancel" : "cancel"
 
@@ -31,11 +30,6 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
         @parentView.rerender()
     )
 
-  assignRep: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
-    confirm "got there"
-
   destroy: (e) ->
     e.preventDefault()
     
@@ -48,15 +42,13 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
     
   render : ->
     $(@el).html(@template(@model.toJSON() ))
+    reps = new Mapbadger.Views.Representatives.AssignView(territory: @model, reps: @reps, parent: @parentView)
+    $(@el).append(reps.render().el)
+
     unless @model.regions.isEmpty()
       view = new Mapbadger.Views.Regions.IndexView(collection: @model.regions)
       @$("#selected-states").html(view.render().el)
 
-    unless @reps.isEmpty()
-      reps = new Mapbadger.Views.Representatives.IndexView(collection: @reps)
-      @$("select#available-reps").replaceWith(reps.render().el)
-    
     @$("form#edit-territory").backboneLink(@model)
-    @$("form#edit-representative").backboneLink(@model)
     
     return this

@@ -18,7 +18,7 @@ db_backup_cmd: "nice sudo -u postgres pg_dumpall -U postgres | gzip -c > %backup
 #           its standard input
 db_restore_cmd: "zcat - | psql -U postgres -h %host% %name%"
 
-postgresql_ver: 9.0
+postgresql_ver: 9.1
 postgresql_conf_dir: "/etc/postgresql/#{postgresql_ver}/main"
 postgresql_data_dir: "/mnt/postgresql/#{postgresql_ver}/data"
 postgresql_archive_dir: "/mnt/postgresql/#{postgresql_ver}/archive"
@@ -42,4 +42,4 @@ roles:
   postgresql_slave:
     db_server_id: 2
   db:
-    packages: [postgresql-9.0, libdbd-pg-perl]
+    packages: [postgresql-9.1, libdbd-pg-perl]

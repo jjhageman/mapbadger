@@ -11,7 +11,7 @@
 
   <div class="actions">
     <input type="submit" value="Update Territory" class="btn" />
-    <a class="btn" data-controls-modal="assign-rep"
+    <a class="btn" data-controls-modal="assign-rep-form"
 data-backdrop="true" data-keyboard="true">Assign Territory</a>
     <a class="destroy btn">Delete Territory</a>
   </div>
@@ -19,26 +19,3 @@ data-backdrop="true" data-keyboard="true">Assign Territory</a>
 </form>
 
 <a class="cancel">Cancel</a>
-
-<div id="assign-rep" class="modal hide">
-  <div class="modal-header">
-    <h3>Assign the territory</h3>
-  </div>
-
-  <div class="modal-body">
-    <form id="edit-representative" name="representative">
-      <div class="clearfix">
-        <div class="input">
-          <select id="available-reps" name="normalSelect" size="5">
-            <option disabled="disabled">No sales representatives</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="actions">
-        <input type="submit" value="Update Territory" class="btn" />
-        <a id="assignBtn" class="btn assignBtn">Assign Territory</a>
-      </div>
-    </form>
-  </div>
-</div>

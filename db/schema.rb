@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120131080541) do
+ActiveRecord::Schema.define(:version => 20120205222902) do
 
   create_table "opportunities", :force => true do |t|
     t.string   "name"
@@ -44,9 +44,12 @@ ActiveRecord::Schema.define(:version => 20120131080541) do
 
   create_table "territories", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "representative_id"
   end
+
+  add_index "territories", ["representative_id"], :name => "index_territories_on_representative_id"
 
   create_table "territory_regions", :force => true do |t|
     t.integer  "region_id"

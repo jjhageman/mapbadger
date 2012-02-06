@@ -5,7 +5,7 @@ class Mapbadger.Views.Representatives.RepresentativeView extends Backbone.View
 
   tagName: "option"
 
-  destroy: () ->
+  destroy: ->
     @model.destroy()
     this.remove()
 

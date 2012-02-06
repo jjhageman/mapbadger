@@ -16,7 +16,8 @@ class Mapbadger.Views.Representatives.IndexView extends Backbone.View
 
   addOne: (rep) =>
     view = new Mapbadger.Views.Representatives.RepresentativeView({model : rep})
-    $(@el).append(view.render().el)
+    $(@el).append(view.make("option", {"value": rep.id}, "#{rep.get('first_name')} #{rep.get('last_name')}"))
+    #$(@el).append(view.render().el)
 
   render: =>
     @addAll()
