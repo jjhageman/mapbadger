@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120205222902) do
+ActiveRecord::Schema.define(:version => 20120209042029) do
 
   create_table "opportunities", :force => true do |t|
     t.string   "name"
@@ -20,11 +20,11 @@ ActiveRecord::Schema.define(:version => 20120205222902) do
     t.string   "city"
     t.string   "state"
     t.string   "zipcode"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.datetime "created_at",                                                             :null => false
+    t.datetime "updated_at",                                                             :null => false
     t.float    "lat"
     t.float    "lng"
-    t.point    "location",   :limit => 0,                 :srid => 4326, :geographic => true
+    t.spatial  "location",   :limit => {:srid=>4326, :type=>"point", :geographic=>true}
   end
 
   create_table "regions", :force => true do |t|
@@ -60,5 +60,12 @@ ActiveRecord::Schema.define(:version => 20120205222902) do
 
   add_index "territory_regions", ["region_id"], :name => "index_territory_regions_on_region_id"
   add_index "territory_regions", ["territory_id"], :name => "index_territory_regions_on_territory_id"
+
+  create_table "zcta", :force => true do |t|
+    t.integer "zcta"
+    t.spatial "region", :limit => {:srid=>3785, :type=>"polygon"}
+  end
+
+  add_index "zcta", ["region"], :name => "index_zcta_on_region", :spatial => true
 
 end

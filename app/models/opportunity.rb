@@ -1,4 +1,10 @@
 class Opportunity < ActiveRecord::Base
+  #FACTORY = RGeo::Geographic.simple_mercator_factory
+  #set_rgeo_factory_for_column(:location, FACTORY.projection_factory)
+
+  set_rgeo_factory_for_column(:location,
+    RGeo::Geographic.spherical_factory(:srid => 4326))
+
   def self.csv_geo_import(file)
 
   end
@@ -8,21 +14,5 @@ class Opportunity < ActiveRecord::Base
       COPY opportunities (name, address1, city, state, zipcode) 
       FROM '#{file.path}' CSV;
       SQL
-  end
-
-  def latitude
-    (self.location ||= Point.new).y
-  end
- 
-  def latitude=(value)
-    (self.location ||= Point.new).y = value
-  end
- 
-  def longitude
-    (self.location ||= Point.new).x
-  end
- 
-  def longitude=(value)
-    (self.location ||= Point.new).x = value
   end
 end

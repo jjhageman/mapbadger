@@ -1,14 +1,15 @@
 development:
-  adapter: postgresql
+  adapter: postgis
   database: mapbadger
+  template: template_postgis
 
 test: &test
-  adapter: postgresql
+  adapter: postgis
   database: mapbadger_test
   template: template_postgis
 
 production:
-  adapter: postgresql
+  adapter: postgis
   database: mapbadger
 
 cucumber:
