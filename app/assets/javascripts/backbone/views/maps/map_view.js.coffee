@@ -116,7 +116,10 @@ class Mapbadger.Views.MapView extends Backbone.View
       @getSel(event.latLng)
     @lstnr = google.maps.event.addListener @map, 'mousemove', (event) =>
       @selMarker.setPosition(event.latLng)
+    
     return
+
+  getZips: (bb) ->
 
   startRect: (ll) ->
     @startPt = ll
@@ -178,6 +181,8 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   addAll: () ->
     @options.regions.each(@addOne)
+    google.maps.event.addListener @map, 'bounds_changed', (event) =>
+      @getZips(@map.getBounds())
     # @options.opportunities.each(@addOpportunity)
   
   addOne: (region) ->

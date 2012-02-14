@@ -16,6 +16,7 @@ Mapbadger::Application.routes.draw do
   match 'import' => 'opportunities#import'
 
   resources :territories
+  resources :zctas
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
