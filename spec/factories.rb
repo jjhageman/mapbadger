@@ -6,4 +6,7 @@ FactoryGirl.define do
   factory :region do
     sequence(:name){|n| "Region #{n}" }
   end
+
+  factory :zcta do
+  end
 end

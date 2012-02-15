@@ -14,6 +14,19 @@ class Zcta < ActiveRecord::Base
     FACTORY.unproject(self.region)
   end
 
+  def kml_region
+    connection.execute("SELECT ST_AsKML(ST_GeomFromText('#{region}',3785))").first['st_askml']
+  end
+
+  def region_to_mvc
+    str = '['
+    region.boundary.points.each do |p|
+      pp = FACTORY.unproject(p)
+      str << "new google.maps.LatLng(#{pp.x}, #{pp.y})"
+    end
+    str << ']'
+  end
+
   def coords
     'wenis'
   end

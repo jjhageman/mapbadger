@@ -13,6 +13,21 @@
 
 ActiveRecord::Schema.define(:version => 20120209042029) do
 
+  create_table "mapbadger", :primary_key => "gid", :force => true do |t|
+    t.string  "statefp10",  :limit => 2
+    t.string  "zcta5ce10",  :limit => 5
+    t.string  "geoid10",    :limit => 7
+    t.string  "classfp10",  :limit => 2
+    t.string  "mtfcc10",    :limit => 5
+    t.string  "funcstat10", :limit => 1
+    t.float   "aland10"
+    t.float   "awater10"
+    t.string  "intptlat10", :limit => 11
+    t.string  "intptlon10", :limit => 12
+    t.string  "partflg10",  :limit => 1
+    t.spatial "the_geom",   :limit => {:srid=>4326, :type=>"multi_polygon"}
+  end
+
   create_table "opportunities", :force => true do |t|
     t.string   "name"
     t.string   "address1"
@@ -67,5 +82,11 @@ ActiveRecord::Schema.define(:version => 20120209042029) do
   end
 
   add_index "zcta", ["region"], :name => "index_zcta_on_region", :spatial => true
+
+  create_table "zipcodes", :force => true do |t|
+    t.string  "zipcode"
+    t.string  "state_fp"
+    t.spatial "polygon",  :limit => {:srid=>-1, :type=>"geometry"}
+  end
 
 end
