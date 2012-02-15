@@ -18,19 +18,20 @@ class Zcta < ActiveRecord::Base
     connection.execute("SELECT ST_AsKML(ST_GeomFromText('#{region}',3785))").first['st_askml']
   end
 
-  def region_to_mvc
-    str = '['
-    region.boundary.points.each do |p|
-      pp = FACTORY.unproject(p)
-      str << "new google.maps.LatLng(#{pp.x}, #{pp.y})"
-    end
-    str << ']'
+  def points_to_mvc(points)
+    points.map{ |p| "new google.maps.LatLng(#{p.y},#{p.x})" }.join(',')
   end
 
-  def coords
-    'wenis'
+  def region_to_mvc
+    boundary = loc_geographic.boundary
+    case boundary
+    when RGeo::Feature::LineString
+      '['+points_to_mvc(boundary.points)+']'
+    when RGeo::Feature::MultiLineString
+      boundary.map {|b| points_to_mvc(b.points) }
+    end 
   end
-  
+
   def self.in_bb(bb)
     puts bb
   end
@@ -44,6 +45,6 @@ class Zcta < ActiveRecord::Base
   end
 
   def as_json(options=nil)
-    super((options || {}).merge(:methods => :coords, :except => :region))
+    super((options || {}).merge(:methods => :region_to_mvc, :except => :region))
   end
 end

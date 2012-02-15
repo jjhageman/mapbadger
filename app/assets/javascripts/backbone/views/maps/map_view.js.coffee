@@ -181,8 +181,17 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   addAll: () ->
     @options.regions.each(@addOne)
-    google.maps.event.addListener @map, 'bounds_changed', (event) =>
-      @getZips(@map.getBounds())
+    z = new Mapbadger.Collections.ZipcodesCollection()
+    z.fetch(
+      success: (zcta) =>
+        for zip in zcta
+          new google.maps.Polygon({
+            paths: eval(zcta.get('region_to_mvc'))
+            map: @map
+          })
+    )
+    #google.maps.event.addListener @map, 'bounds_changed', (event) =>
+    #  @getZips(@map.getBounds())
     # @options.opportunities.each(@addOpportunity)
   
   addOne: (region) ->
