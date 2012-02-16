@@ -7,6 +7,7 @@ MAX_DEPTH = 12
 namespace :import do
   desc "Import shape files"
   task :shapefiles, [:filename] => :environment do |task,args|
+    puts "Importing shapes:"
     smf = RGeo::Geographic.simple_mercator_factory
     RGeo::Shapefile::Reader.open(args[:filename], :factory => smf) do |file|
       file.each do |record|
@@ -14,14 +15,17 @@ namespace :import do
         handle_geometry(0, record.geometry.projection, record['ZCTA5CE10'].to_i)
       end
     end
+    puts 'Done'
   end
 
   desc "Populate encoded polyline data"
   task :polyline => :environment do |task,args|
+    puts "Populating encoded polylines:"
     Zcta.find_each do |z|
-      puts "Encoding Zcta id #{z.id} with region of type #{z.region.class} and region boundary of type #{z.region.boundary.class}"
-      z.update_attribute(:polyline, PolylineEncoder.encode(Zcta::FACTORY.unproject(z.region).boundary))
+      z.update_attribute(:polyline, PolylineEncoder.encode(Zcta::FACTORY.unproject(z.region).exterior_ring))
+      print '.'
     end
+    puts 'Done'
   end
 
   desc "Import regions from csv file"
@@ -47,7 +51,11 @@ def handle_geometry(depth, geom, zcta)
   when ::RGeo::Feature::Polygon
     handle_polygon(depth, geom, zcta)
   when ::RGeo::Feature::MultiPolygon
-    geom.each{ |polygon| handle_polygon(depth, polygon, zcta) }
+    geom.each do |polygon|
+      handle_polygon(depth, polygon, zcta)
+    end
+  else
+    puts "Error: class not handled #{geom.class}"
   end
 end
 
@@ -63,8 +71,8 @@ def handle_polygon(depth, polygon, zcta)
   if depth >= MAX_DEPTH || sides <= MAX_SIZE
     # The polygon is small enough, or we recursed as far as we're
     # willing. Just add the polygon.
-    # polyline = PolylineEncoder.encode(Zcta::FACTORY.unproject(polygon).boundary)
     Zcta.create(:zcta => zcta, :region => polygon)#, :polyline => polyline)
+    print '.'
   else
     # Split the polygon 4-to-1 and recurse
     depth = depth + 1
