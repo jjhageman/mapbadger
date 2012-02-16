@@ -1,4 +1,5 @@
 require 'rgeo-shapefile'
+require 'polyline_encoder'
 
 MAX_SIZE = 500
 MAX_DEPTH = 12
@@ -11,13 +12,15 @@ namespace :import do
       file.each do |record|
         # For each MultiPolygon, analyze it and add to the database
         handle_geometry(0, record.geometry.projection, record['ZCTA5CE10'].to_i)
-        
-        # zcta = record['ZCTA5CE10'].to_i
-        # # The record geometry is a MultiPolygon. Iterate over its parts.
-        # record.geometry.projection.each do |poly|
-        #   Zcta.create(:zcta => zcta, :region => poly)
-        # end
       end
+    end
+  end
+
+  desc "Populate encoded polyline data"
+  task :polyline => :environment do |task,args|
+    Zcta.find_each do |z|
+      puts "Encoding Zcta id #{z.id} with region of type #{z.region.class} and region boundary of type #{z.region.boundary.class}"
+      z.update_attribute(:polyline, PolylineEncoder.encode(Zcta::FACTORY.unproject(z.region).boundary))
     end
   end
 
@@ -60,7 +63,8 @@ def handle_polygon(depth, polygon, zcta)
   if depth >= MAX_DEPTH || sides <= MAX_SIZE
     # The polygon is small enough, or we recursed as far as we're
     # willing. Just add the polygon.
-    Zcta.create(:zcta => zcta, :region => polygon)
+    # polyline = PolylineEncoder.encode(Zcta::FACTORY.unproject(polygon).boundary)
+    Zcta.create(:zcta => zcta, :region => polygon)#, :polyline => polyline)
   else
     # Split the polygon 4-to-1 and recurse
     depth = depth + 1
