@@ -2,7 +2,7 @@ class Mapbadger.Views.MapView extends Backbone.View
   id: 'map-container'
 
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addAll', 'render', 'addHeat')
+    _.bindAll(this, 'addOne', 'addAll', 'render', 'addZip', 'addHeat')
     @zoom = 4
     @mapTypeId = google.maps.MapTypeId.ROADMAP
     @minZoom = 3
@@ -181,18 +181,24 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   addAll: () ->
     @options.regions.each(@addOne)
-    z = new Mapbadger.Collections.ZipcodesCollection()
-    z.fetch(
-      success: (zcta) =>
-        for zip in zcta
-          new google.maps.Polygon({
-            paths: eval(zcta.get('region_to_mvc'))
-            map: @map
-          })
-    )
-    #google.maps.event.addListener @map, 'bounds_changed', (event) =>
-    #  @getZips(@map.getBounds())
-    # @options.opportunities.each(@addOpportunity)
+    @options.zipcodes.each(@addOne)
+    #z = new Mapbadger.Collections.ZipcodesCollection()
+    #z.fetch(
+      #success: (zcta) =>
+        #for zip in zcta
+          #new google.maps.Polygon({
+            #paths: eval(zcta.get('region_to_mvc'))
+            #map: @map
+          #})
+    #)
+
+  addZip: (zip) ->
+    paths = google.maps.geometry.encoding.decodePath(zip.get('polyline'))
+    ply = new google.maps.Polygon({
+      paths: paths
+      map: @map
+    })
+    ply.setOptions(@unselected_style)
   
   addOne: (region) ->
     ply = new Mapbadger.Models.Polygon({region: region, map: @map})

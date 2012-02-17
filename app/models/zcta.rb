@@ -32,6 +32,10 @@ class Zcta < ActiveRecord::Base
     end 
   end
 
+  def self.all_zipcodes
+    @zipcodes ||= Zcta.all
+  end
+
   def self.in_bb(bb)
     puts bb
   end
@@ -45,6 +49,6 @@ class Zcta < ActiveRecord::Base
   end
 
   def as_json(options=nil)
-    super((options || {}).merge(:methods => :region_to_mvc, :except => :region))
+    super((options || {}).merge(:except => :region))
   end
 end

@@ -54,8 +54,6 @@ def handle_geometry(depth, geom, zcta)
     geom.each do |polygon|
       handle_polygon(depth, polygon, zcta)
     end
-  else
-    puts "Error: class not handled #{geom.class}"
   end
 end
 
@@ -123,5 +121,6 @@ def handle_quadrant(depth, polygon, min_x, min_y, max_x, max_y, zcta)
     Zcta::FACTORY.point(min_x, max_y),
     Zcta::FACTORY.point(max_x, max_y),
     Zcta::FACTORY.point(max_x, min_y)]))
+  puts "Non-empty quad: zcta=#{zcta}, poly class=#{polygon.class}" unless polygon.intersection(box).is_empty?
   handle_geometry(depth, polygon.intersection(box), zcta)
 end

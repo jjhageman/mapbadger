@@ -4,27 +4,30 @@ class Mapbadger.Models.Polygon extends Backbone.Model
     @region.set({polygon: this})
     @id = @region.id
     @map = @get('map')
-    @name = @region.get('name')
-    @fips = @region.get('fipscode')
-    coords = @region.get('coords').split('~')
-    paths = []
-    polyBnd = null
-    for parts, ii in coords
-      coordArr = parts.split('|')
-      paths.push([])
-      baseLat = 0
-      baseLng = 0
-      for arr in coordArr
-        point = arr.split(',')
-        baseLat += parseInt(point[0],36)/10000.0
-        baseLng += parseInt(point[1],36)/10000.0
-        newPnt = new google.maps.LatLng(baseLat,baseLng)
-        if !polybnd
-          polybnd = new google.maps.LatLngBounds(newPnt,newPnt)
-        else
-          polybnd.extend(newPnt)
+    if @region instanceof Mapbadger.Models.Region
+      @name = @region.get('name')
+      @fips = @region.get('fipscode')
+      coords = @region.get('coords').split('~')
+      paths = []
+      polyBnd = null
+      for parts, ii in coords
+        coordArr = parts.split('|')
+        paths.push([])
+        baseLat = 0
+        baseLng = 0
+        for arr in coordArr
+          point = arr.split(',')
+          baseLat += parseInt(point[0],36)/10000.0
+          baseLng += parseInt(point[1],36)/10000.0
+          newPnt = new google.maps.LatLng(baseLat,baseLng)
+          if !polybnd
+            polybnd = new google.maps.LatLngBounds(newPnt,newPnt)
+          else
+            polybnd.extend(newPnt)
 
-        paths[ii].push(newPnt)
+          paths[ii].push(newPnt)
+    else if @regoin instanceof Mapbadger.Models.Zipcode
+      paths =  google.maps.geometry.encoding.decodePath(@region.get('polyline'))
 
     @google_poly = new google.maps.Polygon({
       paths: paths

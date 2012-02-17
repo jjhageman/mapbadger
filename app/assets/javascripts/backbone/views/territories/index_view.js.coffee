@@ -12,7 +12,7 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     @options.territories.bind('add', @addOne)
     @map = @options.map
     @reps = @options.reps
-
+    @zipcodes = @options.zipcodes
    
   addAll: () ->
     @options.territories.each(@addOne)
