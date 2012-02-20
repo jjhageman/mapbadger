@@ -7,6 +7,6 @@ FactoryGirl.define do
     sequence(:name){|n| "Region #{n}" }
   end
 
-  factory :zcta do
+  factory :zipcode do
   end
 end

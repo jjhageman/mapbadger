@@ -35,4 +35,9 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
       view.hide()
       $(@el).append(view.render().el)
 
+    unless @model.zipcodes.isEmpty()
+      zView = new Mapbadger.Views.Zipcodes.IndexView(collection: @model.zipcodes)
+      zView.hide()
+      $(@el).append(zView.render().el)
+
     return this

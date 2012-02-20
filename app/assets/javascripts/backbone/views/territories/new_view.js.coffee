@@ -26,7 +26,10 @@ class Mapbadger.Views.Territories.NewView extends Backbone.View
     @model.unset("errors")
 
     @map.selected_polygons.each (poly) =>
-      @model.regions.add(poly.region, {silent: true})
+      if poly.region instanceof Mapbadger.Models.Region
+        @model.regions.add(poly.region, {silent: true})
+      else if poly.region instanceof Mapbadger.Models.Zipcode
+        @model.zipcodes.add(poly.region, {silent:true})
 
     @map.selected_polygons.reset()
 

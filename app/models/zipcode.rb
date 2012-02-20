@@ -1,4 +1,6 @@
-class Zcta < ActiveRecord::Base
+class Zipcode < ActiveRecord::Base
+  belongs_to :region
+
   FACTORY = RGeo::Geographic.simple_mercator_factory
   set_rgeo_factory_for_column(:region, FACTORY.projection_factory)
   
@@ -33,7 +35,7 @@ class Zcta < ActiveRecord::Base
   end
 
   def self.all_zipcodes
-    @zipcodes ||= Zcta.all
+    @zipcodes ||= Zipcode.all(:select => [:id, :name, :polyline, :region_id])
   end
 
   def self.in_bb(bb)

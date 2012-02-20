@@ -2,7 +2,7 @@ class Mapbadger.Views.MapView extends Backbone.View
   id: 'map-container'
 
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addAll', 'render', 'addZip', 'addHeat')
+    _.bindAll(this, 'addOne', 'addAll', 'render', 'addHeat')
     @zoom = 4
     @mapTypeId = google.maps.MapTypeId.ROADMAP
     @minZoom = 3
@@ -184,23 +184,16 @@ class Mapbadger.Views.MapView extends Backbone.View
     @options.zipcodes.each(@addOne)
     #z = new Mapbadger.Collections.ZipcodesCollection()
     #z.fetch(
-      #success: (zcta) =>
-        #for zip in zcta
+      #success: (zipcode) =>
+        #for zip in zipcode
           #new google.maps.Polygon({
-            #paths: eval(zcta.get('region_to_mvc'))
+            #paths: eval(zipcode.get('region_to_mvc'))
             #map: @map
           #})
     #)
 
-  addZip: (zip) ->
-    paths = google.maps.geometry.encoding.decodePath(zip.get('polyline'))
-    ply = new google.maps.Polygon({
-      paths: paths
-      map: @map
-    })
-    ply.setOptions(@unselected_style)
-  
   addOne: (region) ->
+    return if region.get('fipscode') == 'US60'
     ply = new Mapbadger.Models.Polygon({region: region, map: @map})
     self = this
     google.maps.event.addListener(ply.google_poly, 'click', -> self.addState(ply))

@@ -8,7 +8,7 @@ class TerritoriesController < ApplicationController
     @regions = Region.all_regions
     @opportunities = Opportunity.all
     @reps = Representative.all
-    @zctas = Zcta.all_zipcodes
+    @zipcodes = Zipcode.all_zipcodes
     respond_with(@territories)
   end
 

@@ -8,21 +8,32 @@ namespace :import do
   desc "Import shape files"
   task :shapefiles, [:filename] => :environment do |task,args|
     puts "Importing shapes:"
-    smf = RGeo::Geographic.simple_mercator_factory
-    RGeo::Shapefile::Reader.open(args[:filename], :factory => smf) do |file|
+    RGeo::Shapefile::Reader.open(args[:filename], :factory => Zipcode::FACTORY) do |file|
       file.each do |record|
-        # For each MultiPolygon, analyze it and add to the database
-        handle_geometry(0, record.geometry.projection, record['ZCTA5CE10'].to_i)
+        zcta = record['ZCTA5CE10'].to_s
+        # The record geometry is a MultiPolygon. Iterate
+        # over its parts.
+        record.geometry.projection.each do |poly|
+          Zipcode.create(:name => zcta, :region => poly)
+          print '.'
+        end
       end
     end
+    #smf = RGeo::Geographic.simple_mercator_factory
+    #RGeo::Shapefile::Reader.open(args[:filename], :factory => smf) do |file|
+      #file.each do |record|
+        ## For each MultiPolygon, analyze it and add to the database
+        #handle_geometry(0, record.geometry.projection, record['ZCTA5CE10'].to_i)
+      #end
+    #end
     puts 'Done'
   end
 
   desc "Populate encoded polyline data"
   task :polyline => :environment do |task,args|
     puts "Populating encoded polylines:"
-    Zcta.find_each do |z|
-      z.update_attribute(:polyline, PolylineEncoder.encode(Zcta::FACTORY.unproject(z.region).exterior_ring))
+    Zipcode.find_each do |z|
+      z.update_attribute(:polyline, PolylineEncoder.encode(Zipcode::FACTORY.unproject(z.region).exterior_ring))
       print '.'
     end
     puts 'Done'
@@ -69,7 +80,7 @@ def handle_polygon(depth, polygon, zcta)
   if depth >= MAX_DEPTH || sides <= MAX_SIZE
     # The polygon is small enough, or we recursed as far as we're
     # willing. Just add the polygon.
-    Zcta.create(:zcta => zcta, :region => polygon)#, :polyline => polyline)
+    Zipcode.create(:name => zcta, :region => polygon)#, :polyline => polyline)
     print '.'
   else
     # Split the polygon 4-to-1 and recurse
@@ -116,11 +127,11 @@ def handle_quadrant(depth, polygon, min_x, min_y, max_x, max_y, zcta)
   # We do this by creating a rectangle for the box, and computing
   # the intersection with the input polygon. The result could be a
   # polygon, a MultiPolygon, or an empty geometry.
-  box = Zcta::FACTORY.polygon(Zcta::FACTORY.linear_ring([
-    Zcta::FACTORY.point(min_x, min_y),
-    Zcta::FACTORY.point(min_x, max_y),
-    Zcta::FACTORY.point(max_x, max_y),
-    Zcta::FACTORY.point(max_x, min_y)]))
+  box = Zipcode::FACTORY.polygon(Zipcode::FACTORY.linear_ring([
+    Zipcode::FACTORY.point(min_x, min_y),
+    Zipcode::FACTORY.point(min_x, max_y),
+    Zipcode::FACTORY.point(max_x, max_y),
+    Zipcode::FACTORY.point(max_x, min_y)]))
   puts "Non-empty quad: zcta=#{zcta}, poly class=#{polygon.class}" unless polygon.intersection(box).is_empty?
   handle_geometry(depth, polygon.intersection(box), zcta)
 end

@@ -4,8 +4,6 @@ class CreateRegions < ActiveRecord::Migration
       t.string :name
       t.string :fipscode
       t.text :coords
-
-      t.timestamps
     end
   end
 end

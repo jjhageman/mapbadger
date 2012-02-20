@@ -9,7 +9,7 @@ class Mapbadger.Routers.TerritoriesRouter extends Backbone.Router
     @reps = new Mapbadger.Collections.RepresentativesCollection()
     @reps.reset options.reps
     @zipcodes = new Mapbadger.Collections.ZipcodesCollection()
-    @zipcodes.reset options.zctas
+    @zipcodes.reset options.zipcodes
     @map = new Mapbadger.Views.MapView({regions : @regions, zipcodes: @zipcodes, opportunities: @opportunities})
 
   routes:

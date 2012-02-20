@@ -5,6 +5,11 @@ class Mapbadger.Models.Territory extends Backbone.Model
     regions = new Mapbadger.Collections.RegionsCollection()
     regions.reset(@get('regions'))
     @setRegions(regions)
+
+    zipcodes = new Mapbadger.Collections.ZipcodesCollection()
+    zipcodes.reset(@get('zipcodes'))
+    @setZipcodes(zipcodes)
+
     @setRep(new Mapbadger.Models.Representative(@get('representative'))) if @has('representative')
 
   defaults:
@@ -13,6 +18,9 @@ class Mapbadger.Models.Territory extends Backbone.Model
   setRegions: (regions) ->
     @regions = regions
 
+  setZipcodes: (zipcodes) ->
+    @zipcodes = zipcodes
+
   setRep: (rep) ->
     @rep = rep
 
@@ -20,16 +28,22 @@ class Mapbadger.Models.Territory extends Backbone.Model
     @regions.map (r) ->
       {region_id: r.get("id")}
 
+  territoryZipcodesAttributes: ->
+    @zipcodes.map (z) ->
+      {zipcode_id: z.get("id")}
+
   railsSafeAttributes: ->
     attrs = _.clone @attributes
     delete attrs.id
     delete attrs.regions
+    delete attrs.zipcodes
     delete attrs.representative
     attrs
 
   toJSON: ->
     json = {territory : @railsSafeAttributes()}
     _.extend(json.territory, {territory_regions_attributes: @territoryRegionsAttributes()}) if @regions
+    _.extend(json.territory, {territory_zipcodes_attributes: @territoryZipcodesAttributes()}) if @zipcodes
     _.extend(json.territory, {representative_id: @rep.id}) if @rep
     json.territory
 
