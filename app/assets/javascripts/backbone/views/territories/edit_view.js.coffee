@@ -19,8 +19,12 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
     e.stopPropagation()
     
     @model.regions.reset()
+    @model.zipcodes.reset()
     @map.selected_polygons.each (poly) =>
-      @model.regions.add(poly.region, {silent: true})
+      if poly.region instanceof Mapbadger.Models.Region
+        @model.regions.add(poly.region, {silent: true})
+      else if poly.region instanceof Mapbadger.Models.Zipcode
+        @model.zipcodes.add(poly.region, {silent: true})
 
     @map.selected_polygons.reset()
     
@@ -47,6 +51,10 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
 
     unless @model.regions.isEmpty()
       view = new Mapbadger.Views.Regions.IndexView(collection: @model.regions)
+      @$("#selected-states").html(view.render().el)
+
+    unless @model.zipcodes.isEmpty()
+      view = new Mapbadger.Views.Zipcodes.IndexView(collection: @model.zipcodes)
       @$("#selected-states").html(view.render().el)
 
     @$("form#edit-territory").backboneLink(@model)

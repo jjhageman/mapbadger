@@ -56,7 +56,7 @@ class TerritoriesController < ApplicationController
     @territory = Territory.find(params[:id])
 
     # hack to determine new and deleted regions
-    adjust_region_ids      
+    adjust_region_ids
 
     if @territory.update_attributes(params[:territory])
       respond_with(@territory)
@@ -75,6 +75,22 @@ class TerritoriesController < ApplicationController
       format.html { redirect_to territories_url }
       format.json { head :ok }
     end
+  end
+
+  def adjust_zipcode_ids
+    tz = params.fetch(:territory, {}).fetch(:territory_zipcodes_attributes, nil)
+    return unless tz
+
+    new_attrs = []
+    zipcode_ids = tz.map {|h| h['zipcode_id'].to_i}.flatten
+
+    new_ids = new_zipcode_ids(@territory, zipcode_ids)
+    new_ids.each {|id| new_attrs << {"zipcode_id"=>id.to_s}}
+
+    deleted_assoc_ids = deleted_territory_zipcode_ids(@territory, zipcode_ids)
+    deleted_assoc_ids.each {|id| new_attrs << {'id'=>id.to_s, '_destroy'=>'1'}}
+
+    params[:territory][:territory_zipcodes_attributes] = new_attrs
   end
 
   def adjust_region_ids
@@ -102,6 +118,17 @@ class TerritoriesController < ApplicationController
     @persisted_ids ||= territory.region_ids
     region_ids = (@persisted_ids | ids) - ids
     region_ids.collect{|region_id| territory.territory_regions.find_by_region_id(region_id).id}
+  end
+
+  def new_zipcode_ids(territory, ids)
+    @persisted_ids ||= territory.zipcode_ids
+    (@persisted_ids | ids) - @persisted_ids
+  end
+
+  def deleted_territory_zipcode_ids(territory, ids)
+    @persisted_ids ||= territory.zipcode_ids
+    zipcode_ids = (@persisted_ids | ids) - ids
+    zipcode_ids.collect{|zipcode_id| territory.territory_zipcodes.find_by_zipcode_id(zipcode_id).id}
   end
 end
 

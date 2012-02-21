@@ -2,7 +2,7 @@ Mapbadger.Views.Zipcodes ||= {}
 
 class Mapbadger.Views.Zipcodes.IndexView extends Backbone.View
   tagName: "ul"
-  className: "zipcodes"
+  className: "regions"
   id: "selected-zipcodes"
 
   initialize: ->

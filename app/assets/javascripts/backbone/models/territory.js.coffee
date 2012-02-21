@@ -35,6 +35,8 @@ class Mapbadger.Models.Territory extends Backbone.Model
   railsSafeAttributes: ->
     attrs = _.clone @attributes
     delete attrs.id
+    delete attrs.created_at
+    delete attrs.updated_at
     delete attrs.regions
     delete attrs.zipcodes
     delete attrs.representative
@@ -42,8 +44,8 @@ class Mapbadger.Models.Territory extends Backbone.Model
 
   toJSON: ->
     json = {territory : @railsSafeAttributes()}
-    _.extend(json.territory, {territory_regions_attributes: @territoryRegionsAttributes()}) if @regions
-    _.extend(json.territory, {territory_zipcodes_attributes: @territoryZipcodesAttributes()}) if @zipcodes
+    _.extend(json.territory, {territory_regions_attributes: @territoryRegionsAttributes()}) unless @regions.isEmpty()
+    _.extend(json.territory, {territory_zipcodes_attributes: @territoryZipcodesAttributes()}) unless @zipcodes.isEmpty()
     _.extend(json.territory, {representative_id: @rep.id}) if @rep
     json.territory
 

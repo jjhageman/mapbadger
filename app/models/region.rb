@@ -4,4 +4,8 @@ class Region < ActiveRecord::Base
   def self.all_regions
     @regions ||= Region.all
   end
+
+  def as_json(options = nil)
+    super((options || {}).merge(include: { zipcodes: { only: [:id, :name] } }))
+  end
 end
