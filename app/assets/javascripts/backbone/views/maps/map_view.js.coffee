@@ -4,6 +4,7 @@ class Mapbadger.Views.MapView extends Backbone.View
   initialize: () ->
     _.bindAll(this, 'addOne', 'addHidden', 'addAll', 'render', 'displayForSaved', 'displayForEdit', 'addHeat')
     @zoom = 4
+    @showingZips = false
     @mapTypeId = google.maps.MapTypeId.ROADMAP
     @minZoom = 3
     
@@ -50,8 +51,6 @@ class Mapbadger.Views.MapView extends Backbone.View
     @palette = ['#AA00A2','#0A64A4','#FF9700','#7F207B','#24577B','#BF8530','#6E0069','#03406A','#A66200','#D435CD','#3E94D1','#FFB140','#D460CF','#65A5D1','#FFC673','#808000','#00FF00','#008000']
     @palette_pointer = 0
 
-    @geoCoder = new google.maps.Geocoder()
-    
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
     $(".sidebar").append(JST["backbone/templates/maps/map_buttons"]())
@@ -74,14 +73,28 @@ class Mapbadger.Views.MapView extends Backbone.View
     @addHeat()
     google.maps.event.addListener @map, 'zoom_changed', (event) =>
       zoomLevel = @map.getZoom()
-      @showZips() if zoomLevel >= 10
+      if not @showingZips and zoomLevel >= 8
+        @showZips()
+      else if @showingZips and zoomLevel < 8
+        @hideZips()
     return
 
   showZips: ->
+    bb = @map.getBounds().toString()
     @zip_states.each (state) ->
-      state.polygon.google_poly.setVisible false
+      state.get('polygon').google_poly.setVisible false
       state.zipcodes.each (zipcode) ->
-        zipcode.polygon.google_poly.setVisible true
+        zipcode.get('polygon').google_poly.setVisible true
+
+    @showingZips = true
+
+  hideZips: ->
+    @zip_states.each (state) ->
+      state.get('polygon').google_poly.setVisible true
+      state.zipcodes.each (zipcode) ->
+        zipcode.get('polygon').google_poly.setVisible false
+
+    @showingZips = false
 
   clearTerritories: ->
     @selected_polygons.reset()
@@ -98,6 +111,7 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   displayTerritoryEdit: (territory) ->
     territory.regions.each(@displayForEdit)
+    # TODO zoom to zipcodes bounding box
     territory.zipcodes.each(@displayForEdit)
 
   displayForSaved: (region, color) ->
@@ -200,7 +214,6 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   addAll: () ->
     @options.regions.each(@addOne)
-    #@options.zipcodes.each(@addHidden)
     #z = new Mapbadger.Collections.ZipcodesCollection()
     #z.fetch(
       #success: (zipcode) =>
@@ -211,17 +224,20 @@ class Mapbadger.Views.MapView extends Backbone.View
           #})
     #)
 
-  addHidden: (region) ->
-    ply = new Mapbadger.Models.Polygon({region: region, map: @map})
-    ply.google_poly.setVisible false
-    @polygons.add(ply)
-
-  addOne: (region) ->
+  createPoly: (region) ->
     ply = new Mapbadger.Models.Polygon({region: region, map: @map})
     self = this
-    google.maps.event.addListener(ply.google_poly, 'click', -> self.addState(ply))
     ply.google_poly.setOptions(@unselected_style)
+    google.maps.event.addListener(ply.google_poly, 'click', -> self.addState(ply))
     @polygons.add(ply)
+    ply
+
+  addHidden: (region) ->
+    ply = @createPoly(region)
+    ply.google_poly.setVisible false
+
+  addOne: (region) ->
+    @createPoly(region)
     unless region.zipcodes.isEmpty()
       @zip_states.add(region)
       region.zipcodes.each @addHidden

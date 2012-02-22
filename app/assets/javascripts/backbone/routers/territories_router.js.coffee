@@ -8,9 +8,9 @@ class Mapbadger.Routers.TerritoriesRouter extends Backbone.Router
     @opportunities.reset options.opportunities
     @reps = new Mapbadger.Collections.RepresentativesCollection()
     @reps.reset options.reps
-    @zipcodes = new Mapbadger.Collections.ZipcodesCollection()
-    @zipcodes.reset options.zipcodes
-    @map = new Mapbadger.Views.MapView({regions : @regions, zipcodes: @zipcodes, opportunities: @opportunities})
+    #@zipcodes = new Mapbadger.Collections.ZipcodesCollection()
+    #@zipcodes.reset options.zipcodes
+    @map = new Mapbadger.Views.MapView({regions : @regions, opportunities: @opportunities})
 
   routes:
     "/new"      : "newTerritory"
@@ -26,7 +26,7 @@ class Mapbadger.Routers.TerritoriesRouter extends Backbone.Router
   index: ->
     $(".content").html(@map.render().el)
     @map.renderMap()
-    @view = new Mapbadger.Views.Territories.IndexView(territories: @territories, regions: @regions, zipcodes: @zipcodes, map: @map, reps: @reps)
+    @view = new Mapbadger.Views.Territories.IndexView(territories: @territories, regions: @regions, map: @map, reps: @reps)
     $(".sidebar").prepend(@view.render().el)
     @territoryForm = new Mapbadger.Views.Territories.NewView(collection: @territories, regions: @regions, map: @map)
     $(".sidebar").append(@territoryForm.render().el)

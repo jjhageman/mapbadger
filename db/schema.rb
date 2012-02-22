@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120220011206) do
+ActiveRecord::Schema.define(:version => 20120222074401) do
 
   create_table "opportunities", :force => true do |t|
     t.string   "name"
@@ -28,12 +28,13 @@ ActiveRecord::Schema.define(:version => 20120220011206) do
   end
 
   create_table "regions", :force => true do |t|
-    t.string   "name"
-    t.string   "fipscode"
-    t.text     "coords"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string  "name"
+    t.string  "fipscode"
+    t.text    "polyline"
+    t.spatial "area",     :limit => {:srid=>3785, :type=>"polygon"}
   end
+
+  add_index "regions", ["area"], :name => "index_regions_on_area", :spatial => true
 
   create_table "representatives", :force => true do |t|
     t.string   "first_name"
@@ -73,11 +74,11 @@ ActiveRecord::Schema.define(:version => 20120220011206) do
 
   create_table "zipcodes", :force => true do |t|
     t.string  "name"
-    t.spatial "region",    :limit => {:no_constraints=>true}
+    t.spatial "area",      :limit => {:srid=>3785, :type=>"polygon"}
     t.text    "polyline"
     t.integer "region_id"
   end
 
-  add_index "zipcodes", ["region"], :name => "index_zcta_on_region", :spatial => true
+  add_index "zipcodes", ["area"], :name => "index_zcta_on_region", :spatial => true
 
 end
