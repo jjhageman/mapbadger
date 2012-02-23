@@ -57,6 +57,7 @@ class TerritoriesController < ApplicationController
 
     # hack to determine new and deleted regions
     adjust_region_ids
+    adjust_zipcode_ids
 
     if @territory.update_attributes(params[:territory])
       respond_with(@territory)
