@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120222074401) do
+ActiveRecord::Schema.define(:version => 20120225183629) do
+
+  create_table "geometries", :force => true do |t|
+    t.text    "polyline"
+    t.integer "region_id"
+    t.integer "zipcode_id"
+    t.spatial "area",       :limit => {:srid=>3785, :type=>"polygon"}
+  end
+
+  add_index "geometries", ["region_id"], :name => "index_geometries_on_region_id"
+  add_index "geometries", ["zipcode_id"], :name => "index_geometries_on_zipcode_id"
 
   create_table "opportunities", :force => true do |t|
     t.string   "name"
@@ -28,13 +38,9 @@ ActiveRecord::Schema.define(:version => 20120222074401) do
   end
 
   create_table "regions", :force => true do |t|
-    t.string  "name"
-    t.string  "fipscode"
-    t.text    "polyline"
-    t.spatial "area",     :limit => {:srid=>3785, :type=>"polygon"}
+    t.string "name"
+    t.string "fipscode"
   end
-
-  add_index "regions", ["area"], :name => "index_regions_on_area", :spatial => true
 
   create_table "representatives", :force => true do |t|
     t.string   "first_name"
@@ -74,11 +80,7 @@ ActiveRecord::Schema.define(:version => 20120222074401) do
 
   create_table "zipcodes", :force => true do |t|
     t.string  "name"
-    t.spatial "area",      :limit => {:srid=>3785, :type=>"polygon"}
-    t.text    "polyline"
     t.integer "region_id"
   end
-
-  add_index "zipcodes", ["area"], :name => "index_zcta_on_region", :spatial => true
 
 end

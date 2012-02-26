@@ -2,14 +2,16 @@ class Mapbadger.Routers.TerritoriesRouter extends Backbone.Router
   initialize: (options) ->
     @territories = new Mapbadger.Collections.TerritoriesCollection()
     @territories.reset options.territories
+
     @regions = new Mapbadger.Collections.RegionsCollection()
     @regions.reset options.regions
+
     @opportunities = new Mapbadger.Collections.OpportunitiesCollection()
     @opportunities.reset options.opportunities
+
     @reps = new Mapbadger.Collections.RepresentativesCollection()
     @reps.reset options.reps
-    #@zipcodes = new Mapbadger.Collections.ZipcodesCollection()
-    #@zipcodes.reset options.zipcodes
+
     @map = new Mapbadger.Views.MapView({regions : @regions, opportunities: @opportunities})
 
   routes:

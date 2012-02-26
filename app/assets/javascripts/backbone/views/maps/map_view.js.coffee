@@ -2,7 +2,7 @@ class Mapbadger.Views.MapView extends Backbone.View
   id: 'map-container'
 
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addHidden', 'addAll', 'render', 'displayForSaved', 'displayForEdit', 'addHeat')
+    _.bindAll(this, 'addOne', 'addHidden', 'createPoly', 'addAll', 'render', 'displayForSaved', 'displayForEdit', 'addHeat')
     @zoom = 4
     @showingZips = false
     @mapTypeId = google.maps.MapTypeId.ROADMAP
@@ -200,9 +200,9 @@ class Mapbadger.Views.MapView extends Backbone.View
   refreshList: ->
     $('#selected-states').empty()
     @selected_polygons.each (poly) =>
-      $('#selected-states').append("<li>"+poly.name+"</li>")
+      $('#selected-states').append("<li>"+poly.area.get('name')+"</li>")
 
-  addState: (poly) ->
+  selectArea: (poly) ->
     if poly.isSelected()
       poly.google_poly.setOptions @unselected_style
       poly.unSelect()
@@ -224,11 +224,11 @@ class Mapbadger.Views.MapView extends Backbone.View
           #})
     #)
 
-  createPoly: (region) ->
-    ply = new Mapbadger.Models.Polygon({region: region, map: @map})
+  createPoly: (area) ->
+    ply = new Mapbadger.Models.Polygon({area: area, map: @map})
     self = this
     ply.google_poly.setOptions(@unselected_style)
-    google.maps.event.addListener(ply.google_poly, 'click', -> self.addState(ply))
+    google.maps.event.addListener(ply.google_poly, 'click', -> self.selectArea(ply))
     @polygons.add(ply)
     ply
 
@@ -236,8 +236,9 @@ class Mapbadger.Views.MapView extends Backbone.View
     ply = @createPoly(region)
     ply.google_poly.setVisible false
 
-  addOne: (region) ->
+  addOne: (region) -> 
     @createPoly(region)
+
     unless region.zipcodes.isEmpty()
       @zip_states.add(region)
       region.zipcodes.each @addHidden

@@ -1,10 +1,10 @@
 class Mapbadger.Models.Polygon extends Backbone.Model
   initialize: ->
-    @region = @get('region')
-    @region.set({polygon: this})
-    @id = @region.id
+    @area = @get('area')
+    @area.set({polygon: this})
+    @id = @area.id
     @map = @get('map')
-    @name = @region.get('name')
+    #@name = @area.get('name')
     #if @region instanceof Mapbadger.Models.Region
       #@fips = @region.get('fipscode')
       #coords = @region.get('coords').split('~')
@@ -27,7 +27,8 @@ class Mapbadger.Models.Polygon extends Backbone.Model
 
           #paths[ii].push(newPnt)
     #else if @region instanceof Mapbadger.Models.Zipcode
-    paths =  google.maps.geometry.encoding.decodePath(@region.get('polyline'))
+
+    paths = @area.geometries.invoke 'paths'
 
     @google_poly = new google.maps.Polygon({
       paths: paths

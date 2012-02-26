@@ -1,4 +1,5 @@
 Mapbadger::Application.routes.draw do
+
   resources :representatives do
     collection do
       get 'import'
@@ -17,6 +18,8 @@ Mapbadger::Application.routes.draw do
 
   resources :territories
   resources :zipcodes
+  resources :regions
+  resources :geometries
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
