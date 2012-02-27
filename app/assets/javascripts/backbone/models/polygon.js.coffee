@@ -1,8 +1,8 @@
 class Mapbadger.Models.Polygon extends Backbone.Model
   initialize: ->
-    @area = @get('area')
+    @setArea(@get('area'))
     @area.set({polygon: this})
-    @id = @area.id
+    # @id = @area.id
     @map = @get('map')
     #@name = @area.get('name')
     #if @region instanceof Mapbadger.Models.Region
@@ -40,6 +40,9 @@ class Mapbadger.Models.Polygon extends Backbone.Model
   defaults:
     clickable: true
     selected: 0
+
+  setArea: (area) ->
+    @area = area
 
   isSelected: ->
     @get('selected') == -1

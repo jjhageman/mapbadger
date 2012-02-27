@@ -103,8 +103,9 @@ class Mapbadger.Views.MapView extends Backbone.View
       ply.unSelect()
 
   displayForEdit: (region) ->
-    region_id = region.id || region.get("region_id")
-    poly = @polygons.get(region_id)
+    # region_id = region.id || region.get("region_id")
+    # poly = @polygons.get(region_id)
+    poly = region.get('polygon')
     poly.select()
     @selected_polygons.add(poly)
     poly.google_poly.setOptions(@edit_style)
@@ -115,8 +116,9 @@ class Mapbadger.Views.MapView extends Backbone.View
     territory.zipcodes.each(@displayForEdit)
 
   displayForSaved: (region, color) ->
-    region_id = region.id || region.get("region_id")
-    poly = @polygons.get(region_id)
+    # region_id = region.id || region.get("region_id")
+    # poly = @polygons.get(region_id)
+    poly = region.get('polygon')
     poly.select()
     poly.google_poly.setOptions({
       fillColor: color
@@ -126,8 +128,8 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   displayTerritory: (territory) ->
     color = @nextColor()
-    territory.regions.each (state) =>
-      @displayForSaved(state, color)
+    territory.regions.each (area) =>
+      @displayForSaved(area, color)
     territory.zipcodes.each (zipcode) =>
       @displayForSaved(zipcode, color)
 
@@ -232,8 +234,8 @@ class Mapbadger.Views.MapView extends Backbone.View
     @polygons.add(ply)
     ply
 
-  addHidden: (region) ->
-    ply = @createPoly(region)
+  addHidden: (area) ->
+    ply = @createPoly(area)
     ply.google_poly.setVisible false
 
   addOne: (region) -> 
