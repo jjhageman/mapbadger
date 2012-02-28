@@ -2,7 +2,12 @@ class Mapbadger.Models.Polygon extends Backbone.Model
   initialize: ->
     @setArea(@get('area'))
     @area.set({polygon: this})
-    # @id = @area.id
+
+    if @area instanceof Mapbadger.Models.Region
+      @id = 'r'+@area.id
+    else if @area instanceof Mapbadger.Models.Zipcode
+      @id = 'z'+@area.id
+
     @map = @get('map')
     #@name = @area.get('name')
     #if @region instanceof Mapbadger.Models.Region

@@ -2,7 +2,7 @@ class Mapbadger.Views.MapView extends Backbone.View
   id: 'map-container'
 
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addHidden', 'createPoly', 'addAll', 'render', 'displayForSaved', 'displayForEdit', 'addHeat')
+    _.bindAll(this, 'addOne', 'addHidden', 'createPoly', 'addAll', 'render', 'displayAreaForSaved', 'displayAreaForEdit', 'addHeat')
     @zoom = 4
     @showingZips = false
     @mapTypeId = google.maps.MapTypeId.ROADMAP
@@ -102,23 +102,27 @@ class Mapbadger.Views.MapView extends Backbone.View
       ply.google_poly.setOptions(@unselected_style)
       ply.unSelect()
 
-  displayForEdit: (region) ->
-    # region_id = region.id || region.get("region_id")
-    # poly = @polygons.get(region_id)
-    poly = region.get('polygon')
+  displayAreaForEdit: (area) ->
+    if area instanceof Mapbadger.Models.Region
+      poly = @polygons.get('r'+area.id)
+    else if area instanceof Mapbadger.Models.Zipcode
+      poly = @polygons.get('z'+area.id)
+
     poly.select()
     @selected_polygons.add(poly)
     poly.google_poly.setOptions(@edit_style)
 
   displayTerritoryEdit: (territory) ->
-    territory.regions.each(@displayForEdit)
+    territory.regions.each(@displayAreaForEdit)
     # TODO zoom to zipcodes bounding box
-    territory.zipcodes.each(@displayForEdit)
+    territory.zipcodes.each(@displayAreaForEdit)
 
-  displayForSaved: (region, color) ->
-    # region_id = region.id || region.get("region_id")
-    # poly = @polygons.get(region_id)
-    poly = region.get('polygon')
+  displayAreaForSaved: (area, color) ->
+    if area instanceof Mapbadger.Models.Region
+      poly = @polygons.get('r'+area.id)
+    else if area instanceof Mapbadger.Models.Zipcode
+      poly = @polygons.get('z'+area.id)
+
     poly.select()
     poly.google_poly.setOptions({
       fillColor: color
@@ -128,10 +132,10 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   displayTerritory: (territory) ->
     color = @nextColor()
-    territory.regions.each (area) =>
-      @displayForSaved(area, color)
+    territory.regions.each (region) =>
+      @displayAreaForSaved(region, color)
     territory.zipcodes.each (zipcode) =>
-      @displayForSaved(zipcode, color)
+      @displayAreaForSaved(zipcode, color)
 
   selectRegions: ->
     @markerImg = new google.maps.MarkerImage("rails.png", new google.maps.Size(24,24), new google.maps.Point(0,0), new google.maps.Point(12,12), new google.maps.Size(24,24))
