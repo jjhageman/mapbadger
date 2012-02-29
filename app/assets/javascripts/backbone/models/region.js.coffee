@@ -2,8 +2,6 @@ class Mapbadger.Models.Region extends Backbone.Model
   paramRoot: 'region'
 
   initialize: ->
-    #polygons = new Mapbadger.Collections.PolygonsCollection()
-
     zipcodes = new Mapbadger.Collections.ZipcodesCollection()
     zipcodes.reset(@get('zipcodes'))
     @setZipcodes(zipcodes)

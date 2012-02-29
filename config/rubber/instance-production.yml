@@ -1,5 +1,5 @@
---- 
-- !ruby/object:Rubber::Configuration::InstanceItem 
+---
+- !ruby/object:Rubber::Configuration::InstanceItem
   domain: mapbadger.com
   external_host: ec2-107-21-119-80.compute-1.amazonaws.com
   external_ip: 107.21.119.80
@@ -10,37 +10,31 @@
   internal_ip: 10.245.126.190
   name: beta
   platform: linux
-  roles: 
-  - !ruby/object:Rubber::Configuration::RoleItem 
+  roles:
+  - !ruby/object:Rubber::Configuration::RoleItem
     name: web
     options: {}
-
-  - !ruby/object:Rubber::Configuration::RoleItem 
+  - !ruby/object:Rubber::Configuration::RoleItem
     name: haproxy
     options: {}
-
-  - !ruby/object:Rubber::Configuration::RoleItem 
+  - !ruby/object:Rubber::Configuration::RoleItem
     name: app
     options: {}
-
-  - !ruby/object:Rubber::Configuration::RoleItem 
+  - !ruby/object:Rubber::Configuration::RoleItem
     name: passenger
     options: {}
-
-  - !ruby/object:Rubber::Configuration::RoleItem 
+  - !ruby/object:Rubber::Configuration::RoleItem
     name: apache
     options: {}
-
-  - !ruby/object:Rubber::Configuration::RoleItem 
+  - !ruby/object:Rubber::Configuration::RoleItem
     name: db
-    options: 
+    options:
       primary: true
-  - !ruby/object:Rubber::Configuration::RoleItem 
+  - !ruby/object:Rubber::Configuration::RoleItem
     name: postgresql_master
     options: {}
-
   root_device_type: ebs
-  security_groups: 
+  security_groups:
   - mapbadger_production_default
   - mapbadger_production_web
   - mapbadger_production_beta
@@ -52,6 +46,4 @@
   - mapbadger_production_postgresql_master
   zone: us-east-1c
 - volumes: {}
-
   static_ips: {}
-
