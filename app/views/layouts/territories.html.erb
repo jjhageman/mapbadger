@@ -30,16 +30,9 @@
             </div> <!-- end topbar -->
 
             <div class="container-fluid">
-              <div class="row-fluid">
-                <div class="span3">
-                  <div class="well sidebar">
-                  </div>
-                </div>
-                <div class="span9">
-                  <div class="content">
-                    <%= yield %>
-                  </div>
-                </div>
+              <div class="sidebar"></div>
+              <div class="content">
+                <%= yield %>
               </div>
             </div>
           </body>

@@ -31,6 +31,8 @@ body.map .content { padding: 0; }
   form { padding: 0; }
   ul { padding-left: 25px; }
 }
+.nav > li > a { display: inline }
+#map-interactions .well { padding: 12px 12px 12px 5px; }
 #sidebar-tab-content { padding: 0 15px; }
 #map-container { position: fixed; width: 100%; }
 #map-container .well { margin-bottom: 0; }
@@ -44,7 +46,7 @@ ul#territories {
     cursor: pointer;
     position: relative;
     list-style: none;
-    a {margin: 0 3px 2px 0;}
+    .rep { font-style:italic; }
     span.toggle {
       width: 13px;
       height: 11px;
