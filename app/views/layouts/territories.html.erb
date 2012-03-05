@@ -25,6 +25,12 @@
                     <%= nav_li 'Settings', '#' %>
                     <%= nav_li 'Saved Maps', '#' %>
                   </ul>
+                  <p class="navbar-text pull-right">
+                    <ul class="hmenu">
+                    <%= render 'devise/menu/registration_items' %>
+                    <%= render 'devise/menu/login_items' %>
+                    </ul>
+                  </p>
                 </div>
               </div>
             </div> <!-- end topbar -->
@@ -32,6 +38,8 @@
             <div class="container-fluid">
               <div class="sidebar"></div>
               <div class="content">
+                <p class="notice"><%= notice %></p>
+                <p class="alert"><%= alert %></p>
                 <%= yield %>
               </div>
             </div>

@@ -14,15 +14,22 @@
             <%= csrf_meta_tags %>
           </head>
           <body>
-            <div class="topbar">
-              <div class="fill">
-                <div class="container">
+            <div class="navbar navbar-fixed-top">
+              <div class="navbar-inner">
+                <div class="container-fluid">
                   <%= link_to_unless_current 'MapBadger', root_path, :class => 'brand' %> 
                   <ul class="nav">
-                    <li><%= link_to_unless_current 'Home', territories_path %></li>
-                    <li><%= link_to_unless_current 'Import', import_opportunities_path %></li>
-                    <li><%= link_to 'Settings', '#' %></li>
+                    <%= nav_li 'Home', territories_path %>
+                    <%= nav_li 'Import', import_opportunities_path %>
+                    <%= nav_li 'Settings', '#' %>
+                    <%= nav_li 'Saved Maps', '#' %>
                   </ul>
+                  <p class="navbar-text pull-right">
+                    <ul class="hmenu">
+                    <%= render 'devise/menu/registration_items' %>
+                    <%= render 'devise/menu/login_items' %>
+                    </ul>
+                  </p>
                 </div>
               </div>
             </div> <!-- end topbar -->

@@ -4,6 +4,7 @@ class Territory < ActiveRecord::Base
   has_many :territory_zipcodes, :dependent => :destroy
   has_many :zipcodes, :through => :territory_zipcodes, :include => :geometries
   belongs_to :representative
+  belongs_to :company
   accepts_nested_attributes_for :territory_regions, :allow_destroy => true
   accepts_nested_attributes_for :territory_zipcodes, :allow_destroy => true
 

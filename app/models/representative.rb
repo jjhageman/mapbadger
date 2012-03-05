@@ -2,6 +2,7 @@ require 'csv'
 
 class Representative < ActiveRecord::Base
   has_many :territories
+  belongs_to :company
 
   def self.csv_import(data)
     CSV.parse(data) do |row|

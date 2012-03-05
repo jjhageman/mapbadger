@@ -11,7 +11,34 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120225183629) do
+ActiveRecord::Schema.define(:version => 20120305055406) do
+
+  create_table "companies", :force => true do |t|
+    t.string   "company_name"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "phone"
+    t.integer  "company_size"
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "companies", ["confirmation_token"], :name => "index_companies_on_confirmation_token", :unique => true
+  add_index "companies", ["email"], :name => "index_companies_on_email", :unique => true
+  add_index "companies", ["reset_password_token"], :name => "index_companies_on_reset_password_token", :unique => true
 
   create_table "geometries", :force => true do |t|
     t.text    "polyline"
@@ -35,7 +62,10 @@ ActiveRecord::Schema.define(:version => 20120225183629) do
     t.float    "lat"
     t.float    "lng"
     t.spatial  "location",   :limit => {:srid=>4326, :type=>"point", :geographic=>true}
+    t.integer  "company_id"
   end
+
+  add_index "opportunities", ["company_id"], :name => "index_opportunities_on_company_id"
 
   create_table "regions", :force => true do |t|
     t.string "name"
@@ -47,15 +77,20 @@ ActiveRecord::Schema.define(:version => 20120225183629) do
     t.string   "last_name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "company_id"
   end
+
+  add_index "representatives", ["company_id"], :name => "index_representatives_on_company_id"
 
   create_table "territories", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.integer  "representative_id"
+    t.integer  "company_id"
   end
 
+  add_index "territories", ["company_id"], :name => "index_territories_on_company_id"
   add_index "territories", ["representative_id"], :name => "index_territories_on_representative_id"
 
   create_table "territory_regions", :force => true do |t|

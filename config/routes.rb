@@ -1,5 +1,17 @@
 Mapbadger::Application.routes.draw do
 
+  devise_for :companies
+  devise_scope :company do
+    get "login" => "devise/sessions#new"
+    delete "logout" => "devise/sessions#destroy"
+    get "register" => "devise/registrations#new"
+    get "verification" => "devise/confirmations#new"
+  end
+
+  #get 'signin' => 'devise/sessions#new', :as => :new_company_session
+  #post 'signin' => 'devise/sessions#create', :as => :company_session
+  #delete 'signout' => 'devise/sessions#destroy', :as => :destroy_company_session
+
   resources :representatives do
     collection do
       get 'import'
