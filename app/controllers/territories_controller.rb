@@ -1,4 +1,5 @@
 class TerritoriesController < ApplicationController
+  before_filter :authenticate_company!
   respond_to :html, :json
 
   # GET /territories

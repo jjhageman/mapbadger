@@ -9,9 +9,9 @@ body.map .content { padding: 0; }
   color: #ffffff;
   background-color: #222222;
 }
-.container-fluid, .content, #map-container, #map-canvas { height: 100%; }
-.container-fluid { padding: 0; }
-.container-fluid > .sidebar {
+#map-content.container, .content, #map-container, #map-canvas { height: 100%; }
+#map-content.container { padding: 0 }
+#map-content.container > .sidebar {
   top: 0;
   left: 0;
   position: absolute;

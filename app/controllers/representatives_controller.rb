@@ -1,4 +1,6 @@
 class RepresentativesController < ApplicationController
+  before_filter :authenticate_company!
+
   # GET /representatives
   # GET /representatives.json
   def index

@@ -1,4 +1,6 @@
 class OpportunitiesController < ApplicationController
+  before_filter :authenticate_company!
+
   # GET /opportunities
   # GET /opportunities.json
   def index

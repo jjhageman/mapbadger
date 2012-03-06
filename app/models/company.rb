@@ -10,5 +10,6 @@ class Company < ActiveRecord::Base
          :confirmable, :timeoutable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :company_name, :first_name, :last_name, :phone, :company_size,
+                  :email, :password, :password_confirmation, :remember_me
 end

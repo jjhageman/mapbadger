@@ -1,27 +1,37 @@
 <h2>Sign up today for your free trial</h2>
+<div class="row-fluid">
+  <div class="span8">
+    <div class="well row-fluid">
+      <div class="span7">
+        <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+          <%= devise_error_messages! %>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'well'}) do |f| %>
-  <%= devise_error_messages! %>
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name %>
 
-  <%= f.label :first_name %>
-  <%= f.text_field :first_name %>
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name %>
 
-  <%= f.label :last_name %>
-  <%= f.text_field :last_name %>
+          <%= f.label :company_name %>
+          <%= f.text_field :company_name %><span class="help-inline">(optional)</span>
 
-  <%= f.label :company_name %>
-  <%= f.text_field :company_name %><span class="help-inline">(optional)</span>
+          <%= f.label :email %>
+          <%= f.email_field :email %>
 
-  <%= f.label :email %>
-  <%= f.email_field :email %>
+          <%= f.label :password %>
+          <%= f.password_field :password %>
 
-  <%= f.label :password %>
-  <%= f.password_field :password %>
+          <%= f.label :password_confirmation %>
+          <%= f.password_field :password_confirmation %>
 
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %>
-
-  <div><%= f.submit "Sign up" %></div>
-<% end %>
-
-<%= render "links" %>
+          <div><%= f.submit "Sign up", :class => 'btn' %></div>
+        <% end %>
+      </div>
+      <div class="span4">
+        <p>Get started creating your territories for free.</p>
+        <p>Sign up now and begin optimizing your territories and making your sales team more efficient.</p>
+        <p>Still have questions about Mapbadger? We're happy to answer your questions.</p>
+      </div>
+    </div>
+  </div>
+</div>

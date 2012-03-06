@@ -19,16 +19,12 @@
                 <div class="container-fluid">
                   <%= link_to_unless_current 'MapBadger', root_path, :class => 'brand' %> 
                   <ul class="nav">
-                    <%= nav_li 'Home', territories_path %>
-                    <%= nav_li 'Import', import_opportunities_path %>
-                    <%= nav_li 'Settings', '#' %>
-                    <%= nav_li 'Saved Maps', '#' %>
+                    <%= nav_li 'Pricing', '#' %>
+                    <%= nav_li 'About', '#' %>
                   </ul>
                   <p class="navbar-text pull-right">
-                    <ul class="hmenu">
-                    <%= render 'devise/menu/registration_items' %>
-                    <%= render 'devise/menu/login_items' %>
-                    </ul>
+                    <%= render 'devise/menu/registration_items' unless current_page?(register_path)%>
+                    <%= render 'devise/menu/login_items' unless current_page?(login_path) %>
                   </p>
                 </div>
               </div>
@@ -36,6 +32,8 @@
 
             <div class="container">
               <div class="content">
+                <p class="notice"><%= notice %></p>
+                <p class="alert"><%= alert %></p>
                 <%= yield %>
               </div>
             </div>
