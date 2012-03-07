@@ -4,7 +4,7 @@ class OpportunitiesController < ApplicationController
   # GET /opportunities
   # GET /opportunities.json
   def index
-    @opportunities = Opportunity.all
+    @opportunities = current_company.opportunities
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +15,7 @@ class OpportunitiesController < ApplicationController
   # GET /opportunities/1
   # GET /opportunities/1.json
   def show
-    @opportunity = Opportunity.find(params[:id])
+    @opportunity = current_company.opportunities.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -36,13 +36,13 @@ class OpportunitiesController < ApplicationController
 
   # GET /opportunities/1/edit
   def edit
-    @opportunity = Opportunity.find(params[:id])
+    @opportunity = current_company.opportunities.find(params[:id])
   end
 
   # POST /opportunities
   # POST /opportunities.json
   def create
-    @opportunity = Opportunity.new(params[:opportunity])
+    @opportunity = current_company.opportunities.new(params[:opportunity])
 
     respond_to do |format|
       if @opportunity.save
@@ -68,7 +68,7 @@ class OpportunitiesController < ApplicationController
   # PUT /opportunities/1
   # PUT /opportunities/1.json
   def update
-    @opportunity = Opportunity.find(params[:id])
+    @opportunity = current_company.opportunities.find(params[:id])
 
     respond_to do |format|
       if @opportunity.update_attributes(params[:opportunity])
@@ -84,7 +84,7 @@ class OpportunitiesController < ApplicationController
   # DELETE /opportunities/1
   # DELETE /opportunities/1.json
   def destroy
-    @opportunity = Opportunity.find(params[:id])
+    @opportunity = current_company.opportunities.find(params[:id])
     @opportunity.destroy
 
     respond_to do |format|

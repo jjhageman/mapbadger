@@ -4,7 +4,7 @@ class RepresentativesController < ApplicationController
   # GET /representatives
   # GET /representatives.json
   def index
-    @representatives = Representative.all
+    @representatives = current_company.representatives
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +15,7 @@ class RepresentativesController < ApplicationController
   # GET /representatives/1
   # GET /representatives/1.json
   def show
-    @representative = Representative.find(params[:id])
+    @representative = current_company.representatives.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -36,13 +36,13 @@ class RepresentativesController < ApplicationController
 
   # GET /representatives/1/edit
   def edit
-    @representative = Representative.find(params[:id])
+    @representative = current_company.representatives.find(params[:id])
   end
 
   # POST /representatives
   # POST /representatives.json
   def create
-    @representative = Representative.new(params[:representative])
+    @representative = current_company.representatives.new(params[:representative])
 
     respond_to do |format|
       if @representative.save
@@ -68,7 +68,7 @@ class RepresentativesController < ApplicationController
   # PUT /representatives/1
   # PUT /representatives/1.json
   def update
-    @representative = Representative.find(params[:id])
+    @representative = current_company.representatives.find(params[:id])
 
     respond_to do |format|
       if @representative.update_attributes(params[:representative])
@@ -84,7 +84,7 @@ class RepresentativesController < ApplicationController
   # DELETE /representatives/1
   # DELETE /representatives/1.json
   def destroy
-    @representative = Representative.find(params[:id])
+    @representative = current_company.representatives.find(params[:id])
     @representative.destroy
 
     respond_to do |format|

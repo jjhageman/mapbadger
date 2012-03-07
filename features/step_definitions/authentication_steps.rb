@@ -10,5 +10,18 @@ When /^I fill out the registration form$/ do
 end
 
 Then /^I should see an email confirmation message$/ do
-  page.should have_content 'wenis'
+  page.should have_content 'A message with a confirmation link has been sent to your email address'
+end
+
+Then /^I should receive a confirmation email$/ do
+  unread_emails_for('iris@acme.com').size.should == 1
+end
+
+When /^I follow the email link$/ do
+  open_last_email_for('iris@acme.com')
+  click_email_link_matching /confirm/
+end
+
+Then /^my account should be confirmed$/ do
+  page.should have_content 'Your account was successfully confirmed'
 end

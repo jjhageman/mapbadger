@@ -38,8 +38,9 @@
             <div id="map-content" class="container">
               <div class="sidebar"></div>
               <div class="content">
-                <p class="notice"><%= notice %></p>
-                <p class="alert"><%= alert %></p>
+                <% flash.each do |key, msg| %>
+                  <%= content_tag :p, msg, :class => "flash #{key}" %>
+                <% end %>
                 <%= yield %>
               </div>
             </div>

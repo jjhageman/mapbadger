@@ -5,18 +5,17 @@ class TerritoriesController < ApplicationController
   # GET /territories
   # GET /territories.json
   def index
-    @territories = Territory.all
+    @territories = current_company.territories
     @regions = Region.all_regions
-    @opportunities = Opportunity.all
-    @reps = Representative.all
-    #@zipcodes = Zipcode.all_zipcodes
+    @opportunities = current_company.opportunities
+    @reps = current_company.representatives
     respond_with(@territories)
   end
 
   # GET /territories/1
   # GET /territories/1.json
   def show
-    @territory = Territory.find(params[:id])
+    @territory = current_company.territories.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,7 +36,7 @@ class TerritoriesController < ApplicationController
 
   # GET /territories/1/edit
   def edit
-    @territory = Territory.find(params[:id])
+    @territory = current_company.territories.find(params[:id])
   end
 
   # POST /territories
@@ -54,7 +53,7 @@ class TerritoriesController < ApplicationController
   # PUT /territories/1
   # PUT /territories/1.json
   def update
-    @territory = Territory.find(params[:id])
+    @territory = current_company.territories.find(params[:id])
 
     # hack to determine new and deleted regions
     adjust_region_ids
@@ -70,7 +69,7 @@ class TerritoriesController < ApplicationController
   # DELETE /territories/1
   # DELETE /territories/1.json
   def destroy
-    @territory = Territory.find(params[:id])
+    @territory = current_company.territories.find(params[:id])
     @territory.destroy
 
     respond_to do |format|
