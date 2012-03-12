@@ -42,7 +42,7 @@ class TerritoriesController < ApplicationController
   # POST /territories
   # POST /territories.json
   def create
-    @territory = Territory.new(params[:territory])
+    @territory = current_company.territories.build(params[:territory])
     if @territory.save
       respond_with(@territory)
     else

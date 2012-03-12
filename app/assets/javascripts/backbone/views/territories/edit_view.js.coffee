@@ -51,11 +51,11 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
 
     unless @model.regions.isEmpty()
       view = new Mapbadger.Views.Regions.IndexView(collection: @model.regions)
-      @$("#selected-states").html(view.render().el)
+      @$("#selected-regions").html(view.render().el)
 
     unless @model.zipcodes.isEmpty()
       view = new Mapbadger.Views.Zipcodes.IndexView(collection: @model.zipcodes)
-      @$("#selected-states").html(view.render().el)
+      @$("#selected-regions").html(view.render().el)
 
     @$("form#edit-territory").backboneLink(@model)
     

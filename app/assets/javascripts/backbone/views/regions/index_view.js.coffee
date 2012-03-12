@@ -4,7 +4,7 @@ class Mapbadger.Views.Regions.IndexView extends Backbone.View
   # template: JST["backbone/templates/regions/index"]
   tagName: "ul"
   className: "regions"
-  id: "selected-states"
+  id: "territory-regions"
 
   initialize: () ->
     _.bindAll(this, 'addOne', 'addAll', 'render')

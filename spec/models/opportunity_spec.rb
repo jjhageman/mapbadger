@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Opportunity do
   describe "csv importing" do
+    before(:each) do
+      @company = Factory(:company)
+    end
+
     describe "#csv_geo_import(file)" do
       before(:each) do
         @csv_geo_upload = ActionDispatch::Http::UploadedFile.new({
@@ -15,10 +19,16 @@ describe Opportunity do
         })
       end
 
+      it "should create records for each csv line" do
+        expect {
+          Opportunity.csv_geo_import(@csv_geo_upload.read, @company)
+        }.to change{ @company.opportunities.count }.from(0).to(3)
+      end
+
       it "should create Point date for each csv address line" do
-        Opportunity.csv_geo_import(@csv_geo_upload)
+        Opportunity.csv_geo_import(@csv_geo_upload.read, @company)
         Opportunity.all.each do |o|
-          o.point.should_not be_null
+          o.location.should_not be_nil
         end
       end
     end
@@ -38,7 +48,7 @@ describe Opportunity do
 
       it "should create records for each csv line" do
         expect {
-          Opportunity.csv_import(@csv_upload)
+          Opportunity.csv_import(@csv_upload.read, @company)
         }.to change{ Opportunity.count }.from(0).to(3)
       end
     end

@@ -7,7 +7,7 @@ class Region < ActiveRecord::Base
   end
 
   def as_json(options = nil)
-    super((options || {}).merge(include:{
+    @asjson ||= super((options || {}).merge(include:{
       geometries:{only:[:id,:polyline]},
       zipcodes:{include:{
         geometries:{only:[:id,:polyline]}}}}))

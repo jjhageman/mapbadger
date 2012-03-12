@@ -60,7 +60,7 @@ class RepresentativesController < ApplicationController
   end
 
   def upload
-    Representative.csv_import params[:upload][:csv].read
+    Representative.csv_import params[:upload][:csv].read, current_company
 
     redirect_to representatives_path, notice: 'Your file has been imported.'
   end

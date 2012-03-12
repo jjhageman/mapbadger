@@ -13,8 +13,10 @@ eos
         :tempfile => File.new("#{Rails.root}/spec/fixtures/reps.csv")
       })
 
+      @company = Factory(:company)
+
       expect {
-        Representative.csv_import(csv_upload.read)
+        Representative.csv_import(csv_upload.read, @company)
       }.to change{ Representative.count }.from(0).to(3)
     end
   end

@@ -53,7 +53,7 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
-    $(".sidebar").append(JST["backbone/templates/maps/map_buttons"]())
+    $(".sidebar #new").append(JST["backbone/templates/maps/map_buttons"]())
     $(".sidebar #select-regions").bind("click", @selectRegions)
     $(".sidebar #reset-map").bind("click", @clearSel)
     return this
@@ -204,9 +204,9 @@ class Mapbadger.Views.MapView extends Backbone.View
     @selected_polygons.reset()
 
   refreshList: ->
-    $('#selected-states').empty()
+    $('#selected-regions').find('li').not('.nav-header').remove();
     @selected_polygons.each (poly) =>
-      $('#selected-states').append("<li>"+poly.area.get('name')+"</li>")
+      $('#selected-regions').append("<li class='region'>"+poly.area.get('name')+"</li>")
 
   selectArea: (poly) ->
     if poly.isSelected()

@@ -5,8 +5,7 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   
   events:
     "click .toggle" : "toggleRegion"
-    "click .territory" : "editTerritory"
-    "hover .territory" : "toggleEdit"
+    "click .edit" : "editTerritory"
       
   tagName: "li"
 
@@ -21,7 +20,8 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
     @$(".edit").toggleClass("show")
 
   toggleRegion: ->
-    @$(".toggle").toggleClass("minus")
+    @$(".toggle i").toggleClass("icon-plus-sign")
+    @$(".toggle i").toggleClass("icon-minus-sign")
     @$(".regions").slideToggle(500)
   
     

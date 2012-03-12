@@ -4,11 +4,11 @@ Feature: Manage rep data
   I want to import and manage sales reps
 
   Scenario: Import rep CSV
-    Given a logged in user
+    Given I am logged in
     When I upload a rep CSV file
     Then I should see the rep CSV data table
 
   Scenario: User adds rep
-    Given a logged in user
+    Given I am logged in
     When I create a new rep
     Then I should see the rep's details

@@ -1,24 +1,21 @@
-<ul class="tabs">
+<h1>New representatives</h1>
+
+<ul class="nav nav-tabs">
   <%= tab_li 'Opportunities', import_opportunities_path %>
   <%= tab_li 'Teams', import_representatives_path %>
 </ul>
-
-<h1>New representatives</h1>
-
-<%= form_for :upload do |f| %>
-  <fieldset>
-    <legend>Representatives File Import</legend>
-    <div class="clearfix">
-      <%= f.label :csv, 'CSV File' %>
-      <div class="input">
-        <%= f.file_field :csv, :class => 'input-file' %>
+<div class="well">
+  <%= form_for :upload do |f| %>
+    <fieldset>
+      <legend>Representatives File Import</legend>
+      <%= f.file_field :csv, :class => 'input-file' %>
+      <p class="help-block">Only .CSV files with the following columns: FirstName, LastName</p>
+      <div class="form-actions">
+        <%= f.submit 'Import', :class => 'btn btn-primary' %>
       </div>
-    </div>
-    <div class="actions">
-      <%= f.submit 'Import', :class => 'btn primary' %>
-    </div>
-  </fieldset>
-<% end %>
-<hr />
-<%= render 'form' %>
-
+    </fieldset>
+  <% end %>
+</div>
+<div class="well">
+  <%= render 'form' %>
+</div>

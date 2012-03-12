@@ -1,15 +1,11 @@
 <h3>Edit territory</h3>
 
-<form id="edit-territory" name="territory" class="form-stacked">
-  <div class="clearfix">
-    <div class="input">
-      <input type="text" name="name" id="name" value=<%= name %> >
-    </div>
-  </div>
+<form id="edit-territory" name="territory" class="well">
+  <input type="text" name="name" id="name" value=<%= name %> >
 
-  <ul id="selected-states"></ul>
+  <ul id="selected-regions"></ul>
 
-  <div class="actions">
+  <div class="form-actions">
     <input type="submit" value="Update Territory" class="btn" />
     <a class="btn" data-controls-modal="assign-rep-form"
 data-backdrop="true" data-keyboard="true">Assign Territory</a>

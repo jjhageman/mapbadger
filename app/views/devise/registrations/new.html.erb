@@ -24,7 +24,9 @@
           <%= f.label :password_confirmation %>
           <%= f.password_field :password_confirmation %>
 
-          <div><%= f.submit "Sign up", :class => 'btn' %></div>
+          <div class="form-actions">
+            <%= f.submit "Sign up", :class => 'btn btn-primary' %>
+          </div>
         <% end %>
       </div>
       <div class="span4">

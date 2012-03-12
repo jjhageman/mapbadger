@@ -1,5 +1,9 @@
 <% if company_signed_in? %>
+  <li>
   <%= link_to('Edit registration', edit_company_registration_path) %>
+  </li>
 <% else %>
+  <li>
   <%= link_to('Register', register_path)  %>
+  </li>
 <% end %>

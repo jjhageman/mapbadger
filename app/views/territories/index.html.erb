@@ -2,10 +2,9 @@
   $(function() {
       window.router = new Mapbadger.Routers.TerritoriesRouter(
         { territories: <%= @territories.to_json.html_safe -%>,
-          regions: <%= @regions.to_json.html_safe -%>,
+        <% cache do %>regions: <%= @regions.to_json.html_safe -%><% end %>,
           opportunities: <%= @opportunities.to_json.html_safe -%>,
-          reps: <%= @reps.to_json.html_safe -%>,
-          zipcodes: <%= @zipcodes.to_json.html_safe -%>
+          reps: <%= @reps.to_json.html_safe -%>
         });
       Backbone.history.start({root: "/territories/"});
   });
