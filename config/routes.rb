@@ -33,6 +33,7 @@ Mapbadger::Application.routes.draw do
   resources :regions
   resources :geometries
 
+  match '/welcome' => "territories#index", :as => :company_root
   get '/' => 'home#index', :as => :notifications
   post '/' => 'home#create', :as => :notification
   root :to => 'home#index'
