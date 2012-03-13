@@ -1,113 +1,120 @@
 <!doctype html>
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<head>
-  <meta name="description" content="Building tools to make selling easier" />
-  <meta name="keywords" content="territory mapping,maps,sales,sales ops, saleforce effectiveness" />
-  <meta name="author" content="Hege Refsnes" />
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>MapBadger</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-  <link rel="icon" type="image/png" HREF="/favi.png">
-  <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
-  <%= stylesheet_link_tag "home/base", "home/home" %>
-</head>
-<body>
-<div class="container">
-  <div class="content">
-    <% flash.each do |key, msg| %>
-      <%= content_tag :p, msg, :class => "flash #{key}" %>
-    <% end %>
-    <div class="page-header">
-      <a id="beta" class="btn small primary" data-controls-modal="modal-from-dom" data-backdrop="true">Sign up for beta</a>
-      <h1>MapBadger</h1>
-    </div>
-    <div id="email-form" class="row">
-      <div class="span5">
-        <img class="thumbnail" src="assets/cloud-territory-map.jpg" alt="">
-      </div>
-      <div class="span8">
-        <h2>Cloud based territory mapping</h2>
-        <h4>Leverage web based mapping to effectively create territories and assign them to your sales force.</h4>
-        <form id="contact" name="contact" action="index.php" method="post">
-          <div class="clearfix">
-            <input type="text" id="email" class="xlarge" name="email" value="Email Address" onClick="this.value=''" onBlur="if(!this.value)this.value='Email Address';" onFocus="if(this.value=='Email Address')this.value='';"/>
-            <input class="btn" id="submit" name="submit" value="Sign Up" type="submit" />
-            <input type="hidden" id="action" name="action" value="submitform" />
+  <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+    <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+      <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+        <head>
+          <meta name="description" content="Building tools to make selling easier" />
+          <meta name="keywords" content="territory mapping,maps,sales,sales ops, saleforce effectiveness" />
+          <meta name="author" content="Hege Refsnes" />
+          <meta charset="utf-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+          <title>MapBadger</title>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+          <script src="assets/bootstrap-modal.js"></script>
+          <link rel="icon" type="image/png" HREF="/favi.png">
+          <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
+          <%= stylesheet_link_tag "home/base", "home/home" %>
+        </head>
+        <body>
+          <div class="container">
+            <div class="content">
+              <% flash.each do |key, msg| %>
+                <%= content_tag :p, msg, :class => "flash #{key}" %>
+              <% end %>
+              <div class="page-header">
+                <a id="beta" class="btn small primary" data-controls-modal="modal-from-dom" data-backdrop="true">Sign up for beta</a>
+                <h1>MapBadger</h1>
+              </div>
+              <div id="email-form" class="row">
+                <div class="span5">
+                  <img class="thumbnail" src="assets/cloud-territory-map.jpg" alt="">
+                </div>
+                <div class="span8">
+                  <h2>Cloud based territory mapping</h2>
+                  <h4>Leverage web based mapping to effectively create territories and assign them to your sales force.</h4>
+                  <%= form_for @notification do |f| %>
+                    <%= render "shared/error_messages", :target => @notification %>
+                    <div class="clearfix">
+                      <%= f.text_field :email,
+                        :class => 'xlarge',
+                        :value => 'Email Address',
+                        :onclick => "this.value=''",
+                        :onblur => "if(!this.value)this.value='Email Address';",
+                        :onfocus => "if(this.value=='Email Address')this.value='';"
+                      %>
+                    <%= f.submit 'Sign Up', :class => 'btn' %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div id="visualize" class="row">
+              <div class="span4">
+                <img class="thumbnail" src="assets/visualize-sales-team.gif" alt="">
+              </div>
+              <div class="span9">
+                <h2>Visualize your team</h2>
+                <h4>Stop using spreadsheets and lists and start visualizing your team based on logical mapping and territory distribution.</h4>
+              </div>
+            </div>
+            <div id="optimize" class="row">
+              <div class="span9">
+                <h2>Optimize your coverage</h2>
+                <h4>Use real data to logically view, split, and manage territories so as to yield maximum sales efficiency.</h4>
+              </div>
+              <div class="span4">
+                <img class="thumbnail" src="assets/optimize-sales-efficiency.gif" alt="">
+              </div>
+            </div>
           </div>
-        </form>
-      </div>
-    </div>
-    <div id="visualize" class="row">
-      <div class="span4">
-        <img class="thumbnail" src="assets/visualize-sales-team.gif" alt="">
-      </div>
-      <div class="span9">
-        <h2>Visualize your team</h2>
-        <h4>Stop using spreadsheets and lists and start visualizing your team based on logical mapping and territory distribution.</h4>
-      </div>
-    </div>
-    <div id="optimize" class="row">
-      <div class="span9">
-        <h2>Optimize your coverage</h2>
-        <h4>Use real data to logically view, split, and manage territories so as to yield maximum sales efficiency.</h4>
-      </div>
-      <div class="span4">
-        <img class="thumbnail" src="assets/optimize-sales-efficiency.gif" alt="">
-      </div>
-    </div>
-  </div>
-  <div id="execute" class="row">
-    <div class="span4">
-      <img class="thumbnail" src="assets/sales-strategy.gif" alt="">
-    </div>
-    <div class="span9">
-      <h2>Execute your strategy</h2>
-      <h4>Your team is only as good as your ability to execute and follow through. Use all the tools at your disposal to make it happen.</h4>
-    </div>
-  </div>
-  <div id="features" class="row">
-    <h2>Features&hellip;Features&hellip;and more Features!</h2>
-    <h4>
-      We're building some more cool features - let us know what you need!
-      <a href="mailto:hello@mapbadger.com" class="btn small primary">Feedback</a>
-    </h4>
-  </div>
-</div>
-<footer>
-  <div class="container">
-    <ul>
-      <li>Copyright 2011</li><li><a href="http://www.mapbadger.com/blog" target="_blank">Blog</a></li><li><a href="http://twitter.com/#!/mapbadger" target="_blank">Follow us on Twitter</a></li><li><a href="mailto:hello@mapbadger.com">Contact Us</a></li><li><a href="http://bit.ly/nnJ5Wc" target="_blank">Industry Survey</a></li>
-    </ul>
-  </div>
-</footer>
-<div id="modal-from-dom" class="modal hide fade" style="display: none; ">
-  <div class="modal-header">
-    <a href="#" class="close">×</a>
-    <h3>Free Trial</h3>
-  </div>
-  <div class="modal-body">
-    <p>Thanks for your interest in the free trial.</p>
-    <p>To qualify, fill out this <a href="http://bit.ly/nnJ5Wc" target="_blank">survey</a> and you will be credited for a free trial.</p>
-    <p>Thanks for visiting MapBadger and feel free to drop us a line!</p>
-  </div>
-  <div class="modal-footer"></div>
-</div>
-<script type="text/javascript">
+          <div id="execute" class="row">
+            <div class="span4">
+              <img class="thumbnail" src="assets/sales-strategy.gif" alt="">
+            </div>
+            <div class="span9">
+              <h2>Execute your strategy</h2>
+              <h4>Your team is only as good as your ability to execute and follow through. Use all the tools at your disposal to make it happen.</h4>
+            </div>
+          </div>
+          <div id="features" class="row">
+            <h2>Features&hellip;Features&hellip;and more Features!</h2>
+            <h4>
+              We're building some more cool features - let us know what you need!
+              <a href="mailto:hello@mapbadger.com" class="btn small primary">Feedback</a>
+            </h4>
+          </div>
+        </div>
+        <footer>
+        <div class="container">
+          <ul>
+            <li>Copyright 2011</li><li><a href="http://www.mapbadger.com/blog" target="_blank">Blog</a></li><li><a href="http://twitter.com/#!/mapbadger" target="_blank">Follow us on Twitter</a></li><li><a href="mailto:hello@mapbadger.com">Contact Us</a></li><li><a href="http://bit.ly/nnJ5Wc" target="_blank">Industry Survey</a></li>
+          </ul>
+        </div>
+        </footer>
+        <div id="modal-from-dom" class="modal hide fade" style="display: none; ">
+          <div class="modal-header">
+            <a href="#" class="close">×</a>
+            <h3>Free Trial</h3>
+          </div>
+          <div class="modal-body">
+            <p>Thanks for your interest in the free trial.</p>
+            <p>To qualify, fill out this <a href="http://bit.ly/nnJ5Wc" target="_blank">survey</a> and you will be credited for a free trial.</p>
+            <p>Thanks for visiting MapBadger and feel free to drop us a line!</p>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+        <script type="text/javascript">
 
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-26482446-1']);
-_gaq.push(['_trackPageview']);
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-26482446-1']);
+          _gaq.push(['_trackPageview']);
 
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+          (function() {
+           var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+           ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+           })();
 
-</script>
-</body>
-</html>
+         </script>
+       </body>
+     </html>

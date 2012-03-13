@@ -39,7 +39,31 @@ footer ul li a:hover { color: #1D8D1D; text-decoration: underline; }
   -moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
+.error { color: red; }
 .notice {
 	background: #ccfaff url(../images/bg_notice.jpg) 20px 50% no-repeat;
 	border: 2px solid #66aaff;
 }
+#errorExplanation {
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 10px;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 0 0 0 15px;
+  font-size: 12px;
+  margin: -7px;
+  margin-bottom: 0px;
+  color: red;
+}
+
+#errorExplanation ul { margin: 0; }
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+  color: #fff;
+}
+.field_with_errors { display: inline-block; }
