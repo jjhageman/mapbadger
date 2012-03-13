@@ -73,9 +73,9 @@ class Mapbadger.Views.MapView extends Backbone.View
     @addHeat()
     google.maps.event.addListener @map, 'zoom_changed', (event) =>
       zoomLevel = @map.getZoom()
-      if not @showingZips and zoomLevel >= 8
+      if not @showingZips and zoomLevel >= 10
         @showZips()
-      else if @showingZips and zoomLevel < 8
+      else if @showingZips and zoomLevel < 10
         @hideZips()
     return
 
