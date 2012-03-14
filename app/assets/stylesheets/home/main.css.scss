@@ -30,7 +30,7 @@ footer ul li a { color: #FFFFFF }
 footer ul li a:hover { color: #1D8D1D; text-decoration: underline; }
 /*** Notice styles ***/
 .flash {
-  color: #323232;
+  color: #66aaff;
   height: 38px;
   line-height: 38px;
   padding: 0 0 0 55px;
@@ -40,10 +40,7 @@ footer ul li a:hover { color: #1D8D1D; text-decoration: underline; }
 	-webkit-border-radius: 5px;
 }
 .error { color: red; }
-.notice {
-	background: #ccfaff url(../images/bg_notice.jpg) 20px 50% no-repeat;
-	border: 2px solid #66aaff;
-}
+.notice {}
 #errorExplanation {
   padding: 7px;
   padding-bottom: 0;

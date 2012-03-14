@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  include CacheableFlash
+
   caches_page :index
   def index
     @notification = Notification.new
