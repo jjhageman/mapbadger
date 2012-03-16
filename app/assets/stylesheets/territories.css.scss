@@ -31,7 +31,7 @@ body.map .content { padding: 0; }
   form { padding: 0; }
   ul { padding-left: 25px; }
 }
-#map-interactions .well { padding: 12px 12px 12px 5px; }
+#map-interactions .well { padding: 12px 5px; }
 ul#selected-regions {
   margin: 0; padding: 5px 5px 5px 0;
   li.region { padding-left: 8px; color: #0088CC; }
@@ -43,18 +43,23 @@ ul#selected-regions {
 select#available-reps { height: auto; }
 [class^="icon-"],[class*=" icon-"]{background-image:url(image-path("glyphicons-halflings.png"))}
 ul#territories { 
+  font-size: 12px;
   margin: 0; padding: 5px 5px 5px 0;
+  .active {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+    background-color: #0088cc;
+  }
   li {
     margin: 1px;
-    padding: 3px 5px;
+    padding: 3px 0;
     cursor: pointer;
     position: relative;
     list-style: none;
+    .header { padding: 3px 8px 3px 0; }
     a.toggle { display: inline-block; padding: 0; margin: 0; }
-    .rep { font-style:italic; }
-    span.minus {background-position:0 -11px;}
+    span.rep { font-style:italic; font-size: 11px;}
     a.edit { float: right; font-style: italic; text-decoration: underline; padding: 0;}
-    span.show {display: inline;}
     ul {
       margin:0; padding:0 0 5px 21px;
       li {padding:0 5px;}

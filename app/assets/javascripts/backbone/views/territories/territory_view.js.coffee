@@ -13,6 +13,12 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
     @map = @options.map
     @parentView = @options.parent
 
+  activate: ->
+    @$(".header").addClass("active")
+
+  deactivate: ->
+    @$(".header").removeClass("active")
+
   editTerritory: ->
     @parentView.renderEditTerritory(@model)
 
@@ -20,10 +26,15 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
     @$(".edit").toggleClass("show")
 
   toggleRegion: ->
+    @parentView.toggleTerritory(@)
     @$(".toggle i").toggleClass("icon-plus-sign")
     @$(".toggle i").toggleClass("icon-minus-sign")
     @$(".regions").slideToggle(500)
   
+  close: ->
+    @$("toggle i").addClass("icon-plus-sign")
+    @$("toggle i").addClass("icon-minus-sign")
+    @$(".regions").slideUp(250)
     
   render: ->
     $(@el).html(@template(@model.toJSON() ))

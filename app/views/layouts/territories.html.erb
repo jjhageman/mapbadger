@@ -33,13 +33,15 @@
               </div>
             </div> <!-- end topbar -->
 
-            <div id="map-content" class="container">
-              <div class="sidebar"></div>
-              <div class="content">
-                <% flash.each do |key, msg| %>
-                  <%= content_tag :p, msg, :class => "flash #{key}" %>
-                <% end %>
-                <%= yield %>
+            <div id="map-content" class="container-fluid">
+              <div class="row-fluid">
+                <div id="sidebar" class="span2"></div>
+                <div id="content" class="span10">
+                  <% flash.each do |key, msg| %>
+                    <%= content_tag :p, msg, :class => "flash #{key}" %>
+                  <% end %>
+                  <%= yield %>
+                </div>
               </div>
             </div>
           </body>

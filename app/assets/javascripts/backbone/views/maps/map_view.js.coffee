@@ -53,9 +53,9 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
-    $(".sidebar #new").append(JST["backbone/templates/maps/map_buttons"]())
-    $(".sidebar #select-regions").bind("click", @selectRegions)
-    $(".sidebar #reset-map").bind("click", @clearSel)
+    $("#sidebar #new").append(JST["backbone/templates/maps/map_buttons"]())
+    $("#sidebar #select-regions").bind("click", @selectRegions)
+    $("#sidebar #reset-map").bind("click", @clearSel)
     return this
 
   nextColor: ->
