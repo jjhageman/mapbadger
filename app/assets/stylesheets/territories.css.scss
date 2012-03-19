@@ -1,6 +1,6 @@
 html { height: 100% }
-body { height: 100%; margin: 0px; padding: 0px }
-body.map .content { padding: 0; }
+body { height: 100%; margin: 0px; padding: 60px 0 40px; }
+/*body.map .content { padding: 0; }*/
 .navbar .nav > li.current {
   padding: 10px 10px 11px;
   line-height: 19px;
@@ -9,35 +9,42 @@ body.map .content { padding: 0; }
   color: #ffffff;
   background-color: #222222;
 }
-#map-content.container, .content, #map-container, #map-canvas { height: 100%; }
-#map-content.container { padding: 0 }
-#map-content.container > .sidebar {
-  top: 0;
-  left: 0;
-  position: absolute;
-  width: 240px;
-  height: 100%
+#map-content.container-fluid, #map-content > div.row-fluid, #content, #map-canvas { height: 100%; }
+#map-container #territory-data { width: 98% }
+#map-container { height: 450px; }
+#map-content.container-fluid { padding: 0 }
+#territory-data { margin: 10px 0; }
+/*#map-content.container > .sidebar {*/
+  /*top: 0;*/
+  /*left: 0;*/
+  /*position: absolute;*/
+  /*width: 240px;*/
+  /*height: 100%*/
+/*}*/
+#sidebar {
+  #saved, #new { min-height: 150px; }
 }
-.sidebar, .content { margin-top: 40px; }
-.sidebar {
-  z-index: 2; 
-  border: 1px solid #ccc;
-  background: rgba(248,248,248, 0.9);
-  -webkit-box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);
-  -moz-box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);
-  box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);
-  position: relative;
-  padding: 0 2px 0 5px;
-  form { padding: 0; }
-  ul { padding-left: 25px; }
-}
+/*.sidebar, .content { margin-top: 40px; }*/
+/*.sidebar {*/
+  /*z-index: 2; */
+  /*border: 1px solid #ccc;*/
+  /*background: rgba(248,248,248, 0.9);*/
+  /*-webkit-box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);*/
+  /*-moz-box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);*/
+  /*box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);*/
+  /*position: relative;*/
+  /*padding: 0 2px 0 5px;*/
+  /*form { padding: 0; }*/
+  /*ul { padding-left: 25px; }*/
+/*}*/
 #map-interactions .well { padding: 12px 5px; }
 ul#selected-regions {
   margin: 0; padding: 5px 5px 5px 0;
   li.region { padding-left: 8px; color: #0088CC; }
 }
 #sidebar-tab-content { padding: 0 15px; }
-#map-container { position: fixed; width: 100%; }
+#map-canvas { height: 100%; }
+/*#map-container { position: fixed; width: 100%; }*/
 #map-container .well { margin-bottom: 0; }
 #map-buttons { position: absolute; bottom: 30px; }
 select#available-reps { height: auto; }

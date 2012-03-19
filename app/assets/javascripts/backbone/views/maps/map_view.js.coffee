@@ -70,7 +70,7 @@ class Mapbadger.Views.MapView extends Backbone.View
     @map.fitBounds(@usBnds)
     @heatmap = new HeatmapOverlay(@map, {"radius":25, "visible":true, "opacity":60})
     @addAll()
-    @addHeat()
+    #@addHeat()
     google.maps.event.addListener @map, 'zoom_changed', (event) =>
       zoomLevel = @map.getZoom()
       if not @showingZips and zoomLevel >= 10

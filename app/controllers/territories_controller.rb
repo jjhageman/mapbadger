@@ -78,6 +78,12 @@ class TerritoriesController < ApplicationController
     end
   end
 
+  def territory_opportunities
+    territory = current_company.territories.find(params[:territory_id])
+    @oportunities = territory.opportunities
+    respond_with(@opportunities)
+  end
+
   def adjust_zipcode_ids
     tz = params.fetch(:territory, {}).fetch(:territory_zipcodes_attributes, nil)
     return unless tz

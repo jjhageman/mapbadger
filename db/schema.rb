@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120313063126) do
+ActiveRecord::Schema.define(:version => 20120319011304) do
 
   create_table "companies", :force => true do |t|
     t.string   "company_name"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20120313063126) do
     t.spatial "area",       :limit => {:srid=>3785, :type=>"polygon"}
   end
 
+  add_index "geometries", ["area"], :name => "index_geometries_on_area", :spatial => true
   add_index "geometries", ["region_id"], :name => "index_geometries_on_region_id"
   add_index "geometries", ["zipcode_id"], :name => "index_geometries_on_zipcode_id"
 
@@ -63,15 +64,16 @@ ActiveRecord::Schema.define(:version => 20120313063126) do
     t.string   "city"
     t.string   "state"
     t.string   "zipcode"
-    t.datetime "created_at",                                                             :null => false
-    t.datetime "updated_at",                                                             :null => false
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
     t.float    "lat"
     t.float    "lng"
-    t.spatial  "location",   :limit => {:srid=>4326, :type=>"point", :geographic=>true}
     t.integer  "company_id"
+    t.spatial  "location",   :limit => {:srid=>3785, :type=>"point"}
   end
 
   add_index "opportunities", ["company_id"], :name => "index_opportunities_on_company_id"
+  add_index "opportunities", ["location"], :name => "index_opportunities_on_location", :spatial => true
 
   create_table "regions", :force => true do |t|
     t.string "name"

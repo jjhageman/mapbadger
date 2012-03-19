@@ -1,6 +1,41 @@
 require 'spec_helper'
 
 describe Opportunity do
+  describe "callbacks" do
+    before(:each) do
+      @opportunity = Opportunity.new
+    end
+
+    describe ".lat_lng_changed_but_not_location?" do
+      it "should return false when location has been changed" do
+        point = Opportunity::FACTORY.point(-118.0026061167,34.1404514885).projection
+        @opportunity.lat = 18
+        @opportunity.location = point
+        @opportunity.lat_lng_changed_but_not_location?.should be_false
+      end
+
+      it "should return true when lat or lng has changed and location has not" do
+        @opportunity.lat = 18
+        @opportunity.lat_lng_changed_but_not_location?.should be_true
+      end
+    end
+
+    describe ".location_changed_but_not_lat_lng?" do
+      it "should return true when location has been changed and lat and lng remain unchanged" do
+        point = Opportunity::FACTORY.point(-118.0026061167,34.1404514885).projection
+        @opportunity.location = point
+        @opportunity.location_changed_but_not_lat_lng?.should be_true
+      end
+
+      it "should return false when lat or lng has changed" do
+        point = Opportunity::FACTORY.point(-118.0026061167,34.1404514885).projection
+        @opportunity.location = point
+        @opportunity.lat = 18
+        @opportunity.location_changed_but_not_lat_lng?.should be_false
+      end
+    end
+  end
+
   describe "csv importing" do
     before(:each) do
       @company = Factory(:company)

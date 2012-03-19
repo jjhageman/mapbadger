@@ -17,10 +17,19 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
   toggleTerritory: (territoryView) ->
     territoryView.activate()
     @deactivateTerritory view for view in @territoryViews when view isnt territoryView
+    @displayTerritoryData(territoryView.model)
 
   deactivateTerritory: (view) ->
     view.close()
     view.deactivate()
+    
+  displayTerritoryData: (territory) ->
+    $.ajax({
+      url: 'territory_opportunities.json'
+      data: "territory_id=#{territory.id}"
+      success: (opportunities) =>
+        territory.setOpportunities(opportunities)
+    })
 
   addAll: () ->
     @options.territories.each(@addOne)
@@ -42,6 +51,9 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     $(@el).html(@template)
     @addAll()
     
+  renderTerritoryData: ->
+    $("#content").append(JST["backbone/templates/territories/territory_data"]())
+
   renderSidebar: ->
     @map.clearTerritories()
     $(@el).html(@template)
@@ -50,4 +62,5 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
   render: ->
     $(@el).html(@template)
     @addAll()
+    @renderTerritoryData()
     return this

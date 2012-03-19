@@ -6,6 +6,10 @@ class Region < ActiveRecord::Base
     @regions ||= Region.includes([{:zipcodes => :geometries}, :geometries]).all
   end
 
+  def opportunities
+    Opportunity.joins("INNER JOIN geometries ON geometries.id IN (#{geometry_ids.join(',')}) AND st_contains(geometries.area, opportunities.location)").all
+  end
+
   def as_json(options = nil)
     @asjson ||= super((options || {}).merge(include:{
       geometries:{only:[:id,:polyline]},

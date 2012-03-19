@@ -12,6 +12,7 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   initialize: () ->
     @map = @options.map
     @parentView = @options.parent
+    @model.opportunities.bind('add', @addOpportunity)
 
   activate: ->
     @$(".header").addClass("active")

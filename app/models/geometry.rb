@@ -21,6 +21,10 @@ class Geometry < ActiveRecord::Base
     where("area && '#{sw.x},#{sw.y},#{ne.x},#{ne.y}'::box")
   end
 
+  def opportunities
+    Opportunity.joins("INNER JOIN geometries ON geometries.id=#{id} AND st_contains(geometries.area, opportunities.location)").all
+  end
+
   def loc_geographic
     FACTORY.unproject(self.area)
   end

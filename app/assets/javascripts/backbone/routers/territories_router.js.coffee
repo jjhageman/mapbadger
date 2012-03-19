@@ -26,7 +26,7 @@ class Mapbadger.Routers.TerritoriesRouter extends Backbone.Router
     $("#territories").html(@view.render().el)
 
   index: ->
-    $("#content").html(@map.render().el)
+    $("#content").append(@map.render().el)
     @map.renderMap()
     @view = new Mapbadger.Views.Territories.IndexView(territories: @territories, regions: @regions, map: @map, reps: @reps)
     $("#sidebar").prepend(@view.render().el)

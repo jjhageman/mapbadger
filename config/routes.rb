@@ -27,6 +27,7 @@ Mapbadger::Application.routes.draw do
   end
 
   match 'import' => 'opportunities#import'
+  match 'territory_opportunities' => 'territories#territory_opportunities'
 
   resources :territories
   resources :zipcodes
