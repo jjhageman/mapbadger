@@ -28,7 +28,7 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
       url: 'territory_opportunities.json'
       data: "territory_id=#{territory.id}"
       success: (opportunities) =>
-        territory.setOpportunities(opportunities)
+        territory.opportunities.reset(opportunities)
     })
 
   addAll: () ->

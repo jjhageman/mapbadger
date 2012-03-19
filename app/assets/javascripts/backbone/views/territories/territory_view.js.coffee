@@ -12,13 +12,20 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   initialize: () ->
     @map = @options.map
     @parentView = @options.parent
-    @model.opportunities.bind('add', @addOpportunity)
+    @model.opportunities.bind('add', @showOpportunityData)
+    @model.opportunities.bind('reset', @showOpportunityData)
+    @model.opportunities.bind('remove', @showOpportunityData)
 
   activate: ->
     @$(".header").addClass("active")
 
   deactivate: ->
     @$(".header").removeClass("active")
+
+  showOpportunityData: ->
+    view = new Mapbadger.Views.Opportunities.IndexView(collection: @)
+    $("#opportunity-count").html("Number of records: "+@.length)
+    $("#territory-data table tbody").replaceWith(view.render().el)
 
   editTerritory: ->
     @parentView.renderEditTerritory(@model)

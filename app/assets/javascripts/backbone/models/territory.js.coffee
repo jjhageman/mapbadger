@@ -11,6 +11,8 @@ class Mapbadger.Models.Territory extends Backbone.Model
     @setZipcodes(zipcodes)
 
     opportunities = new Mapbadger.Collections.OpportunitiesCollection()
+    opportunities.reset()
+    @setOpportunities(opportunities)
 
     @setRep(new Mapbadger.Models.Representative(@get('representative'))) if @has('representative')
 

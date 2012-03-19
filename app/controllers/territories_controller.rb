@@ -80,7 +80,7 @@ class TerritoriesController < ApplicationController
 
   def territory_opportunities
     territory = current_company.territories.find(params[:territory_id])
-    @oportunities = territory.opportunities
+    @opportunities = territory.opportunities
     respond_with(@opportunities)
   end
 
