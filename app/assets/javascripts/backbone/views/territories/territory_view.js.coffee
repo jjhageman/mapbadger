@@ -10,22 +10,33 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   tagName: "li"
 
   initialize: () ->
+    _.bindAll(this, 'isSelected', 'select', 'unSelect', 'showOpportunityData', 'close')
     @map = @options.map
     @parentView = @options.parent
     @model.opportunities.bind('add', @showOpportunityData)
     @model.opportunities.bind('reset', @showOpportunityData)
     @model.opportunities.bind('remove', @showOpportunityData)
+    @selected = false
 
-  activate: ->
+  isSelected: ->
+    @selected
+
+  select: ->
     @$(".header").addClass("active")
+    @selected = true
 
-  deactivate: ->
+  unSelect: ->
     @$(".header").removeClass("active")
+    @selected = false
 
   showOpportunityData: ->
-    view = new Mapbadger.Views.Opportunities.IndexView(collection: @)
-    $("#opportunity-count").html("Number of records: "+@.length)
-    $("#territory-data table tbody").replaceWith(view.render().el)
+    if @model.opportunities.length > 0
+      view = new Mapbadger.Views.Opportunities.IndexView(collection: @model.opportunities)
+      $("#opportunity-count").html("Number of records: "+@model.opportunities.length)
+      $("#territory-data table tbody").replaceWith(view.render().el)
+    else
+      $("#opportunity-count").empty()
+      $("#territory-data table tbody").html('<tr><td colspan="5">No sales opportunities in this territory.</td></tr>')
 
   editTerritory: ->
     @parentView.renderEditTerritory(@model)

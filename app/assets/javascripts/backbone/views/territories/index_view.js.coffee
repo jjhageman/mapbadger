@@ -15,13 +15,14 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     @territoryViews = []
    
   toggleTerritory: (territoryView) ->
-    territoryView.activate()
-    @deactivateTerritory view for view in @territoryViews when view isnt territoryView
-    @displayTerritoryData(territoryView.model)
+    unless territoryView.isSelected()
+      @deactivateTerritory view for view in @territoryViews when view isnt territoryView
+      territoryView.select()
+      @displayTerritoryData(territoryView.model)
 
   deactivateTerritory: (view) ->
     view.close()
-    view.deactivate()
+    view.unSelect()
     
   displayTerritoryData: (territory) ->
     $.ajax({
@@ -63,4 +64,6 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     $(@el).html(@template)
     @addAll()
     @renderTerritoryData()
+    #$("#sidebar #select-regions").bind("click", @selectRegions)
+    @$("#reset-map").bind("click", @map.clearSel)
     return this

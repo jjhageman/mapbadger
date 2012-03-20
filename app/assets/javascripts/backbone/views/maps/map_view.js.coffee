@@ -2,7 +2,7 @@ class Mapbadger.Views.MapView extends Backbone.View
   id: 'map-container'
 
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addHidden', 'createPoly', 'addAll', 'render', 'displayAreaForSaved', 'displayAreaForEdit', 'addHeat')
+    _.bindAll(this, 'addOne', 'addHidden', 'createPoly', 'clearSel', 'addAll', 'render', 'displayAreaForSaved', 'displayAreaForEdit', 'addHeat')
     @zoom = 4
     @showingZips = false
     @mapTypeId = google.maps.MapTypeId.ROADMAP
@@ -53,9 +53,6 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
-    $("#sidebar #new").append(JST["backbone/templates/maps/map_buttons"]())
-    $("#sidebar #select-regions").bind("click", @selectRegions)
-    $("#sidebar #reset-map").bind("click", @clearSel)
     return this
 
   nextColor: ->
@@ -207,6 +204,15 @@ class Mapbadger.Views.MapView extends Backbone.View
     $('#selected-regions').find('li').not('.nav-header').remove();
     @selected_polygons.each (poly) =>
       $('#selected-regions').append("<li class='region'>"+poly.area.get('name')+"</li>")
+
+    @renderMapButtons()
+
+  renderMapButtons: ->
+    btnDom = $('#map-buttons')
+    if @selected_polygons.length > 0
+      btnDom.removeClass('hide').addClass('show') if btnDom.hasClass('hide')
+    else
+      btnDom.removeClass('show').addClass('hide') if btnDom.hasClass('show')
 
   selectArea: (poly) ->
     if poly.isSelected()

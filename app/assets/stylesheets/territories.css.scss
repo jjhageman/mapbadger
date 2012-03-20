@@ -23,7 +23,8 @@ body { height: 100%; margin: 0px; padding: 60px 0 40px; }
   /*height: 100%*/
 /*}*/
 #sidebar {
-  #saved, #new { min-height: 150px; }
+  #new { padding-bottom: 50px; }
+  #saved, #new { min-height: 150px; position: relative; }
 }
 /*.sidebar, .content { margin-top: 40px; }*/
 /*.sidebar {*/
@@ -47,7 +48,7 @@ ul#selected-regions {
 #map-canvas { height: 100%; }
 /*#map-container { position: fixed; width: 100%; }*/
 #map-container .well { margin-bottom: 0; }
-#map-buttons { position: absolute; bottom: 30px; }
+#map-buttons { position: absolute; left: 10px; bottom: 10px;}
 select#available-reps { height: auto; }
 [class^="icon-"],[class*=" icon-"]{background-image:url(image-path("glyphicons-halflings.png"))}
 ul#territories { 
