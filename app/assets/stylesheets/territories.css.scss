@@ -11,42 +11,30 @@ body { height: 100%; margin: 0px; padding: 60px 0 40px; }
 }
 #map-content.container-fluid, #map-content > div.row-fluid, #content, #map-canvas { height: 100%; }
 #map-container #territory-data { width: 98% }
-#map-container { height: 450px; }
-#map-content.container-fluid { padding: 0 }
+#map-container { height: 450px; border: 2px solid #EEE; }
+#map-content.container-fluid { padding: 0 8px 0 10px; }
 #territory-data { margin: 10px 0; }
 #opportunity-count { float: right; font-style:italic; }
-/*#map-content.container > .sidebar {*/
-  /*top: 0;*/
-  /*left: 0;*/
-  /*position: absolute;*/
-  /*width: 240px;*/
-  /*height: 100%*/
-/*}*/
 #sidebar {
   #new { padding-bottom: 50px; }
   #saved, #new { min-height: 150px; position: relative; }
 }
-/*.sidebar, .content { margin-top: 40px; }*/
-/*.sidebar {*/
-  /*z-index: 2; */
-  /*border: 1px solid #ccc;*/
-  /*background: rgba(248,248,248, 0.9);*/
-  /*-webkit-box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);*/
-  /*-moz-box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);*/
-  /*box-shadow: 0 5px 5px 0 rgba(100,100,100,0.6);*/
-  /*position: relative;*/
-  /*padding: 0 2px 0 5px;*/
-  /*form { padding: 0; }*/
-  /*ul { padding-left: 25px; }*/
-/*}*/
 #map-interactions .well { padding: 12px 5px; }
+#edit-territory { 
+  position: relative;
+  .cancel {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+  }
+}
 ul#selected-regions {
+  list-style-type: none;
   margin: 0; padding: 5px 5px 5px 0;
   li.region { padding-left: 8px; color: #0088CC; }
 }
 #sidebar-tab-content { padding: 0 15px; }
 #map-canvas { height: 100%; }
-/*#map-container { position: fixed; width: 100%; }*/
 #map-container .well { margin-bottom: 0; }
 #map-buttons { position: absolute; left: 10px; bottom: 10px;}
 select#available-reps { height: auto; }
@@ -55,7 +43,8 @@ ul#territories {
   font-size: 12px;
   margin: 0; padding: 5px 5px 5px 0;
   .active {
-    color: #ffffff;
+    a { color: #FFF; }
+    color: #FFF;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
     background-color: #0088cc;
   }
@@ -68,7 +57,7 @@ ul#territories {
     .header { padding: 3px 8px 3px 0; }
     a.toggle { display: inline-block; padding: 0; margin: 0; }
     span.rep { font-style:italic; font-size: 11px;}
-    a.edit { float: right; font-style: italic; text-decoration: underline; padding: 0;}
+    a.edit { float: right; font-size: 10px; text-decoration: underline; padding: 0;}
     ul {
       margin:0; padding:0 0 5px 21px;
       li {padding:0 5px;}

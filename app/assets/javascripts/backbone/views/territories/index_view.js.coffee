@@ -47,6 +47,10 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     @map.clearTerritories()
     @map.displayTerritoryEdit(territory)
 
+  renderAssignTerritory: (territory) ->
+    reps = new Mapbadger.Views.Representatives.AssignView(territory: territory, reps: @reps, parent: this)
+    $(@el).append(reps.render().el)
+
   rerender: ->
     @map.clearTerritories()
     $(@el).html(@template)

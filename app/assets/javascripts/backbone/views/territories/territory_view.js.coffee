@@ -6,6 +6,7 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   events:
     "click .toggle" : "toggleRegion"
     "click .edit" : "editTerritory"
+    "click .assign" : "assignTerritory"
       
   tagName: "li"
 
@@ -41,6 +42,9 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   editTerritory: ->
     @parentView.renderEditTerritory(@model)
 
+  assignTerritory: ->
+    @parentView.renderAssignTerritory(@model)
+
   toggleEdit: ->
     @$(".edit").toggleClass("show")
 
@@ -58,7 +62,7 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
   render: ->
     $(@el).html(@template(@model.toJSON() ))
 
-    $(@el).find('.rep').html(" - "+@model.rep.name()) if @model.rep
+    $(@el).find('.assign').html(@model.rep.name()) if @model.rep
 
     unless @model.regions.isEmpty()
       view = new Mapbadger.Views.Regions.IndexView(collection: @model.regions)

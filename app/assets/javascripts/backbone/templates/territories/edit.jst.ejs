@@ -1,17 +1,17 @@
 <h3>Edit territory</h3>
 
+Assigned Rep: <a class="assign" data-controls-modal="assign-rep-form"
+data-backdrop="true" data-keyboard="true">(assign rep)</a>
+
 <form id="edit-territory" name="territory" class="well">
+<a class="cancel close">x</a>
   <input type="text" name="name" id="name" value=<%= name %> >
 
   <ul id="selected-regions"></ul>
 
   <div class="form-actions">
-    <input type="submit" value="Update Territory" class="btn" />
-    <a class="btn" data-controls-modal="assign-rep-form"
-data-backdrop="true" data-keyboard="true">Assign Territory</a>
+    <input type="submit" value="Update Territory" class="btn btn-primary" />
     <a class="destroy btn">Delete Territory</a>
   </div>
 
 </form>
-
-<a class="cancel">Cancel</a>

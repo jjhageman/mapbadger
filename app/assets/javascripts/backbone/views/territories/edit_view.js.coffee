@@ -46,6 +46,7 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
     
   render : ->
     $(@el).html(@template(@model.toJSON() ))
+    @$(".assign").html(@model.rep.name()) if @model.rep
     reps = new Mapbadger.Views.Representatives.AssignView(territory: @model, reps: @reps, parent: @parentView)
     $(@el).append(reps.render().el)
 
