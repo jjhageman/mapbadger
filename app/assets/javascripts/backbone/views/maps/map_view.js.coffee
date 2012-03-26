@@ -53,6 +53,7 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
+    $(@el).prepend(JST["backbone/templates/maps/loading"]())
     return this
 
   nextColor: ->
@@ -71,9 +72,13 @@ class Mapbadger.Views.MapView extends Backbone.View
     google.maps.event.addListener @map, 'zoom_changed', (event) =>
       zoomLevel = @map.getZoom()
       if not @showingZips and zoomLevel >= 8
+        $(".overlaymessage").show()
         @showZips()
       else if @showingZips and zoomLevel < 8
+        $(".overlaymessage").show()
         @hideZips()
+      google.maps.event.addListener @map, 'idle', (event) => 
+        $(".overlaymessage").hide()
     return
 
   showZips: ->

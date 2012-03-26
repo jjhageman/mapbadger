@@ -11,7 +11,8 @@ body { height: 100%; margin: 0px; padding: 60px 0 40px; }
 }
 #map-content.container-fluid, #map-content > div.row-fluid, #content, #map-canvas { height: 100%; }
 #map-container #territory-data { width: 98% }
-#map-container { height: 450px; border: 2px solid #EEE; }
+#map-container { position: relative; height: 450px; border: 2px solid #EEE; }
+#map-container .overlaymessage { position: absolute; top: 50%; left: 50%; z-index: 1; }
 #map-content.container-fluid { padding: 0 8px 0 10px; }
 #territory-data { margin: 10px 0; }
 #opportunity-count { float: right; font-style:italic; }

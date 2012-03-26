@@ -61,4 +61,10 @@ Dir["#{File.dirname(__FILE__)}/rubber/deploy-*.rb"].each do |deploy_file|
   load deploy_file
 end
 
+before "rubber:pre_start", "setup_app_permissions" 
+before "rubber:pre_restart", "setup_app_permissions" 
+task :setup_app_permissions do 
+  run "chown -R #{rubber_env.app_user}:#{rubber_env.app_user} #{current_path}/public" 
+end 
+
 after "deploy", "deploy:cleanup"
