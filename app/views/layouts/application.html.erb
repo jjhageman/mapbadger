@@ -13,23 +13,8 @@
             <%= javascript_include_tag "application" %>
             <%= csrf_meta_tags %>
           </head>
-          <body class="map">
-            <div class="navbar navbar-fixed-top">
-              <div class="navbar-inner">
-                <div class="container-fluid">
-                  <%= link_to_unless_current 'MapBadger', root_path, :class => 'brand' %> 
-                  <ul class="nav">
-                    <%= nav_li 'Home', territories_path %>
-                    <%= nav_li 'Upload', import_opportunities_path %>
-                  </ul>
-                  <ul class="nav pull-right">
-                    <%= render 'devise/menu/registration_items' %>
-                    <%= render 'devise/menu/login_items' %>
-                  </ul>
-                </div>
-              </div>
-            </div> <!-- end topbar -->
-
+          <body>
+            <%= render 'shared/nav_bar' %>
             <div class="container">
               <div class="content">
                 <% flash.each do |key, msg| %>
