@@ -1,8 +1,12 @@
 class Mapbadger.Views.MapView extends Backbone.View
   id: 'map-container'
 
+  events:
+    "click .add-heat" : "addHeat"
+    "click .remove-heat" : "removeHeat"
+
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addHidden', 'createPoly', 'clearSel', 'addAll', 'render', 'displayAreaForSaved', 'displayAreaForEdit', 'addHeat')
+    _.bindAll(this, 'addOne', 'addHidden', 'createPoly', 'clearSel', 'addAll', 'render', 'displayAreaForSaved', 'displayAreaForEdit', 'addHeat', 'removeHeat')
     @zoom = 4
     @showingZips = false
     @mapTypeId = google.maps.MapTypeId.ROADMAP
@@ -273,6 +277,9 @@ class Mapbadger.Views.MapView extends Backbone.View
       data: oppsData
     }
     google.maps.event.addListenerOnce(@map, 'idle', => @heatmap.setDataSet(heatData))
+
+  removeHeat: ->
+    @heatmap.toggle()
 
   # addOpportunity: (opportunity) ->
   #   latlng = new google.maps.LatLng(opportunity.get("lat"), opportunity.get("lng"))
