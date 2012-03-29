@@ -2,11 +2,11 @@ class Mapbadger.Views.MapView extends Backbone.View
   id: 'map-container'
 
   events:
-    "click .add-heat" : "addHeat"
+    "click .load-nasdaq" : "loadNasdaq"
     "click .remove-heat" : "removeHeat"
 
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addHidden', 'createPoly', 'clearSel', 'addAll', 'render', 'displayAreaForSaved', 'displayAreaForEdit', 'addHeat', 'removeHeat')
+    _.bindAll(this, 'addOne', 'addHidden', 'createPoly', 'clearSel', 'addAll', 'render', 'displayAreaForSaved', 'displayAreaForEdit', 'loadNasdaq', 'removeHeat')
     @zoom = 4
     @showingZips = false
     @mapTypeId = google.maps.MapTypeId.ROADMAP
@@ -21,6 +21,7 @@ class Mapbadger.Views.MapView extends Backbone.View
     @zip_states = new Mapbadger.Collections.RegionsCollection()
     @polygons = new Mapbadger.Collections.PolygonsCollection()
     @selected_polygons = new Mapbadger.Collections.PolygonsCollection()
+    @nasdaq = new Mapbadger.Collections.OpportunitiesCollection()
     @selected_polygons.bind("add", @refreshList, this)
     @selected_polygons.bind("remove", @refreshList, this)
     @selected_polygons.bind("reset", @refreshList, this)
@@ -264,8 +265,22 @@ class Mapbadger.Views.MapView extends Backbone.View
       @zip_states.add(region)
       region.zipcodes.each @addHidden
 
-  addHeat: ->
-    oppsData = @options.opportunities.map( (opp) ->
+  loadNasdaq: ->
+    if @heatmap.latlngs.length<1
+      if @nasdaq.isEmpty()
+        $.ajax({
+          url: 'nasdaq_companies.json',
+          success: (companies) =>
+            @nasdaq.reset(companies)
+            @displayNasdaq()
+        })
+      else
+        @displayNasdaq()
+    else if !@heatmap.heatmap.get('visible')
+      @heatmap.toggle()
+
+  displayNasdaq: ->
+    oppsData = @nasdaq.map( (opp) ->
       {
         lat: opp.get('lat'),
         lng: opp.get('lng'),
@@ -276,7 +291,7 @@ class Mapbadger.Views.MapView extends Backbone.View
       max: 40,
       data: oppsData
     }
-    google.maps.event.addListenerOnce(@map, 'idle', => @heatmap.setDataSet(heatData))
+    @heatmap.setDataSet(heatData)
 
   removeHeat: ->
     @heatmap.toggle()

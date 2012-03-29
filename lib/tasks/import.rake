@@ -9,6 +9,20 @@ namespace :import do
       puts 'Truncating nasdaq_companies table'
       NasdaqCompany.delete_all
       puts 'Importing csv:'
+      CSV.foreach args[:filename], :headers => true, :header_converters => :downcase do |row|
+        co = NasdaqCompany.new(:name => row['name'],
+          :address1 => row['address'],
+          :city => row['city'],
+          :state => row['state'],
+          :zipcode => row['zipcode'],
+          :lat => row['latitude'],
+          :lng => row['longitude'])
+
+        co.location =  NasdaqCompany::FACTORY.point(co.lng,co.lat) if co.lng && co.lat
+        co.save
+        print '.'
+      end
+      puts 'Done'
     end
   end
 
