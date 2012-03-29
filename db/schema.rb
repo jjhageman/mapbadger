@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120319011304) do
+ActiveRecord::Schema.define(:version => 20120328235654) do
 
   create_table "companies", :force => true do |t|
     t.string   "company_name"
@@ -50,6 +50,20 @@ ActiveRecord::Schema.define(:version => 20120319011304) do
   add_index "geometries", ["area"], :name => "index_geometries_on_area", :spatial => true
   add_index "geometries", ["region_id"], :name => "index_geometries_on_region_id"
   add_index "geometries", ["zipcode_id"], :name => "index_geometries_on_zipcode_id"
+
+  create_table "nasdaq_companies", :force => true do |t|
+    t.string  "name"
+    t.string  "address1"
+    t.string  "address2"
+    t.string  "city"
+    t.string  "state"
+    t.string  "zipcode"
+    t.float   "lat"
+    t.float   "lng"
+    t.spatial "location", :limit => {:srid=>3785, :type=>"point"}
+  end
+
+  add_index "nasdaq_companies", ["location"], :name => "index_nasdaq_companies_on_location"
 
   create_table "notifications", :force => true do |t|
     t.string   "email"

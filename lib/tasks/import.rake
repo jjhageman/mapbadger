@@ -2,6 +2,16 @@ require 'rgeo-shapefile'
 require 'polyline_encoder'
 
 namespace :import do
+  namespace :nasdaq do
+    desc 'Import NASDAQ companies csv file'
+    task :csv, [:filename] => :environment do |task,args|
+      raise "File does not exits: #{args[:filename]}" unless File.exists?(args[:filename])
+      puts 'Truncating nasdaq_companies table'
+      NasdaqCompany.delete_all
+      puts 'Importing csv:'
+    end
+  end
+
   namespace :region do
     desc 'Populate regions table from shapefile'
     task :shapefile, [:filename] => :environment do |task,args|
