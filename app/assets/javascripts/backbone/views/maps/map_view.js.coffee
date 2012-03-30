@@ -2,11 +2,24 @@ class Mapbadger.Views.MapView extends Backbone.View
   id: 'map-container'
 
   events:
-    "click .load-nasdaq" : "loadNasdaq"
-    "click .remove-heat" : "removeHeat"
+    "click .heat-nasdaq" : "loadNasdaq"
+    "click .heat-custom" : "loadCustom"
+    "click .remove-heat" : "hideHeat"
 
   initialize: () ->
-    _.bindAll(this, 'addOne', 'addHidden', 'createPoly', 'clearSel', 'addAll', 'render', 'displayAreaForSaved', 'displayAreaForEdit', 'loadNasdaq', 'removeHeat')
+    _.bindAll(this,
+      'addOne',
+      'addHidden',
+      'createPoly',
+      'clearSel',
+      'addAll',
+      'render',
+      'displayAreaForSaved',
+      'displayAreaForEdit',
+      'loadNasdaq',
+      'loadCustom',
+      'displayHeat',
+      'hideHeat')
     @zoom = 4
     @showingZips = false
     @mapTypeId = google.maps.MapTypeId.ROADMAP
@@ -266,21 +279,44 @@ class Mapbadger.Views.MapView extends Backbone.View
       region.zipcodes.each @addHidden
 
   loadNasdaq: ->
-    if @heatmap.latlngs.length<1
+    if @heatmap.type is 'nasdaq' 
+      @heatmap.toggle() unless @heatmap.heatmap.get('visible')
+    else
+      @heatmap.heatmap.clear()
       if @nasdaq.isEmpty()
         $.ajax({
           url: 'nasdaq_companies.json',
           success: (companies) =>
             @nasdaq.reset(companies)
-            @displayNasdaq()
+            @displayHeat @nasdaq
         })
-      else
-        @displayNasdaq()
-    else if !@heatmap.heatmap.get('visible')
-      @heatmap.toggle()
+      @displayHeat @nasdaq
+      @heatmap.type = 'nasdaq'
 
-  displayNasdaq: ->
-    oppsData = @nasdaq.map( (opp) ->
+  loadCustom: ->
+    if @heatmap.type is 'custom'
+      @heatmap.toggle() unless @heatmap.heatmap.get('visible')
+    else
+      @heatmap.heatmap.clear()
+      @displayHeat @options.opportunities 
+      @heatmap.type = 'custom'
+
+  #loadNasdaq: ->
+    #if @heatmap.latlngs.length<1
+      #if @nasdaq.isEmpty()
+        #$.ajax({
+          #url: 'nasdaq_companies.json',
+          #success: (companies) =>
+            #@nasdaq.reset(companies)
+            #@displayNasdaq()
+        #})
+      #else
+        #@displayNasdaq()
+    #else if !@heatmap.heatmap.get('visible')
+      #@heatmap.toggle()
+
+  displayHeat: (opps) ->
+    oppsData = opps.map( (opp) ->
       {
         lat: opp.get('lat'),
         lng: opp.get('lng'),
@@ -293,7 +329,21 @@ class Mapbadger.Views.MapView extends Backbone.View
     }
     @heatmap.setDataSet(heatData)
 
-  removeHeat: ->
+  #displayNasdaq: ->
+    #oppsData = @nasdaq.map( (opp) ->
+      #{
+        #lat: opp.get('lat'),
+        #lng: opp.get('lng'),
+        #counts: 1
+      #}
+    #)
+    #heatData = {
+      #max: 40,
+      #data: oppsData
+    #}
+    #@heatmap.setDataSet(heatData)
+
+  hideHeat: ->
     @heatmap.toggle()
 
   # addOpportunity: (opportunity) ->
