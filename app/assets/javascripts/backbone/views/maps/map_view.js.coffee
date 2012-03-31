@@ -132,9 +132,14 @@ class Mapbadger.Views.MapView extends Backbone.View
     @selected_polygons.add(poly)
     poly.google_poly.setOptions(@edit_style)
 
+  territoryZoom: (territory) ->
+    bounds = new google.maps.LatLngBounds()
+
+
   displayTerritoryEdit: (territory) ->
     territory.regions.each(@displayAreaForEdit)
     # TODO zoom to zipcodes bounding box
+    @territoryZoom territory
     territory.zipcodes.each(@displayAreaForEdit)
 
   displayAreaForSaved: (area, color) ->
@@ -301,20 +306,6 @@ class Mapbadger.Views.MapView extends Backbone.View
       @displayHeat @options.opportunities 
       @heatmap.type = 'custom'
 
-  #loadNasdaq: ->
-    #if @heatmap.latlngs.length<1
-      #if @nasdaq.isEmpty()
-        #$.ajax({
-          #url: 'nasdaq_companies.json',
-          #success: (companies) =>
-            #@nasdaq.reset(companies)
-            #@displayNasdaq()
-        #})
-      #else
-        #@displayNasdaq()
-    #else if !@heatmap.heatmap.get('visible')
-      #@heatmap.toggle()
-
   displayHeat: (opps) ->
     oppsData = opps.map( (opp) ->
       {
@@ -328,20 +319,6 @@ class Mapbadger.Views.MapView extends Backbone.View
       data: oppsData
     }
     @heatmap.setDataSet(heatData)
-
-  #displayNasdaq: ->
-    #oppsData = @nasdaq.map( (opp) ->
-      #{
-        #lat: opp.get('lat'),
-        #lng: opp.get('lng'),
-        #counts: 1
-      #}
-    #)
-    #heatData = {
-      #max: 40,
-      #data: oppsData
-    #}
-    #@heatmap.setDataSet(heatData)
 
   hideHeat: ->
     @heatmap.toggle()
