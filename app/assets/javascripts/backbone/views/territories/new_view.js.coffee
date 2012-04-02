@@ -6,6 +6,7 @@ class Mapbadger.Views.Territories.NewView extends Backbone.View
   className: "modal hide fade"
   
   events:
+    "shown" : "formFocus"
     "submit #new-territory": "save"
     
   constructor: (options) ->
@@ -18,6 +19,9 @@ class Mapbadger.Views.Territories.NewView extends Backbone.View
     @model.bind("change:errors", () =>
       this.render()
     )
+
+  formFocus: ->
+    @$('input#name').focus()
     
   save: (e) ->
     e.preventDefault()

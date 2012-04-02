@@ -17,12 +17,12 @@
           <body>
             <%= render 'shared/nav_bar' %>
             <div id="map-content" class="container-fluid">
+              <% flash.each do |key, msg| %>
+                <%= content_tag :div, msg, :class => "alert #{bootstrap_alert_class(key)}" %>
+              <% end %>
               <div class="row-fluid">
                 <div id="sidebar" class="span3"></div>
                 <div id="content" class="span9">
-                  <% flash.each do |key, msg| %>
-                    <%= content_tag :p, msg, :class => "flash #{key}" %>
-                  <% end %>
                   <%= yield %>
                 </div>
               </div>

@@ -10,10 +10,24 @@ body { height: 100%; margin: 0px; padding: 60px 0 40px; }
 }
 #map-content.container-fluid, #map-content > div.row-fluid, #content, #map-canvas { height: 100%; }
 #map-container #territory-data { width: 98% }
-#map-container { position: relative; border: 2px solid #EEE; }
-#map-container .overlaymessage { position: absolute; top: 50%; left: 50%; z-index: 1; }
+#map-container { 
+  position: relative;
+  .well { margin-bottom: 0; }
+  .overlaymessage { position: absolute; top: 50%; left: 50%; z-index: 1; }
+}
 #map-content.container-fluid { padding: 0 8px 0 10px; }
-#territory-data { margin: 10px 0; }
+#map-canvas { height: 450px; margin-bottom: 20px; border: 2px solid #EEE; }
+#map-buttons { position: absolute; left: 10px; bottom: 10px;}
+#territory-data { 
+  margin: 10px 0;
+  a.current {
+    padding-right: 12px;  
+    background-repeat: no-repeat;  
+    background-position: right center;
+  }
+  a.asc { background-image: url(image_path("up_arrow.gif")); }
+  a.desc { background-image: url(image_path("down_arrow.gif")); }
+}
 #opportunity-count { float: right; font-style:italic; }
 #sidebar {
   #new { padding-bottom: 50px; }
@@ -34,9 +48,7 @@ ul#selected-regions {
   li.region { padding-left: 8px; color: #0088CC; }
 }
 #sidebar-tab-content { padding: 0 15px; }
-#map-canvas { height: 450px; }
-#map-container .well { margin-bottom: 0; }
-#map-buttons { position: absolute; left: 10px; bottom: 10px;}
+#assign-rep-form.modal { width: 300px; margin-left: -150px; }
 select#available-reps { height: auto; }
 [class^="icon-"],[class*=" icon-"]{background-image:url(image-path("glyphicons-halflings.png"))}
 ul#territories { 

@@ -80,7 +80,7 @@ class TerritoriesController < ApplicationController
 
   def territory_opportunities
     territory = current_company.territories.find(params[:territory_id])
-    @opportunities = territory.opportunities
+    @opportunities = territory.opportunities.paginate(:per_page => 10, :page => params[:page]).order(sort_column + ' ' + sort_direction)
     respond_with(@opportunities)
   end
 
@@ -136,6 +136,16 @@ class TerritoriesController < ApplicationController
     @persisted_ids ||= territory.zipcode_ids
     zipcode_ids = (@persisted_ids | ids) - ids
     zipcode_ids.collect{|zipcode_id| territory.territory_zipcodes.find_by_zipcode_id(zipcode_id).id}
+  end
+
+  private
+  
+  def sort_column
+    Opportunity.column_names.include?(params[:sort]) ? params[:sort] : "name"
+  end
+  
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end
 
