@@ -135,11 +135,10 @@ class Mapbadger.Views.MapView extends Backbone.View
   territoryZoom: (territory) ->
     bounds = new google.maps.LatLngBounds()
 
-
   displayTerritoryEdit: (territory) ->
     territory.regions.each(@displayAreaForEdit)
     # TODO zoom to zipcodes bounding box
-    @territoryZoom territory
+    #@territoryZoom territory
     territory.zipcodes.each(@displayAreaForEdit)
 
   displayAreaForSaved: (area, color) ->
