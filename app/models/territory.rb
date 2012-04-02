@@ -21,17 +21,25 @@ class Territory < ActiveRecord::Base
   end
 
   def bounding_box
-    points = regions.flat_map {|r| r.geometries.flat_map {|g| g.area.exterior_ring.points}}
+    points = regions.flat_map {|r| r.geometries.flat_map {|g| Geometry::FACTORY.unproject(g.area.exterior_ring).points}} + 
+      zipcodes.flat_map {|r| r.geometries.flat_map {|g| Geometry::FACTORT.unproject(g.area.exterior_ring).points}}
     bbox_points = points.map{ |p| RGeo::Feature.cast(p, Geometry::FACTORY) }
     bbox = RGeo::Geographic::ProjectedWindow.bounding_points(bbox_points)
-    [bbox.sw_point,bbox.ne_point]
+  end
+
+  def bounding_data
+    @bb ||= bounding_box
+    @bb ? { sw_x: @bb.sw_point.x,
+      sw_y: @bb.sw_point.y,
+      ne_x: @bb.ne_point.x,
+      ne_y: @bb.ne_point.y } : {}
   end
 
   def as_json(options = nil)
     super((options || {}).merge(include:
       { regions: { only: [:id, :name] },
         zipcodes: { only: [:id, :name] },
-        representative: { only: [:id, :first_name, :last_name]}
-      } ))
+        representative: { only: [:id, :first_name, :last_name]},
+      }, methods: :bounding_data ))
   end
 end

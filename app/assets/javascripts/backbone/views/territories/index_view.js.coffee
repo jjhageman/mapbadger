@@ -53,6 +53,7 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
 
   rerender: ->
     @map.clearTerritories()
+    @map.resetView()
     $(@el).html(@template)
     @addAll()
     

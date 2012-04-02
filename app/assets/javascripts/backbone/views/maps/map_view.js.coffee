@@ -23,6 +23,7 @@ class Mapbadger.Views.MapView extends Backbone.View
     @zoom = 4
     @showingZips = false
     @mapTypeId = google.maps.MapTypeId.ROADMAP
+    @usBnds = new google.maps.LatLngBounds(new google.maps.LatLng(23.5,-122), new google.maps.LatLng(76,-65))
     @minZoom = 3
     
     @opts =
@@ -82,11 +83,9 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   renderMap: ->
     @map = new google.maps.Map(document.getElementById("map-canvas"), @opts)
-    @usBnds = new google.maps.LatLngBounds(new google.maps.LatLng(23.5,-122), new google.maps.LatLng(76,-65))
     @map.fitBounds(@usBnds)
     @heatmap = new HeatmapOverlay(@map, {"radius":25, "visible":true, "opacity":60})
     @addAll()
-    #@addHeat()
     google.maps.event.addListener @map, 'zoom_changed', (event) =>
       zoomLevel = @map.getZoom()
       if not @showingZips and zoomLevel >= 8
@@ -95,8 +94,9 @@ class Mapbadger.Views.MapView extends Backbone.View
       else if @showingZips and zoomLevel < 8
         $(".overlaymessage").show()
         @hideZips()
-      google.maps.event.addListener @map, 'idle', (event) => 
-        $(".overlaymessage").hide()
+
+    google.maps.event.addListener @map, 'idle', (event) => 
+      $(".overlaymessage").hide()
     return
 
   showZips: ->
@@ -116,6 +116,10 @@ class Mapbadger.Views.MapView extends Backbone.View
 
     @showingZips = false
 
+  resetView: ->
+    @map.fitBounds(@usBnds)
+    $(".overlaymessage").show()
+
   clearTerritories: ->
     @selected_polygons.reset()
     @polygons.each (ply) =>
@@ -133,12 +137,12 @@ class Mapbadger.Views.MapView extends Backbone.View
     poly.google_poly.setOptions(@edit_style)
 
   territoryZoom: (territory) ->
-    bounds = new google.maps.LatLngBounds()
+    $(".overlaymessage").show()
+    @map.fitBounds territory.bounds if territory.bounds?
 
   displayTerritoryEdit: (territory) ->
     territory.regions.each(@displayAreaForEdit)
-    # TODO zoom to zipcodes bounding box
-    #@territoryZoom territory
+    @territoryZoom territory
     territory.zipcodes.each(@displayAreaForEdit)
 
   displayAreaForSaved: (area, color) ->

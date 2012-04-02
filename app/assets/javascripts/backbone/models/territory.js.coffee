@@ -16,8 +16,17 @@ class Mapbadger.Models.Territory extends Backbone.Model
 
     @setRep(new Mapbadger.Models.Representative(@get('representative'))) if @has('representative')
 
+    @setBounds()
+
   defaults:
     name: null
+
+  setBounds: ->
+    bounding_data = @get('bounding_data')
+    if bounding_data?
+      sw = new google.maps.LatLng(bounding_data.sw_y, bounding_data.sw_x)
+      ne = new google.maps.LatLng(bounding_data.ne_y, bounding_data.ne_x)
+      @bounds = new google.maps.LatLngBounds(sw,ne)
 
   setRegions: (regions) ->
     @regions = regions

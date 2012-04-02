@@ -38,20 +38,8 @@ class Mapbadger.Models.Polygon extends Backbone.Model
     @google_poly = new google.maps.Polygon({
       paths: paths
       map: @map
-      #bnd: polybnd
       clickable: @get('clickable')
     })
-    # http://stackoverflow.com/questions/2177055/how-do-i-get-google-maps-to-show-a-whole-polygon
-    #bounds = new google.maps.LatLngBounds()
-
-    #for (i = 0; i < paths.getLength(); i++) {
-        #path = paths.getAt(i)
-        #for (ii = 0; ii < path.getLength(); ii++) {
-            #bounds.extend(path.getAt(ii))
-        #}
-    #}
-
-    #@bounds = bounds
 
   defaults:
     clickable: true
