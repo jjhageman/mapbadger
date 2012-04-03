@@ -6,9 +6,9 @@
         <%= nav_li 'Home', territories_path %>
         <%= nav_li 'Upload', import_opportunities_path %>
       </ul>
-      <form class="navbar-search pull-left">
-        <input type="text" class="search-query" placeholder="I wish this page would...">
-      </form>
+      <%=  form_tag contact_path, :remote => :true, :id => 'wish-box', :class => 'navbar-search' do %>
+        <%= text_field_tag :message, nil, :class => 'search-query', :placeholder => 'I wish this page would...' %>
+      <% end %>
       <ul class="nav pull-right">
         <%= render 'devise/menu/registration_items' %>
         <%= render 'devise/menu/login_items' %>

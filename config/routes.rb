@@ -29,6 +29,7 @@ Mapbadger::Application.routes.draw do
   match 'import' => 'opportunities#import'
   match 'territory_opportunities' => 'territories#territory_opportunities'
   match 'nasdaq_companies' => 'nasdaq_companies#index'
+  post 'contact' => 'contact#create'
 
   resources :territories
   resources :zipcodes

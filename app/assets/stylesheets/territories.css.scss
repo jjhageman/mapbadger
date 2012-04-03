@@ -1,6 +1,6 @@
 html { height: 100% }
 body { height: 100%; margin: 0px; padding: 60px 0 40px; }
-.navbar .nav > li.current {
+.navbar .nav > li.current, .nav li.info > p {
   padding: 10px 10px 11px;
   line-height: 19px;
   text-decoration: none;
@@ -8,6 +8,7 @@ body { height: 100%; margin: 0px; padding: 60px 0 40px; }
   color: #ffffff;
   background-color: #222222;
 }
+.navbar .nav li.info > p { margin: 0; color: #BCE8F1; }
 #map-content.container-fluid, #map-content > div.row-fluid, #content, #map-canvas { height: 100%; }
 #map-container #territory-data { width: 98% }
 #map-container { 
