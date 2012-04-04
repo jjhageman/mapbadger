@@ -4,6 +4,7 @@ class ContactMailer < ActionMailer::Base
   def wish_email(url, message)
     @url = url
     @message = message
+    @sender = current_company.try(:email)
     mail to: 'hello@mapbadger.com', subject: 'I Wish Submission'
   end
 end
