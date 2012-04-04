@@ -17,8 +17,8 @@
             <%= render 'shared/nav_bar' %>
             <div class="container">
               <div class="content">
-                <% flash.each do |key, msg| %>
-                  <%= content_tag :div, msg, :class => "alert alert-#{key}" unless msg.blank?%>
+                <% flash.delete(:timedout).each do |key, msg| %>
+                  <%= content_tag :div, flash[key], :class => "alert alert-#{key}" unless msg.blank? %>
                 <% end %>
                 <%= yield %>
               </div>

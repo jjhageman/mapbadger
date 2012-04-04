@@ -27,6 +27,7 @@ gem 'jquery-rails'
 gem 'rails-backbone', '~> 0.7.0'
 gem 'cacheable_flash'
 gem 'will_paginate'
+gem "rubber", "1.15.0"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -37,13 +38,15 @@ gem 'will_paginate'
 # Deploy with Capistrano
 # gem 'capistrano'
 
-group :development, :test do
-  gem 'rspec-rails', '~> 2.8.1'
+group :test do
   gem 'cucumber-rails'
+  gem 'rspec-rails', '~> 2.8.1'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'email_spec'
   gem 'launchy'
+end
+
+group :development, :test do
   gem 'ruby-debug19', :require => 'ruby-debug'
 end
-gem "rubber", "1.15.0"
