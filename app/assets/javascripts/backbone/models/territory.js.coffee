@@ -53,6 +53,7 @@ class Mapbadger.Models.Territory extends Backbone.Model
     delete attrs.id
     delete attrs.created_at
     delete attrs.updated_at
+    delete attrs.bounding_data
     delete attrs.regions
     delete attrs.zipcodes
     delete attrs.representative

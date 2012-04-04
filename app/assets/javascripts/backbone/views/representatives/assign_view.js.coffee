@@ -20,14 +20,21 @@ class Mapbadger.Views.Representatives.AssignView extends Backbone.View
     @territory.unset("errors")
 
     rep_id = $('select#available-reps option:selected').val()
-    rep = @reps.get(rep_id)
-    @territory.setRep(rep)
-    @territory.save(null,
-      success : () =>
-        @parentView.rerender()
-        $(@el).modal('hide')
-        @remove()
-    )
+    if rep_id?
+      rep = @reps.get(rep_id)
+      @territory.setRep(rep)
+      @territory.save(null,
+        success : () =>
+          $(@el).modal('hide')
+          @remove()
+          @parentView.rerender()
+        error: (model, fail, xhr) =>
+           @$('.modal-body').prepend('<div class="alert alert-error"><strong>Error:</strong>'+fail+'</div>')
+      )
+    else
+      @$('.modal-body').prepend('<div class="alert alert-error"><strong>Error:</strong> Please select a representative.</div>')
+      @$('.alert-error').fadeIn()
+
 
   render : ->
     $(@el).html(@template(@territory.toJSON() ))

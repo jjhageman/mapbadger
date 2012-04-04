@@ -18,7 +18,7 @@
             <div class="container">
               <div class="content">
                 <% flash.each do |key, msg| %>
-                  <%= content_tag :div, msg, :class => "alert alert-#{key}" unless msg.blank?%>
+                  <%= content_tag :div, msg, :class => "alert alert-#{key}" unless msg.blank? %>
                 <% end %>
                 <%= yield %>
               </div>

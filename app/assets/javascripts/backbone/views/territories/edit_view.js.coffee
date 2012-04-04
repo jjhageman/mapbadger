@@ -31,6 +31,7 @@ class Mapbadger.Views.Territories.EditView extends Backbone.View
     @model.save(null,
       success : (territory) =>
         @model = territory
+        @map.resetView()
         @parentView.rerender()
     )
 
