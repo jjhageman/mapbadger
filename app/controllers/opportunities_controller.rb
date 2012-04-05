@@ -92,4 +92,13 @@ class OpportunitiesController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def destroy_multiple
+    Opportunity.destroy_all(:id => params[:opportunity_ids])
+
+    respond_to do |format|
+      format.html { redirect_to opportunities_url, notice: 'Opportunities were successfully deleted.' }
+      format.json { head :ok }
+    end
+  end
 end

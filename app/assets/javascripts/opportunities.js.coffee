@@ -1,3 +1,11 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+disableDelete = ->
+  $('#delete-options').attr('disabled', 'disabled').addClass('disabled')
+
+enableDelete = -> 
+  $('#delete-options').removeAttr('disabled').removeClass('disabled')
+
+atLeastOneChecked = ->
+  $('.delete_box:checked').length > 0
+
+$ ->
+  $('.delete_box').click -> if atLeastOneChecked() then enableDelete() else disableDelete()

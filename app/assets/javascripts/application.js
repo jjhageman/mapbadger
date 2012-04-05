@@ -8,3 +8,4 @@
 //= require jquery_ujs
 //= require bootstrap-modal
 //= require bootstrap-tabs
+//= require opportunities

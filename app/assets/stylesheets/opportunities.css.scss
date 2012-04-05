@@ -1,1 +1,5 @@
-table#opportunities { margin-top: 30px }
+table#opportunities { 
+  margin-top: 30px;
+  thead th a { font-weight: normal; }
+  td.delete { text-align: center; }
+}

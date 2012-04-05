@@ -23,6 +23,7 @@ Mapbadger::Application.routes.draw do
     collection do
       get 'import'
       post 'import' => 'opportunities#upload'
+      delete 'destroy_multiple'
     end
   end
 
