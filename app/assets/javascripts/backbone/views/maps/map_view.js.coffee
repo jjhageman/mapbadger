@@ -300,6 +300,8 @@ class Mapbadger.Views.MapView extends Backbone.View
         })
       @displayHeat @nasdaq
       @heatmap.type = 'nasdaq'
+      @$('#legend-text').html('<strong>Displayed Data:</strong> NASDAQ')
+      @updateLegend('NASDAQ', 'Heatmap')
 
   loadCustom: ->
     if @heatmap.type is 'custom'
@@ -308,6 +310,7 @@ class Mapbadger.Views.MapView extends Backbone.View
       @heatmap.heatmap.clear()
       @displayHeat @options.opportunities 
       @heatmap.type = 'custom'
+      @updateLegend('Custom', 'Heatmap')
 
   displayHeat: (opps) ->
     oppsData = opps.map( (opp) ->
@@ -325,6 +328,11 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   hideHeat: ->
     @heatmap.toggle()
+    @$('#map-legend').empty()
+
+  updateLegend: (data, display) ->
+    @$('#map-legend').html((JST["backbone/templates/maps/legend"](data: data, display: display)))
+    @$('#legend-content').css('display', 'none').fadeIn()
 
   # addOpportunity: (opportunity) ->
   #   latlng = new google.maps.LatLng(opportunity.get("lat"), opportunity.get("lng"))
