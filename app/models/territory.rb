@@ -17,7 +17,7 @@ class Territory < ActiveRecord::Base
   end
 
   def opportunities
-    Opportunity.joins("INNER JOIN geometries ON geometries.id IN (#{geometry_ids}) AND st_contains(geometries.area, opportunities.location)")
+    Opportunity.where(:company_id => company_id).joins("INNER JOIN geometries ON geometries.id IN (#{geometry_ids}) AND st_contains(geometries.area, opportunities.location)")
   end
 
   def bounding_box
