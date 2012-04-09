@@ -15,7 +15,17 @@ end
 
 When /^I upload an opportunity CSV file$/ do
   visit '/opportunities/import'
-  attach_file 'CSV File', 'spec/fixtures/opportunities.csv'
+  attach_file 'csv_file', 'spec/fixtures/opportunities.csv'
+  click_button 'Import'
+end
+
+Then /^I should see the confirmation message$/ do
+  page.should have_content 'Your CSV file has been received. You will be notified by email when it has finished processing.'
+end
+
+When /^I advanced upload an opportunity CSV file$/ do
+  visit '/opportunities/advanced'
+  attach_file 'upload_csv', 'spec/fixtures/opportunities.csv'
   click_button 'Import'
 end
 

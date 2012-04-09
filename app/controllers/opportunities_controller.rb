@@ -57,9 +57,23 @@ class OpportunitiesController < ApplicationController
 
   def import
     @opportunity = Opportunity.new
+    @csv = Csv.new
   end
 
   def upload
+    @csv = current_company.csvs.new(params[:csv])
+    if @csv.save
+      redirect_to import_opportunities_path, notice: 'Your CSV file has been received. You will be notified by email when it has finished processing.'
+    else
+      render action: 'import', alert: 'There was a problem uploading your CSV file.'
+    end
+  end
+
+  def advanced_import
+    @opportunity = Opportunity.new
+  end
+
+  def advanced_upload
     Opportunity.csv_geo_import params[:upload][:csv].read, current_company
 
     redirect_to opportunities_path, notice: 'Your file has been imported.'

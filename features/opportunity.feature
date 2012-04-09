@@ -8,7 +8,12 @@ Feature: Manage opportunity data
     When I create a new opportunity
     Then I should see the opportunity details
 
-  Scenario: Import opportunity CSV
+  Scenario: Upload CSV file
     Given I am logged in
     When I upload an opportunity CSV file
+    Then I should see the confirmation message
+
+  Scenario: Import opportunity CSV
+    Given I am logged in
+    When I advanced upload an opportunity CSV file
     Then I should see the CSV data table

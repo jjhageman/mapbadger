@@ -26,6 +26,8 @@ gem 'therubyracer'
 gem 'jquery-rails'
 gem 'rails-backbone', '~> 0.7.0'
 gem 'cacheable_flash'
+gem 'carrierwave'
+gem 'fog'
 gem 'will_paginate'
 gem "rubber", "1.15.0"
 

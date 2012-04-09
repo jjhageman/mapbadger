@@ -23,6 +23,8 @@ Mapbadger::Application.routes.draw do
     collection do
       get 'import'
       post 'import' => 'opportunities#upload'
+      get 'advanced' => 'opportunities#advanced_import'
+      post 'advanced' => 'opportunities#advanced_upload'
       delete 'destroy_multiple'
     end
   end
@@ -36,6 +38,7 @@ Mapbadger::Application.routes.draw do
   resources :zipcodes
   resources :regions
   resources :geometries
+  resources :csvs
 
   match '/welcome' => "territories#index", :as => :company_root
   get '/' => 'home#index', :as => :notifications

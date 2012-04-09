@@ -5,11 +5,11 @@
   <%= tab_li 'Teams', import_representatives_path %>
 </ul>
 <div class="well">
-  <%= form_for @csv, :url => import_opportunities_path do |f| %>
+  <%= form_for :upload do |f| %>
     <fieldset>
       <legend>Upload Account Records</legend>
-      <p class="help-block">Upload CSV and you will be notified when it has finished processing. If you have lat/lng data available to import you many use the <%= link_to 'Advanced Import', advanced_opportunities_path %> for immediate usage.</p>
-      <%= f.file_field :file, :class => 'input-file' %>
+      <p class="help-block">Upload CSV files that contain addresses of businesses that you want to view on the territory map. Only .CSV files with the following columns will upload properly: Name, StreetAddress, City, State, ZipCode, Latitude, Longitude</p>
+      <%= f.file_field :csv, :class => 'input-file' %>
       <div class="form-actions">
         <%= f.submit 'Import', :class => 'btn btn-primary' %>
       </div>

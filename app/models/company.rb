@@ -2,6 +2,7 @@ class Company < ActiveRecord::Base
   has_many :opportunities
   has_many :representatives
   has_many :territories
+  has_many :csvs
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :lockable and :omniauthable
