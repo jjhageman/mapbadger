@@ -87,8 +87,8 @@ ActiveRecord::Schema.define(:version => 20120409010234) do
     t.string   "city"
     t.string   "state"
     t.string   "zipcode"
-    t.datetime "created_at",                                          :null => false
-    t.datetime "updated_at",                                          :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.float    "lat"
     t.float    "lng"
     t.integer  "company_id"
@@ -106,8 +106,8 @@ ActiveRecord::Schema.define(:version => 20120409010234) do
   create_table "representatives", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "company_id"
   end
 
@@ -115,8 +115,8 @@ ActiveRecord::Schema.define(:version => 20120409010234) do
 
   create_table "territories", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "representative_id"
     t.integer  "company_id"
   end
@@ -127,8 +127,8 @@ ActiveRecord::Schema.define(:version => 20120409010234) do
   create_table "territory_regions", :force => true do |t|
     t.integer  "region_id"
     t.integer  "territory_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "territory_regions", ["region_id"], :name => "index_territory_regions_on_region_id"
@@ -148,5 +148,7 @@ ActiveRecord::Schema.define(:version => 20120409010234) do
     t.string  "name"
     t.integer "region_id"
   end
+
+  add_index "zipcodes", ["region_id"], :name => "index_zcta_on_region_id"
 
 end

@@ -7,4 +7,9 @@ class ContactMailer < ActionMailer::Base
     @sender = sender
     mail to: 'hello@mapbadger.com', subject: 'I Wish Submission'
   end
+
+  def csv_upload_alert(url)
+    @url = url
+    mail to: 'admin@mapbadger.com', subject: 'A customer CSV file has been uploaded'
+  end
 end

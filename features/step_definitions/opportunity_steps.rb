@@ -34,3 +34,8 @@ Then /^I should see the CSV data table$/ do
     page.should have_content(row[0])
   end
 end
+
+Then /^admin should receive a csv alert email$/ do
+  unread_emails_for('admin@mapbadger.com').size.should == 1
+  open_email('admin@mapbadger.com', :with_text => 'A new customer CSV file has been uploaded')
+end
