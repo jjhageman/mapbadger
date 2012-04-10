@@ -14,7 +14,9 @@ Feature: Manage opportunity data
     Then I should see the confirmation message
     And admin should receive a csv alert email
     When the admin responds to the csv alert email
-    Then I should see the imported opportunity records
+    Then the admin should see the imported opportunity records
+    When the admin sends the notification email
+    Then I should receive a csv processed alert email
 
   Scenario: Advanced import opportunity CSV
     Given I am logged in

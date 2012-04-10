@@ -11,6 +11,12 @@ Mapbadger::Application.routes.draw do
   namespace :admin do
     get 'opportunities/import'
     post 'opportunities/import' => 'opportunities#upload'
+    #post 'opportunities/notify_company' => 'opportunities#notify_company'
+    resources :companies do
+      resources :opportunities do
+        post 'notify_company', :on => :collection
+      end
+    end
   end
 
   resources :representatives do

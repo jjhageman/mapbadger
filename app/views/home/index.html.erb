@@ -20,13 +20,9 @@
         <body>
           <div class="container">
             <div class="content">
-              <div id="error_div_id" class="flash error"></div>
-              <div id="notice_div_id" class="flash notice"></div>
-              <script type="text/javascript">
-                Flash.transferFromCookies();
-                Flash.writeDataTo('error', $('#error_div_id'));
-                Flash.writeDataTo('notice', $('#notice_div_id'));
-              </script>
+              <% flash.delete(:timedout).each do |key, msg| %>
+                <%= content_tag :div, msg, :class => "alert alert-#{key}" unless msg.blank? %>
+              <% end %>
               <div class="page-header">
                 <a id="beta" class="btn small primary" data-controls-modal="modal-from-dom" data-backdrop="true">Sign up for beta</a>
                 <h1>MapBadger</h1>

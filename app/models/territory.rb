@@ -10,7 +10,7 @@ class Territory < ActiveRecord::Base
   accepts_nested_attributes_for :territory_regions, :allow_destroy => true
   accepts_nested_attributes_for :territory_zipcodes, :allow_destroy => true
 
-  validates :name, :uniqueness => true
+  validates :name, :uniqueness => { :scope => :company_id }
 
   def geometry_ids
     (region_geometry_ids + zipcode_geometry_ids).join(',')

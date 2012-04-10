@@ -12,8 +12,8 @@ end
 
 When /^I upload a rep CSV file$/ do
   visit '/import'
-  click_link 'Team'
-  attach_file 'CSV File', 'spec/fixtures/reps.csv'
+  click_link 'Teams'
+  attach_file 'upload_csv', 'spec/fixtures/reps.csv'
   click_button 'Import'
 end
 

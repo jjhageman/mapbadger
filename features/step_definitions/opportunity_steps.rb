@@ -44,14 +44,23 @@ When /^the admin responds to the csv alert email$/ do
   click_link 'Logout'
   step "I am a logged in admin"
   click_first_link_in_email
-  select(@company.company_name, :from => 'upload_company_id')
-  attach_file 'upload_csv', 'spec/fixtures/opportunities_geo.csv'
+  select(@company.company_name, :from => 'Company')
+  attach_file 'csv', 'spec/fixtures/opportunities_geo.csv'
   click_button 'Import'
 end
 
-Then /^I should see the imported opportunity records$/ do
-  save_and_open_page
+Then /^the admin should see the imported opportunity records$/ do
   CSV.foreach('spec/fixtures/opportunities.csv') do |row|
     page.should have_content(row[0])
   end
+end
+
+When /^the admin sends the notification email$/ do
+  click_button 'Notify Customer'
+  page.should have_content('A notification email has been sent to the customer')
+end
+
+Then /^I should receive a csv processed alert email$/ do
+  unread_emails_for(@company.email).size.should == 1
+  open_email(@company.email, :with_text => 'Your CSV file has been processed')
 end

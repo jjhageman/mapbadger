@@ -43,8 +43,11 @@ class Mapbadger.Views.Territories.NewView extends Backbone.View
         @render()
         $(@el).modal('hide')
         
-      error: (territory, jqXHR) =>
-        @model.set({errors: $.parseJSON(jqXHR.responseText)})
+      error: (territory, jqXHR, settings, exception) =>
+        obj = $.parseJSON(jqXHR.responseText)
+        @model.set({errors: obj})
+        for attr, error of obj
+          @$('form').prepend("<div class='alert alert-error'>#{attr} #{error}</div>")
     )
     
   render: ->
