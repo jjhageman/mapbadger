@@ -22,6 +22,7 @@ group :assets do
 end
 
 gem 'devise'
+gem 'cancan'
 gem 'therubyracer'
 gem 'jquery-rails'
 gem 'rails-backbone', '~> 0.7.0'

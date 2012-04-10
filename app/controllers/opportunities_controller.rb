@@ -76,7 +76,6 @@ class OpportunitiesController < ApplicationController
 
   def advanced_upload
     Opportunity.csv_geo_import params[:upload][:csv].read, current_company
-
     redirect_to opportunities_path, notice: 'Your file has been imported.'
   end
 

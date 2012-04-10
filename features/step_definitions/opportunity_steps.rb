@@ -39,3 +39,19 @@ Then /^admin should receive a csv alert email$/ do
   unread_emails_for('admin@mapbadger.com').size.should == 1
   open_email('admin@mapbadger.com', :with_text => 'A new customer CSV file has been uploaded')
 end
+
+When /^the admin responds to the csv alert email$/ do
+  click_link 'Logout'
+  step "I am a logged in admin"
+  click_first_link_in_email
+  select(@company.company_name, :from => 'upload_company_id')
+  attach_file 'upload_csv', 'spec/fixtures/opportunities_geo.csv'
+  click_button 'Import'
+end
+
+Then /^I should see the imported opportunity records$/ do
+  save_and_open_page
+  CSV.foreach('spec/fixtures/opportunities.csv') do |row|
+    page.should have_content(row[0])
+  end
+end

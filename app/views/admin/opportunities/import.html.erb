@@ -1,0 +1,16 @@
+<h1>Admin CSV Upload</h1>
+
+<div class="well">
+  <%= form_for :upload do |f| %>
+    <fieldset>
+      <legend>Upload Account Records</legend>
+      <%= f.label :company %>
+      <%= f.select :company_id, Company.all.collect {|c| [c.company_name, c.id]}, {:include_blank => true} %>
+      <p class="help-block">Upload CSV files that contain addresses of businesses that you want to view on the territory map. Only .CSV files with the following columns will upload properly: Name, StreetAddress, City, State, ZipCode, Latitude, Longitude</p>
+      <%= f.file_field :csv, :class => 'input-file' %>
+      <div class="form-actions">
+        <%= f.submit 'Import', :class => 'btn btn-primary' %>
+      </div>
+    </fieldset>
+  <% end %>
+</div>

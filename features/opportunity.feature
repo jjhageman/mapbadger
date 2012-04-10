@@ -13,6 +13,8 @@ Feature: Manage opportunity data
     When I upload an opportunity CSV file
     Then I should see the confirmation message
     And admin should receive a csv alert email
+    When the admin responds to the csv alert email
+    Then I should see the imported opportunity records
 
   Scenario: Advanced import opportunity CSV
     Given I am logged in

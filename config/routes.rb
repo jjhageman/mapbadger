@@ -8,9 +8,10 @@ Mapbadger::Application.routes.draw do
     get "verification" => "devise/confirmations#new"
   end
 
-  #get 'signin' => 'devise/sessions#new', :as => :new_company_session
-  #post 'signin' => 'devise/sessions#create', :as => :company_session
-  #delete 'signout' => 'devise/sessions#destroy', :as => :destroy_company_session
+  namespace :admin do
+    get 'opportunities/import'
+    post 'opportunities/import' => 'opportunities#upload'
+  end
 
   resources :representatives do
     collection do

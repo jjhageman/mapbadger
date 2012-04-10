@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120409010234) do
+ActiveRecord::Schema.define(:version => 20120410064528) do
 
   create_table "companies", :force => true do |t|
     t.string   "company_name"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20120409010234) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "role"
   end
 
   add_index "companies", ["confirmation_token"], :name => "index_companies_on_confirmation_token", :unique => true
@@ -87,8 +88,8 @@ ActiveRecord::Schema.define(:version => 20120409010234) do
     t.string   "city"
     t.string   "state"
     t.string   "zipcode"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
     t.float    "lat"
     t.float    "lng"
     t.integer  "company_id"
@@ -106,8 +107,8 @@ ActiveRecord::Schema.define(:version => 20120409010234) do
   create_table "representatives", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.integer  "company_id"
   end
 
@@ -115,8 +116,8 @@ ActiveRecord::Schema.define(:version => 20120409010234) do
 
   create_table "territories", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.integer  "representative_id"
     t.integer  "company_id"
   end
@@ -127,8 +128,8 @@ ActiveRecord::Schema.define(:version => 20120409010234) do
   create_table "territory_regions", :force => true do |t|
     t.integer  "region_id"
     t.integer  "territory_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   add_index "territory_regions", ["region_id"], :name => "index_territory_regions_on_region_id"
@@ -148,7 +149,5 @@ ActiveRecord::Schema.define(:version => 20120409010234) do
     t.string  "name"
     t.integer "region_id"
   end
-
-  add_index "zipcodes", ["region_id"], :name => "index_zcta_on_region_id"
 
 end
