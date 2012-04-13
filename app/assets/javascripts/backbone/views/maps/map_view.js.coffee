@@ -4,7 +4,9 @@ class Mapbadger.Views.MapView extends Backbone.View
   events:
     "click .heat-nasdaq" : "loadNasdaq"
     "click .heat-custom" : "loadCustom"
-    "click .remove-heat" : "hideHeat"
+    "click .remove-heat" : "clearMap"
+    "click .display-markers" : "displayMarkers"
+    "click .display-heat" : "displayHeat"
 
   initialize: () ->
     _.bindAll(this,
@@ -19,7 +21,11 @@ class Mapbadger.Views.MapView extends Backbone.View
       'loadNasdaq',
       'loadCustom',
       'displayHeat',
-      'hideHeat')
+      'displayMarkers',
+      'makeMarker',
+      'hideMarkers',
+      'hideHeat',
+      'clearMap')
     @zoom = 4
     @showingZips = false
     @mapTypeId = google.maps.MapTypeId.ROADMAP
@@ -31,6 +37,14 @@ class Mapbadger.Views.MapView extends Backbone.View
       mapTypeId: @mapTypeId
       center: @mapCenter
       minZoom: @minZoom
+
+    @mapData = 'custom'
+    @dataDisplayStyle = 'heatmap'
+    @markerMap =
+      visible: false
+      data: ''
+      nasdaq: []
+      custom: []
 
     @zip_states = new Mapbadger.Collections.RegionsCollection()
     @polygons = new Mapbadger.Collections.PolygonsCollection()
@@ -286,33 +300,46 @@ class Mapbadger.Views.MapView extends Backbone.View
       @zip_states.add(region)
       region.zipcodes.each @addHidden
 
+  #loadNasdaq
+  #loadCustom
+  #displayMarkers
+  #DisplayHeat
+
   loadNasdaq: ->
-    if @heatmap.type is 'nasdaq' 
-      @heatmap.toggle() unless @heatmap.heatmap.get('visible')
+    @mapData = 'nasdaq'
+    if @nasdaq.isEmpty()
+      $.ajax({
+        url: 'nasdaq_companies.json',
+        success: (companies) =>
+          @nasdaq.reset(companies)
+          @displayMapData()
+      })
     else
-      @heatmap.heatmap.clear()
-      if @nasdaq.isEmpty()
-        $.ajax({
-          url: 'nasdaq_companies.json',
-          success: (companies) =>
-            @nasdaq.reset(companies)
-            @displayHeat @nasdaq
-        })
-      @displayHeat @nasdaq
-      @heatmap.type = 'nasdaq'
-      @$('#legend-text').html('<strong>Displayed Data:</strong> NASDAQ')
-      @updateLegend('NASDAQ', 'Heatmap')
+      @displayMapData()
+    
+  loadCustom: (style) ->
+    @mapData = 'custom'
+    @displayMapData()
 
-  loadCustom: ->
-    if @heatmap.type is 'custom'
-      @heatmap.toggle() unless @heatmap.heatmap.get('visible')
-    else
-      @heatmap.heatmap.clear()
-      @displayHeat @options.opportunities 
-      @heatmap.type = 'custom'
-      @updateLegend('Custom', 'Heatmap')
+  displayMapData: () -> 
+    if @dataDisplayStyle is 'heatmap' then @displayHeat() else @displayMarkers()
+    #if @dataDisplayStyle is 'heatmap'
+      #if @heatmap.data is @mapData
+        #@heatmap.toggle() unless @heatmap.visible
+      #else
+        #@hideMarkers()
+        #@displayHeat()
+    #else
+      #if @markerMap.data is @mapData
+        #@showMarkers() unless @markerMap.visible
+      #else
+        #@hideHeat()
+        #@displayMarkers()
 
-  displayHeat: (opps) ->
+  displayHeat: ->
+    @hideMarkers()
+    @heatmap.heatmap.clear()
+    opps = if @mapData is 'nasdaq' then @nasdaq else @options.opportunities
     oppsData = opps.map( (opp) ->
       {
         lat: opp.get('lat'),
@@ -325,13 +352,53 @@ class Mapbadger.Views.MapView extends Backbone.View
       data: oppsData
     }
     @heatmap.setDataSet(heatData)
+    @updateLegend()
+    @dataDisplayStyle = 'heatmap'
+    @heatmap.data = @mapData
+    @heatmap.visible = true
 
-  hideHeat: ->
-    @heatmap.toggle()
+  displayMarkers: ->
+    @hideHeat()
+    if @markerMap[@mapData].length > 0
+      @showMarkers() unless @markerMap.visible
+    else
+      opps = if @mapData is 'nasdaq' then @nasdaq else @options.opportunities
+      opps.each(@makeMarker)
+    @updateLegend()
+    @dataDisplayStyle = 'markers'
+    @markerMap.data = @mapData
+    @markerMap.visible = true
+
+  makeMarker: (opp) ->
+    marker = new google.maps.Marker
+      position: new google.maps.LatLng(opp.get('lat'), opp.get('lng'))
+      map: @map
+      visible: true
+    if @mapData is 'nasdaq' then @markerMap.nasdaq.push(marker) else @markerMap.custom.push(marker)
+
+  showMarkers: ->
+    for marker in @markerMap[@mapData]
+      marker.setVisible true
+
+  hideMarkers: ->
+    for marker in @markerMap[@mapData]
+      marker.setVisible false
+    @markerMap.visible = false
     @$('#map-legend').empty()
 
-  updateLegend: (data, display) ->
-    @$('#map-legend').html((JST["backbone/templates/maps/legend"](data: data, display: display)))
+  hideHeat: ->
+    if @heatmap.heatmap.get('visible')
+      @heatmap.heatmap.get('canvas').style.display = "none"
+      @heatmap.heatmap.set('visible', false)
+    @heatmap.visible = false
+    @$('#map-legend').empty()
+
+  clearMap: ->
+    @hideMarkers()
+    @hideHeat()
+
+  updateLegend: ->
+    @$('#map-legend').html((JST["backbone/templates/maps/legend"](data: @mapData, display: @dataDisplayStyle)))
     @$('#legend-content').css('display', 'none').fadeIn()
 
   # addOpportunity: (opportunity) ->
