@@ -43,7 +43,8 @@ end
 When /^the admin responds to the csv alert email$/ do
   click_link 'Logout'
   step "I am a logged in admin"
-  click_first_link_in_email
+  #click_first_link_in_email
+  visit_in_email(admin_opportunities_import_url(:host => 'beta.mapbadger.com'))
   select(@company.company_name, :from => 'Company')
   attach_file 'csv', 'spec/fixtures/opportunities_geo.csv'
   click_button 'Import'
