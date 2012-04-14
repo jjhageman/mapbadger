@@ -23,7 +23,8 @@ class Mapbadger.Views.MapView extends Backbone.View
       'displayHeat',
       'displayMarkers',
       'makeMarker',
-      'hideMarkers',
+      'hideAllMarkers',
+      'showHeat',
       'hideHeat',
       'clearMap')
     @zoom = 4
@@ -323,21 +324,9 @@ class Mapbadger.Views.MapView extends Backbone.View
 
   displayMapData: () -> 
     if @dataDisplayStyle is 'heatmap' then @displayHeat() else @displayMarkers()
-    #if @dataDisplayStyle is 'heatmap'
-      #if @heatmap.data is @mapData
-        #@heatmap.toggle() unless @heatmap.visible
-      #else
-        #@hideMarkers()
-        #@displayHeat()
-    #else
-      #if @markerMap.data is @mapData
-        #@showMarkers() unless @markerMap.visible
-      #else
-        #@hideHeat()
-        #@displayMarkers()
 
   displayHeat: ->
-    @hideMarkers()
+    @hideAllMarkers()
     @heatmap.heatmap.clear()
     opps = if @mapData is 'nasdaq' then @nasdaq else @options.opportunities
     oppsData = opps.map( (opp) ->
@@ -352,22 +341,24 @@ class Mapbadger.Views.MapView extends Backbone.View
       data: oppsData
     }
     @heatmap.setDataSet(heatData)
-    @updateLegend()
+    @showHeat()
     @dataDisplayStyle = 'heatmap'
     @heatmap.data = @mapData
     @heatmap.visible = true
+    @updateLegend()
 
   displayMarkers: ->
     @hideHeat()
     if @markerMap[@mapData].length > 0
-      @showMarkers() unless @markerMap.visible
+      @showMarkers()
     else
       opps = if @mapData is 'nasdaq' then @nasdaq else @options.opportunities
       opps.each(@makeMarker)
-    @updateLegend()
+    @hideMarkers()
     @dataDisplayStyle = 'markers'
     @markerMap.data = @mapData
     @markerMap.visible = true
+    @updateLegend()
 
   makeMarker: (opp) ->
     marker = new google.maps.Marker
@@ -381,20 +372,31 @@ class Mapbadger.Views.MapView extends Backbone.View
       marker.setVisible true
 
   hideMarkers: ->
-    for marker in @markerMap[@mapData]
+    hide_data = _.without(['nasdaq', 'custom'], @mapData)
+    for marker in @markerMap[hide_data]
       marker.setVisible false
+
+  hideAllMarkers: ->
+    for data in ['nasdaq', 'custom']
+      for marker in @markerMap[data]
+        marker.setVisible false
     @markerMap.visible = false
     @$('#map-legend').empty()
+
+  showHeat: ->
+    unless @heatmap.heatmap.get('visible')
+      @heatmap.heatmap.get('canvas').style.display = "block"
+      @heatmap.heatmap.set('visible', true)
+    @heatmap.visible = false
 
   hideHeat: ->
     if @heatmap.heatmap.get('visible')
       @heatmap.heatmap.get('canvas').style.display = "none"
       @heatmap.heatmap.set('visible', false)
     @heatmap.visible = false
-    @$('#map-legend').empty()
 
   clearMap: ->
-    @hideMarkers()
+    @hideAllMarkers()
     @hideHeat()
 
   updateLegend: ->
