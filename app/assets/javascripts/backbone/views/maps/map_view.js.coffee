@@ -88,6 +88,9 @@ class Mapbadger.Views.MapView extends Backbone.View
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
     $(@el).prepend(JST["backbone/templates/maps/loading"]())
+    @$("#map-tools").tooltip({
+      selector: "button[rel=tooltip]"
+    })
     return this
 
   nextColor: ->

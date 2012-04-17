@@ -22,7 +22,7 @@ class Territory < ActiveRecord::Base
 
   def bounding_box
     points = regions.flat_map {|r| r.geometries.flat_map {|g| Geometry::FACTORY.unproject(g.area.exterior_ring).points}} + 
-      zipcodes.flat_map {|r| r.geometries.flat_map {|g| Geometry::FACTORT.unproject(g.area.exterior_ring).points}}
+      zipcodes.flat_map {|r| r.geometries.flat_map {|g| Geometry::FACTORY.unproject(g.area.exterior_ring).points}}
     bbox_points = points.map{ |p| RGeo::Feature.cast(p, Geometry::FACTORY) }
     bbox = RGeo::Geographic::ProjectedWindow.bounding_points(bbox_points)
   end

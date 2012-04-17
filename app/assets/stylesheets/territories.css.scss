@@ -9,6 +9,7 @@ body { height: 100%; margin: 0px; padding: 60px 0 40px; }
   background-color: #222222;
 }
 .navbar .nav li.info > p { margin: 0; color: #BCE8F1; }
+.tip { float: right; }
 #map-content.container-fluid, #map-content > div.row-fluid, #content, #map-canvas { height: 100%; }
 #map-container #territory-data { width: 98% }
 #map-container { 
@@ -37,7 +38,7 @@ body { height: 100%; margin: 0px; padding: 60px 0 40px; }
 #opportunity-count { float: right; font-style:italic; }
 #sidebar {
   #new { padding-bottom: 50px; }
-  #saved, #new { min-height: 150px; position: relative; }
+  #saved, #new { padding-top: 5px; min-height: 150px; position: relative; }
 }
 #map-interactions .well { padding: 12px 5px; }
 #edit-territory { 
@@ -50,7 +51,7 @@ body { height: 100%; margin: 0px; padding: 60px 0 40px; }
 }
 ul#selected-regions {
   list-style-type: none;
-  margin: 0; padding: 5px 5px 5px 0;
+  margin: 0; padding: 10px 5px 5px 0;
   li.region { padding-left: 8px; color: #0088CC; }
 }
 #sidebar-tab-content { padding: 0 15px; }
@@ -59,7 +60,7 @@ select#available-reps { height: auto; }
 [class^="icon-"],[class*=" icon-"]{background-image:url(image-path("glyphicons-halflings.png"))}
 ul#territories { 
   font-size: 12px;
-  margin: 0; padding: 5px 5px 5px 0;
+  margin: 0; padding: 10px 5px 5px 0;
   .active {
     a { color: #FFF; }
     color: #FFF;

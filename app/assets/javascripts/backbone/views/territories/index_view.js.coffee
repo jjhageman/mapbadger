@@ -70,4 +70,12 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     @renderTerritoryData()
     #$("#sidebar #select-regions").bind("click", @selectRegions)
     @$("#reset-map").bind("click", @map.clearSel)
+    @$("#saved").tooltip({
+      selector: "a[rel=tooltip]"
+      placement: "left"
+    })
+    @$("#new").tooltip({
+      selector: "a[rel=tooltip]"
+      placement: "left"
+    })
     return this
