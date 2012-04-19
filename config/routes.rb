@@ -21,14 +21,14 @@ Mapbadger::Application.routes.draw do
 
   resources :representatives do
     collection do
-      get 'import'
+      get 'upload' => 'representatives#import'
       post 'import' => 'representatives#upload'
     end
   end
 
   resources :opportunities do
     collection do
-      get 'import'
+      get 'upload' => 'opportunities#import'
       post 'import' => 'opportunities#upload'
       get 'advanced' => 'opportunities#advanced_import'
       post 'advanced' => 'opportunities#advanced_upload'
