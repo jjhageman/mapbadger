@@ -2,6 +2,19 @@ require 'rgeo-shapefile'
 require 'polyline_encoder'
 
 namespace :import do
+  namespace :region_attributes do
+    desc 'Populate a new attribute in the regions table'
+    task :csv, [:filename, :attribute] => :environment do |task,args|
+      raise "File does not exits: #{args[:filename]}" unless File.exists?(args[:filename])
+      puts 'Importing csv:'
+      debugger
+      CSV.foreach args[:filename], :headers => true, :header_converters => :downcase do |row|
+        region = Region.find_by_name(row['state'])
+        region.write_attribute(args[:attribute], row[args[:attribute]])
+      end
+    end
+  end
+
   namespace :nasdaq do
     desc 'Import NASDAQ companies csv file'
     task :csv, [:filename] => :environment do |task,args|
