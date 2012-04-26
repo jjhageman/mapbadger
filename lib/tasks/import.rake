@@ -7,11 +7,17 @@ namespace :import do
     task :csv, [:filename, :attribute] => :environment do |task,args|
       raise "File does not exits: #{args[:filename]}" unless File.exists?(args[:filename])
       puts 'Importing csv:'
-      debugger
+
       CSV.foreach args[:filename], :headers => true, :header_converters => :downcase do |row|
-        region = Region.find_by_name(row['state'])
-        region.write_attribute(args[:attribute], row[args[:attribute]])
+        region = Region.find_by_name(row['name'])
+        if region
+          region.update_attribute(args[:attribute], row[args[:attribute]].gsub(/[^\d\.]/, '').to_i)
+          puts "#{region.name} updated with #{region[args[:attribute]]}"
+        else
+          puts "* Could not find region with name #{row['name']}"
+        end
       end
+      puts "Done."
     end
   end
 
