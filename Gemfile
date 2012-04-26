@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 #gem 'rails', '3.2.1'
-gem 'rails', '3.1.3'
+gem 'rails', '3.2.3'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -14,18 +14,16 @@ gem 'activerecord-postgis-adapter'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  #gem 'sass-rails',   '~> 3.2.3'
-  gem 'sass-rails',   '~> 3.1.5'
-  #gem 'coffee-rails', '~> 3.2.1'
-  gem 'coffee-rails', '~> 3.1.1'
-  gem 'uglifier', '>= 1.2.2'
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
 end
 
 gem 'devise'
 gem 'cancan'
 gem 'therubyracer'
 gem 'jquery-rails'
-gem 'rails-backbone', '~> 0.7.0'
+gem 'rails-backbone', '~> 0.7.2'
 gem 'cacheable_flash'
 gem 'carrierwave'
 gem 'fog'
@@ -43,7 +41,7 @@ gem "rubber", "1.15.0"
 
 group :test do
   gem 'cucumber-rails'
-  gem 'rspec-rails', '~> 2.8.1'
+  gem 'rspec-rails', '~> 2.9.0'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'email_spec'
