@@ -8,7 +8,7 @@ namespace :rubber do
       rubber.sudo_script "install_rvm", <<-ENDSCRIPT
         if [[ ! `rvm --version 2> /dev/null` =~ "#{rubber_env.rvm_version}" ]]; then
           cd /tmp
-          curl -s https://rvm.beginrescueend.com/install/rvm -o rvm-installer
+          curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer -o rvm-installer
           chmod +x rvm-installer
           rm -f /etc/rvmrc
           rvm_path=#{rubber_env.rvm_prefix} ./rvm-installer --version #{rubber_env.rvm_version}
@@ -75,7 +75,7 @@ namespace :rubber do
         if [[ "#{repository}" =~ "@" ]]; then
           # Get host key for src machine to prevent ssh from failing
           rm -f ~/.ssh/known_hosts
-          ! ssh -o 'StrictHostKeyChecking=no' #{repository.gsub(/:.*/, '')} &> /dev/null
+          ssh -o 'StrictHostKeyChecking=no' #{repository.gsub(/:.*/, '')} &> /dev/null || true
         fi
       ENDSCRIPT
     end

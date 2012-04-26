@@ -28,7 +28,6 @@ gem 'cacheable_flash'
 gem 'carrierwave'
 gem 'fog'
 gem 'will_paginate'
-gem "rubber", "1.15.0"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -51,3 +50,9 @@ end
 group :development, :test do
   gem 'ruby-debug19', :require => 'ruby-debug'
 end
+
+gem 'rubber', '2.0.0'
+gem 'open4'
+gem 'gelf'
+gem 'graylog2_exceptions', :git => 'git://github.com/wr0ngway/graylog2_exceptions.git'
+gem 'graylog2-resque'

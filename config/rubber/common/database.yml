@@ -1,8 +1,8 @@
 <%
-  @path = "#{RUBBER_ROOT}/config/database.yml"
+  @path = "#{Rubber.root}/config/database.yml"
 %>
 
-<%= RUBBER_ENV %>:
+<%= Rubber.env %>:
   adapter: postgis
   encoding: utf8
   database: <%= rubber_env.db_name %>

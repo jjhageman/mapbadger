@@ -6,7 +6,7 @@ app_user: app
 
 # REQUIRED: Notification emails (e.g. monit) get sent to this address
 #
-admin_email: jjhageman@gmail.com
+admin_email: "jjhageman@gmail.com"
 
 # OPTIONAL: If not set, you won't be able to access web_tools
 # server (munin stats, monit status, etc)
@@ -26,26 +26,27 @@ domain: mapbadger.com
 # dns records (CNAME, MX, Round Robin DNS, etc)
 
 # OPTIONAL: Additional rubber file to pull config from if it exists.  This file will
-# also be pushed to remote host at RUBBER_ROOT/config/rubber/rubber-secret.yml
+# also be pushed to remote host at Rubber.root/config/rubber/rubber-secret.yml
 #
-# rubber_secret: "#{File.expand_path('~') + '/.ec2' + (RUBBER_ENV == 'production' ? '' : '_dev') + '/rubber-secret.yml' rescue ''}"
+# rubber_secret: "#{File.expand_path('~') + '/.ec2' + (Rubber.env == 'production' ? '' : '_dev') + '/rubber-secret.yml' rescue ''}"
 
 # REQUIRED All known cloud providers with the settings needed to configure them
-# There's only one coud provider right now - Amazon Web Services
-# To implement another, clone lib/rubber/cloud/aws.rb
+# There's only one working cloud provider right now - Amazon Web Services
+# To implement another, clone lib/rubber/cloud/aws.rb or make the fog provider 
+# work in a generic fashion
 #
 cloud_providers:
   aws:
-    # REQUIRED The endpoint for the region server that you want to use.
+    # REQUIRED The AWS region that you want to use.
     # 
     # Options include
-    # us-east-1.ec2.amazonaws.com
-    # eu-west-1.ec2.amazonaws.com
-    # ap-northeast-1.ec2.amazonaws.com
-    # ap-southeast-1.ec2.amazonaws.com
-    # ap-southeast-2.ec2.amazonaws.com
+    # us-east-1
+    # eu-west-1
+    # ap-northeast-1
+    # ap-southeast-1
+    # ap-southeast-2
     #
-    server_endpoint: us-east-1.ec2.amazonaws.com
+    region: us-east-1
     
     # REQUIRED The amazon keys and account ID (digits only, no dashes) used to access the AWS API
     #
@@ -60,7 +61,7 @@ cloud_providers:
     # extension ".pub".  The easiest way to get your hand on this is to create the
     # public key from the private key: ssh-keygen -y -f gsg-keypair > gsg-keypair.pub
     #
-    key_name: rubber
+    key_name: gsg-keypair
     key_file: "#{Dir[(File.expand_path('~') rescue '/root') + '/.ec2/*' + cloud_providers.aws.key_name].first}"
 
     # OPTIONAL: Needed for bundling a running instance using rubber:bundle
@@ -74,13 +75,13 @@ cloud_providers:
 
     # REQUIRED: the ami and instance type for creating instances
     # The Ubuntu images at http://alestic.com/ work well
-    # Ubuntu 10.04 Lucid	base install	32-bit	ami-7000f019
-    # Ubuntu 10.04 Lucid	base install	64-bit	ami-fa01f193
+    # Ubuntu 10.04 Lucid	base install	32-bit	ami-4fd00726
+    # Ubuntu 10.04 Lucid	base install	64-bit	ami-35de095c
     #
     # m1.small or m1.large or m1.xlarge
     image_type: t1.micro
     image_id: ami-55dc0b3c
-    # image_id: "#{ %w{m1.small c1.medium}.include?(image_type) ? 'ami-7000f019' : 'ami-fa01f193' }"
+    #image_id: "#{ %w{m1.small c1.medium}.include?(image_type) ? 'ami-4fd00726' : 'ami-35de095c' }"
 
     # OPTIONAL: EC2 spot instance request support.
     #
@@ -94,10 +95,43 @@ cloud_providers:
     # If a spot instance request can't be fulfilled in 3 minutes, fallback to on-demand instance creation.  If not set,
     # the default is infinite.
     # spot_instance_request_timeout: 180
+    
+  # Use an alternate cloud provider supported by fog.  This doesn't fully work
+  # yet due to differences in providers within fog, but gives you a starting
+  # point for contributing a new provider to rubber.  See rubber/lib/rubber/cloud(.rb)
+  fog:
+    credentials:
+      provider: rackspace
+      rackspace_api_key: 'XXX'
+      rackspace_username: 'YYY'
+    image_type: 123
+    image_id: 123
 
 # REQUIRED the cloud provider to use
 #
 cloud_provider: aws
+
+# OPTIONAL: Where to store instance data.
+# 
+# Allowed forms are:
+# filesystem: "file:#{Rubber.root}/config/rubber/instance-#{Rubber.env}.yml"
+# cloud storage (s3): "storage:#{cloud_provider.aws.backup_bucket}/RubberInstances_#{app_name}/instance-#{Rubber.env}.yml"
+# cloud table (simpledb): "table:RubberInstances_#{app_name}_#{Rubber.env}"
+#
+# If you need to port between forms, load the rails console then:
+# Rubber.instances.save(location)
+# where location is one of the allowed forms for this variable
+#
+# instance_storage: "file:#{Rubber.root}/config/rubber/instance-#{Rubber.env}.yml"
+
+# OPTIONAL: Where to store a backup of the instance data
+#
+# This is most useful when using a remote store in case you end up
+# wiping the single copy of your instance data.  When using the file
+# store, the instance file is typically under version control with
+# your project code, so that provides some safety.
+#
+# instance_storage_backup: "storage:#{cloud_providers.aws.backup_bucket}/RubberInstances_#{app_name}/instance-#{Rubber.env}-#{Time.now.strftime('%Y%m%d-%H%M%S')}.yml"
 
 # OPTIONAL: Define security groups
 # Each security group is a name associated with a sequence of maps where the
@@ -137,7 +171,7 @@ prompt_for_security_group_sync: true
 # OPTIONAL: The packages to install on all instances
 # You can install a specific version of a package by using a sub-array of pkg, version
 # For example, packages: [[rake, 0.7.1], irb]
-packages: [postfix, build-essential, git-core, ec2-ami-tools]
+packages: [postfix, build-essential, git-core, ec2-ami-tools, libxslt-dev]
 
 # OPTIONAL: gem sources to setup for rubygems
 # gemsources: ["http://rubygems.org", "http://gems.github.com"]
@@ -155,10 +189,10 @@ stop_on_error_cmd: "function error_exit { exit 99; }; trap error_exit ERR"
 
 # OPTIONAL: The default set of roles to use when creating a staging instance
 # with "cap rubber:create_staging".  By default this uses all the known roles,
-# but this is not always desired for staging, so you can specify a different
-# set here
+# excluding slave roles, but this is not always desired for staging, so you can
+# specify a different set here
 #
-staging_roles: "web,app,db:primary=true"
+# staging_roles: "web,app,db:primary=true"
 
 
 # OPTIONAL: Lets one assign amazon elastic IPs (static IPs) to your instances
@@ -174,7 +208,7 @@ staging_roles: "web,app,db:primary=true"
 #           affect instances in another.  As such, it is good to specify these
 #           for instances that need to be redundant to reduce your chance of
 #           downtime. You should typically set this on the role/host level
-#           rather than globally.  Use rubber describe:zones to see the list
+#           rather than globally.  Use cap rubber:describe_zones to see the list
 #           of zones
 # availability_zone: us-east-1a
 
@@ -217,14 +251,23 @@ staging_roles: "web,app,db:primary=true"
 #
 #     # for raid array, you'll need to add mdadm to packages.  Likewise,
 #     # xfsprogs is needed for xfs filesystem support
+#     #
 #     packages: [xfsprogs, mdadm]
 #     raid_volumes:
 #       - device: /dev/md0 # OS device to to create raid array on
 #         mount: /mnt/fast # The directory to mount this array to
+#         mount_opts: 'nobootwait' # Recent Ubuntu versions require this flag or SSH will not start on reboot
 #         filesystem: xfs # the filesystem to create on array
 #         filesystem_opts: -f # the filesystem opts in mkfs
 #         raid_level: 0 # the raid level to use for the array
-#         source_devices: [/dev/sdx, /dev/sdy] # the source EBS devices we are creating raid array from
+#         # if you're using Ubuntu 11.x or later (Natty, Oneiric, Precise, etc)
+#         # you will want to specify the source devices in their /dev/xvd format
+#         # see https://bugs.launchpad.net/ubuntu/+source/linux/+bug/684875 for
+#         # more information.
+#         # NOTE: Only make this change for raid source_devices, NOT generic
+#         # volume commands above.
+#         source_devices: [/dev/sdx, /dev/sdy] # the source EBS devices we are creating raid array from (Ubuntu Lucid or older)
+#         source_devices: [/dev/xvdx, /dev/xvdy] # the source EBS devices we are creating raid array from (Ubuntu Natty or newer)
 #
 #     # for LVM volumes, you'll need to add lvm2 to packages.  Likewise,
 #     # xfsprogs is needed for xfs filesystem support
