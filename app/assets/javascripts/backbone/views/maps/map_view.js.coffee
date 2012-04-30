@@ -22,6 +22,8 @@ class Mapbadger.Views.MapView extends Backbone.View
       'displayAreaForEdit',
       'loadNasdaq',
       'loadCustom',
+      'loadPopulation',
+      'loadBusinessPopulation',
       'displayHeat',
       'displayMarkers',
       'makeMarker',
@@ -87,6 +89,26 @@ class Mapbadger.Views.MapView extends Backbone.View
     @palette = ['#AA00A2','#0A64A4','#FF9700','#7F207B','#24577B','#BF8530','#6E0069','#03406A','#A66200','#D435CD','#3E94D1','#FFB140','#D460CF','#65A5D1','#FFC673','#808000','#00FF00','#008000']
     @palette_pointer = 0
     @legend_colors = ['#9E0142', '#D53E4F', '#F46D43', '#FDAE61', '#FEE08B', '#E6F598', '#ABDDA4', '#66C2A5', '#3288BD', '#5E4FA2']
+    
+
+    @popRegions = new Mapbadger.Collections.RegionsCollection()
+    @bizPopRegions = new Mapbadger.Collections.RegionsCollection()
+    @popRegions.reset @options.regions.filter (region) ->
+      region.get('population')?
+    @bizPopRegions.reset @options.regions.filter (region) ->
+      region.get('business_population')?
+    @maxPopulation = @popRegions.max((region) ->
+      region.get('population')
+    ).get('population')
+    @maxBizPop = @bizPopRegions.max((region) ->
+      region.get('business_population')
+    ).get('business_population')
+    @minPopulation = @popRegions.min((region) ->
+      region.get('population')
+    ).get('population')
+    @minBizPop = @bizPopRegions.min((region) ->
+      region.get('business_population')
+    ).get('business_population')
 
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
@@ -413,35 +435,58 @@ class Mapbadger.Views.MapView extends Backbone.View
     @mapData = 'population'
     @clearTerritories()
     @clearMap()
-    regions = @options.regions.filter( (region) ->
-      region.get('population')?
-    )
+    scale_unit = 9/(@maxPopulation-@minPopulation)
 
-    max = _.max(regions, (region) ->
-      region.get('population')
-    ).get('population')
-
-    min = _.min(regions, (region) ->
-      region.get('population')
-    ).get('population')
-
-    inc_unit = Math.round((max-min)/10)
-    scale_unit = 9/(max-min)
-
-    for region in regions
-      color = @legend_colors[Math.floor(scale_unit*(region.get('population')-min))]
+    @popRegions.each (region) =>
+      color = @legend_colors[Math.floor(scale_unit*(region.get('population')-@minPopulation))]
       region.get('polygon').google_poly.setOptions({fillColor: color, fillOpacity: 0.75})
 
-    @$('#map-legend').html(JST["backbone/templates/maps/legend_colors"])
-    for color, i in @legend_colors
-      @$('#legend-colors').append(
-        '<li>'+
-        @formatNumber(min+(i*inc_unit))+' - '+
-        @formatNumber(min+((i+1)*inc_unit)-1)+
-        '<div class="legend-box" style="background-color:'+color+';opacity:0.75"></div></li>')
+    $('#map-legend').html(@populationLegendHtml())
 
   loadBusinessPopulation: ->
+    @mapData = 'biz_pop'
+    @clearTerritories()
+    @clearMap()
+    scale_unit = 9/(@maxBizPop-@minBizPop)
 
+    @bizPopRegions.each (region) =>
+      color = @legend_colors[Math.floor(scale_unit*(region.get('business_population')-@minBizPop))]
+      region.get('polygon').google_poly.setOptions({fillColor: color, fillOpacity: 0.75})
+
+    $('#map-legend').html(@bizPopLegendHtml())
+
+  populationLegendHtml: ->
+    # lazy-load and memoize: http://peter.michaux.ca/articles/lazy-function-definition-pattern
+    if typeof arguments.callee.t != 'undefined'
+      return arguments.callee.t
+
+    inc_unit = Math.round((@maxPopulation-@minPopulation)/10)
+    html = for color, i in @legend_colors
+      @formatNumber(@minPopulation+(i*inc_unit))+' - '+
+      @formatNumber(@minPopulation+((i+1)*inc_unit)-1)+
+      '<div class="legend-box" style="background-color:'+color+';opacity:0.75"></div>'
+    last = html.length-1
+    html[0] = '<strong>US Populations</strong>\n<ul id="legend-colors">\n<li>' + html[0]
+    html[last] = html[last] + '</li>\n</ul>'
+    html = html.join '</li>\n<li>'
+
+    return arguments.callee.t = html
+
+  bizPopLegendHtml: ->
+    if typeof arguments.callee.t != 'undefined'
+      return arguments.callee.t
+    
+    inc_unit = Math.round((@maxBizPop-@minBizPop)/10)
+    html = for color, i in @legend_colors
+      @formatNumber(@minBizPop+(i*inc_unit))+' - '+
+      @formatNumber(@minBizPop+((i+1)*inc_unit)-1)+
+      '<div class="legend-box" style="background-color:'+color+';opacity:0.75"></div>'
+    last = html.length-1
+    html[0] = '<strong>US Business Populations</strong>\n<ul id="legend-colors">\n<li>' + html[0]
+    html[last] = html[last] + '</li>\n</ul>'
+    html = html.join '</li>\n<li>'
+
+    return arguments.callee.t = html
 
   formatNumber: (number) ->
     number.toString().replace /\B(?=(\d{3})+(?!\d))/g, ","
