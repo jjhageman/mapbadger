@@ -11,12 +11,3 @@ window.Mapbadger =
   Collections: {}
   Routers: {}
   Views: {}
-
-# var MapBadger = 
-#   Models: {}
-#   Collections: {}
-#   Views: {}
-#   Routers: {}
-#   init: ->
-#     new MapBadger.Routers.Territories()
-#     Backbone.history.start()

@@ -24,6 +24,14 @@ body { height: 100%; margin: 0px; padding: 60px 0 40px; }
   font-size: 11px;
   span { padding-right: 20px; }
 }
+#legend-colors {
+  font-size: 11px;
+  margin: 0;
+  padding: 0;
+  li { list-style: none; float: left; margin-right: 10px;
+    .legend-box { float: left; width: 10px; height: 10px; border: 1px solid #000; margin-right: 10px; }
+  }
+}
 #map-buttons { position: absolute; left: 10px; bottom: 10px;}
 #territory-data { 
   margin: 10px 0;
