@@ -1,17 +1,13 @@
-<h1>New representatives</h1>
+<h1>Upload Sales Team</h1>
 
 <div class="well">
-  <%= form_for :upload do |f| %>
+  <%= form_tag upload_representatives_path do %>
     <fieldset>
-      <legend>Representatives File Import</legend>
-      <%= f.file_field :csv, :class => 'input-file' %>
-      <p class="help-block">Only .CSV files with the following columns: FirstName, LastName</p>
+      <p class="help-block">Copy and paste the names of your sales team. Enter one name per line.</p>
+      <%= text_area_tag :representatives, nil, :class => 'input-xlarge', :rows => 8 %>
       <div class="form-actions">
-        <%= f.submit 'Import', :class => 'btn btn-primary' %>
+        <%= submit_tag 'Add', :class => 'btn btn-primary' %>
       </div>
     </fieldset>
   <% end %>
-</div>
-<div class="well">
-  <%= render 'form' %>
 </div>

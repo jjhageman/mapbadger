@@ -60,9 +60,14 @@ class RepresentativesController < ApplicationController
   end
 
   def upload
-    Representative.csv_import params[:upload][:csv].read, current_company
-
-    redirect_to representatives_path, notice: 'Your file has been imported.'
+    reps = params[:representatives].strip.split(/\r?\n|\r/)
+    reps.each do |r|
+      parts = r.strip.split(" ")
+      first = parts.first if parts.length > 0
+      last = parts.last if parts.length > 1
+      current_company.representatives.create(:first_name => first, :last_name => last)
+    end
+    redirect_to representatives_path, notice: 'Your reps have been created.'
   end
 
   # PUT /representatives/1
@@ -89,6 +94,15 @@ class RepresentativesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to representatives_url }
+      format.json { head :ok }
+    end
+  end
+
+  def destroy_multiple
+    Representative.destroy_all(:id => params[:representative_ids])
+
+    respond_to do |format|
+      format.html { redirect_to representatives_url, notice: 'Representatives were successfully deleted.' }
       format.json { head :ok }
     end
   end

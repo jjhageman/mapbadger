@@ -22,7 +22,8 @@ Mapbadger::Application.routes.draw do
   resources :representatives do
     collection do
       get 'upload' => 'representatives#import'
-      post 'import' => 'representatives#upload'
+      post 'upload'
+      delete 'destroy_multiple'
     end
   end
 
