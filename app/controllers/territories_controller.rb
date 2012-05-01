@@ -7,6 +7,10 @@ class TerritoriesController < ApplicationController
   def index
     @territories = current_company.territories
     @regions = Region.all_regions
+    @max_pop = Region.maximum(:population)
+    @min_pop = Region.minimum(:population)
+    @max_biz_pop = Region.maximum(:business_population)
+    @min_biz_pop = Region.minimum(:business_population)
     @opportunities = current_company.opportunities
     @reps = current_company.representatives
     respond_with(@territories)

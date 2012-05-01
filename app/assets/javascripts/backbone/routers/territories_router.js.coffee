@@ -12,7 +12,14 @@ class Mapbadger.Routers.TerritoriesRouter extends Backbone.Router
     @reps = new Mapbadger.Collections.RepresentativesCollection()
     @reps.reset options.reps
 
-    @map = new Mapbadger.Views.MapView({regions : @regions, opportunities: @opportunities})
+    @map = new Mapbadger.Views.MapView({
+      regions: @regions,
+      opportunities: @opportunities,
+      max_pop: options.max_pop,
+      min_pop: options.min_pop,
+      max_biz_pop: options.max_biz_pop,
+      min_biz_pop: options.min_biz_pop
+    })
 
   routes:
     "/new"      : "newTerritory"

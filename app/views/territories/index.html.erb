@@ -3,6 +3,10 @@
       window.router = new Mapbadger.Routers.TerritoriesRouter(
         { territories: <%= @territories.to_json.html_safe -%>,
         <% cache do %>regions: <%= @regions.to_json.html_safe -%><% end %>,
+          max_pop: <%= @max_pop %>,
+          min_pop: <%= @min_pop %>,
+          max_biz_pop: <%= @max_biz_pop %>,
+          min_biz_pop: <%= @min_biz_pop %>,
           opportunities: <%= @opportunities.to_json.html_safe -%>,
           reps: <%= @reps.to_json.html_safe -%>
         });

@@ -97,18 +97,23 @@ class Mapbadger.Views.MapView extends Backbone.View
       region.get('population')?
     @bizPopRegions.reset @options.regions.filter (region) ->
       region.get('business_population')?
-    @maxPopulation = @popRegions.max((region) ->
-      region.get('population')
-    ).get('population')
-    @maxBizPop = @bizPopRegions.max((region) ->
-      region.get('business_population')
-    ).get('business_population')
-    @minPopulation = @popRegions.min((region) ->
-      region.get('population')
-    ).get('population')
-    @minBizPop = @bizPopRegions.min((region) ->
-      region.get('business_population')
-    ).get('business_population')
+      
+    @maxPopulation = @options.max_pop
+    @minPopulation = @options.min_pop
+    @maxBizPop = @options.max_biz_pop
+    @minBizPop = @options.min_biz_pop
+    #@maxPopulation = @popRegions.max((region) ->
+      #region.get('population')
+    #).get('population')
+    #@maxBizPop = @bizPopRegions.max((region) ->
+      #region.get('business_population')
+    #).get('business_population')
+    #@minPopulation = @popRegions.min((region) ->
+      #region.get('population')
+    #).get('population')
+    #@minBizPop = @bizPopRegions.min((region) ->
+      #region.get('business_population')
+    #).get('business_population')
 
   render: ->
     $(@el).html(JST["backbone/templates/maps/map"]())
