@@ -63,9 +63,11 @@ class RepresentativesController < ApplicationController
     reps = params[:representatives].strip.split(/\r?\n|\r/)
     reps.each do |r|
       parts = r.strip.split(" ")
-      first = parts.first if parts.length > 0
-      last = parts.last if parts.length > 1
-      current_company.representatives.create(:first_name => first, :last_name => last)
+      if parts.length > 0
+        first = parts.first 
+        last = parts.last if parts.length > 1
+        current_company.representatives.create(:first_name => first, :last_name => last)
+      end
     end
     redirect_to representatives_path, notice: 'Your reps have been created.'
   end
