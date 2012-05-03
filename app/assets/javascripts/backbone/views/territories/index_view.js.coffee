@@ -19,6 +19,7 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
       @deactivateTerritory view for view in @territoryViews when view isnt territoryView
       territoryView.select()
       @displayTerritoryData(territoryView.model)
+      @displayTerritoryStats(territoryView.model)
 
   deactivateTerritory: (view) ->
     view.close()
@@ -31,6 +32,11 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
       success: (opportunities) =>
         territory.opportunities.reset(opportunities)
     })
+  
+  displayTerritoryStats: (territory) ->
+    $('#map-interactions').prepend(JST["backbone/templates/territories/territory_stats"])
+    $('#stats dd#population').html('55')
+    $('#stats dd#biz-pop').html('55')
 
   addAll: () ->
     @options.territories.each(@addOne)
