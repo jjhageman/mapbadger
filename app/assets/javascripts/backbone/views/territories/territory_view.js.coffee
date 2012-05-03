@@ -40,7 +40,7 @@ class Mapbadger.Views.Territories.TerritoryView extends Backbone.View
       @renderSortTableHeaders()
     else
       $("#opportunity-count").empty()
-      $("#territory-data table tbody").html('<tr><td colspan="5">No sales opportunities in this territory.</td></tr>')
+      $("#territory-data table tbody").html('<tr><td colspan="5">No sales opportunities in this territory. <a href="opportunities/upload">Add Accounts</a></td></tr>')
       $("#territory-data table thead").html(JST["backbone/templates/territories/territory_data_headers"])
 
   renderSortTableHeaders: ->

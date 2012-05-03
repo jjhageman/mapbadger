@@ -6,6 +6,8 @@ Mapbadger::Application.routes.draw do
     delete "logout" => "devise/sessions#destroy"
     get "register" => "devise/registrations#new"
     get "verification" => "devise/confirmations#new"
+    get "forgot_password" => "devise/passwords#new"
+    get "resend" => "devise/confirmations#new"
   end
 
   namespace :admin do

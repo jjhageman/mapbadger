@@ -20,6 +20,12 @@ body { height: 100%; margin: 0px; padding: 60px 0 40px; }
 #map-content.container-fluid { padding: 0 8px 0 10px; }
 #map-canvas { height: 500px; border: 2px solid #EEE; }
 #map-legend { background-color:#f5f5f5; padding: 10px; margin-bottom: 20px; border: 2px solid #EEE; }
+#map-tools {
+  .well {
+    padding: 8px;
+    .btn-toolbar { margin: 3px 0 0 0; }
+  }
+}
 #legend-content { 
   font-size: 11px;
   span { padding-right: 20px; }
