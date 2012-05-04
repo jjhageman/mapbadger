@@ -20,6 +20,14 @@ class Territory < ActiveRecord::Base
     Opportunity.where(:company_id => company_id).joins("INNER JOIN geometries ON geometries.id IN (#{geometry_ids}) AND st_contains(geometries.area, opportunities.location)")
   end
 
+  def population
+    regions.sum(:population)
+  end
+
+  def business_population
+    regions.sum(:business_population)
+  end
+
   def bounding_box
     points = regions.flat_map {|r| r.geometries.flat_map {|g| Geometry::FACTORY.unproject(g.area.exterior_ring).points}} + 
       zipcodes.flat_map {|r| r.geometries.flat_map {|g| Geometry::FACTORY.unproject(g.area.exterior_ring).points}}
@@ -40,6 +48,6 @@ class Territory < ActiveRecord::Base
       { regions: { only: [:id, :name] },
         zipcodes: { only: [:id, :name] },
         representative: { only: [:id, :first_name, :last_name]},
-      }, methods: :bounding_data ))
+      }, methods: [:bounding_data, :population, :business_population ]))
   end
 end

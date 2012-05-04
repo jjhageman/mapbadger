@@ -35,8 +35,8 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
   
   displayTerritoryStats: (territory) ->
     $('#map-interactions').prepend(JST["backbone/templates/territories/territory_stats"])
-    $('#stats dd#population').html('55')
-    $('#stats dd#biz-pop').html('55')
+    $('#stats dd#population').html(territory.get('population'))
+    $('#stats dd#biz-pop').html(territory.get('business_population'))
 
   addAll: () ->
     @options.territories.each(@addOne)
