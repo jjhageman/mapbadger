@@ -3,6 +3,7 @@ Mapbadger::Application.routes.draw do
   devise_for :companies
   devise_scope :company do
     get "login" => "devise/sessions#new"
+    get '/' => 'devise/sessions#new'
     delete "logout" => "devise/sessions#destroy"
     get "register" => "devise/registrations#new"
     get "verification" => "devise/confirmations#new"
@@ -51,7 +52,5 @@ Mapbadger::Application.routes.draw do
   resources :csvs
 
   match '/welcome' => "territories#index", :as => :company_root
-  get '/' => 'home#index', :as => :notifications
-  post '/' => 'home#create', :as => :notification
-  root :to => 'home#index'
+  root :to => 'devise/sessions#new'
 end

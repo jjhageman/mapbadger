@@ -1,5 +1,5 @@
 When /^I create a new opportunity$/ do
-  visit '/opportunities/import'
+  visit '/opportunities/upload'
   fill_in 'Prospect Name', :with => 'Acme Anvils, Inc.'
   fill_in 'Address 1', :with => '123 Market St.'
   fill_in 'Address 2', :with => 'Ste 100'
@@ -14,7 +14,7 @@ Then /^I should see the opportunity details$/ do
 end
 
 When /^I upload an opportunity CSV file$/ do
-  visit '/opportunities/import'
+  visit '/opportunities/upload'
   attach_file 'csv_file', 'spec/fixtures/opportunities.csv'
   click_button 'Import'
 end

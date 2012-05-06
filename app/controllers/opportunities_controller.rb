@@ -64,7 +64,7 @@ class OpportunitiesController < ApplicationController
     @csv = current_company.csvs.new(params[:csv])
     if @csv.save
       ContactMailer.csv_upload_alert(@csv.file.url).deliver
-      redirect_to import_opportunities_path, notice: 'Your CSV file has been received. You will be notified by email when it has finished processing.'
+      redirect_to upload_opportunities_path, notice: 'Your CSV file has been received. You will be notified by email when it has finished processing.'
     else
       render action: 'import', alert: 'There was a problem uploading your CSV file.'
     end
