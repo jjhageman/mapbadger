@@ -34,9 +34,12 @@ class Mapbadger.Views.Territories.IndexView extends Backbone.View
     })
   
   displayTerritoryStats: (territory) ->
-    $('#map-interactions').prepend(JST["backbone/templates/territories/territory_stats"])
-    $('#stats dd#population').html(territory.get('population'))
-    $('#stats dd#biz-pop').html(territory.get('business_population'))
+    $('#map-interactions').prepend(JST["backbone/templates/territories/territory_stats"]) unless $('#stats').length
+    $('#territory-name').html(territory.get('name'))
+    population = if territory.get('population')>0 then Mapbadger.Utility.formatNumber(territory.get('population')) else 'unavailable'
+    $('#stats #population').html(population)
+    bizPop = if territory.get('business_population')>0 then Mapbadger.Utility.formatNumber(territory.get('business_population')) else 'unavailable'
+    $('#stats #biz-pop').html(bizPop)
 
   addAll: () ->
     @options.territories.each(@addOne)

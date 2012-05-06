@@ -53,6 +53,10 @@ body { height: 100%; margin: 0px; padding: 60px 0 40px; }
 #sidebar {
   #new { padding-bottom: 50px; }
   #saved, #new { padding-top: 5px; min-height: 150px; position: relative; }
+  #stats {
+    font-size: 11px;
+    #territory-name { font-size: 12px; }
+  }
 }
 
 #map-interactions .well { padding: 12px 5px; }

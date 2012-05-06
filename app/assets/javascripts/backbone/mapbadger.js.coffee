@@ -1,4 +1,5 @@
 #= require_self
+#= require_tree ./mixins
 #= require_tree ./templates
 #= require_tree ./models
 #= require_tree ./views
@@ -11,3 +12,4 @@ window.Mapbadger =
   Collections: {}
   Routers: {}
   Views: {}
+  Mixins: {}

@@ -467,8 +467,8 @@ class Mapbadger.Views.MapView extends Backbone.View
 
     inc_unit = Math.round((@maxPopulation-@minPopulation)/10)
     html = for color, i in @legend_colors
-      @formatNumber(@minPopulation+(i*inc_unit))+' - '+
-      @formatNumber(@minPopulation+((i+1)*inc_unit)-1)+
+      Mapbadger.Utility.formatNumber(@minPopulation+(i*inc_unit))+' - '+
+      Mapbadger.Utility.formatNumber(@minPopulation+((i+1)*inc_unit)-1)+
       '<div class="legend-box" style="background-color:'+color+';opacity:0.75"></div>'
     last = html.length-1
     html[0] = '<strong>US Populations</strong>\n<ul id="legend-colors">\n<li>' + html[0]
@@ -483,8 +483,8 @@ class Mapbadger.Views.MapView extends Backbone.View
     
     inc_unit = Math.round((@maxBizPop-@minBizPop)/10)
     html = for color, i in @legend_colors
-      @formatNumber(@minBizPop+(i*inc_unit))+' - '+
-      @formatNumber(@minBizPop+((i+1)*inc_unit)-1)+
+      Mapbadger.Utility.formatNumber(@minBizPop+(i*inc_unit))+' - '+
+      Mapbadger.Utility.formatNumber(@minBizPop+((i+1)*inc_unit)-1)+
       '<div class="legend-box" style="background-color:'+color+';opacity:0.75"></div>'
     last = html.length-1
     html[0] = '<strong>US Business Populations</strong>\n<ul id="legend-colors">\n<li>' + html[0]
@@ -492,9 +492,6 @@ class Mapbadger.Views.MapView extends Backbone.View
     html = html.join '</li>\n<li>'
 
     return arguments.callee.t = html
-
-  formatNumber: (number) ->
-    number.toString().replace /\B(?=(\d{3})+(?!\d))/g, ","
 
   # addOpportunity: (opportunity) ->
   #   latlng = new google.maps.LatLng(opportunity.get("lat"), opportunity.get("lng"))
