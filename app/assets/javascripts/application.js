@@ -6,7 +6,5 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap-modal
-//= require bootstrap-tabs
-//= require bootstrap-tooltip
+//= require bootstrap
 //= require opportunities

@@ -28,6 +28,13 @@
                 </div>
               </div>
             </div>
+            <% if current_company.first_login? %>
+            <script type="text/javascript">
+              <!--
+              $('#tutorial').modal('show')
+              // -->
+            </script>
+          <% end %>
           </body>
         </html>
 

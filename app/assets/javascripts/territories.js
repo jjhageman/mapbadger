@@ -9,6 +9,5 @@
 //= require backbone_rails_sync
 //= require backbone_datalink
 //= require backbone/mapbadger
-//= require bootstrap-dropdown
 //= require heatmap-gmap
 //= require heatmap

@@ -18,5 +18,9 @@ class Company < ActiveRecord::Base
   
   def admin?
     role == 'admin'
-  end  
+  end
+
+  def first_login?
+    sign_in_count == 1
+  end
 end
