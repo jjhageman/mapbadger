@@ -38,7 +38,7 @@ describe Opportunity do
 
   describe "csv importing" do
     before(:each) do
-      @company = Factory(:company)
+      @company = FactoryGirl.create(:company)
     end
 
     describe "#csv_geo_import(file)" do
@@ -52,6 +52,10 @@ describe Opportunity do
           eos
           :tempfile => File.new("#{Rails.root}/spec/fixtures/opportunities_geo.csv")
         })
+      end
+
+      context "CSV file missing key column(s)" do
+        it "should return an error message about the missing column"
       end
 
       it "should create records for each csv line" do
