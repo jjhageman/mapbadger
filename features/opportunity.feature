@@ -3,13 +3,14 @@ Feature: Manage opportunity data
   As a user
   I want to import and manage sales opportunities
 
-  Scenario: User adds opportunity
+  Background:
     Given I am logged in
+
+  Scenario: User adds opportunity
     When I create a new opportunity
     Then I should see the opportunity details
 
   Scenario: Upload CSV file
-    Given I am logged in
     When I upload an opportunity CSV file
     Then I should see the confirmation message
     And admin should receive a csv alert email
@@ -19,6 +20,11 @@ Feature: Manage opportunity data
     Then I should receive a csv processed alert email
 
   Scenario: Advanced import opportunity CSV
-    Given I am logged in
     When I advanced upload an opportunity CSV file
+    Then I should see the CSV data table
+
+  Scenario: Advanced import with missing column
+    When I advanced upload an opportunity CSV file with a misnamed column
+    Then I should see a page to choose which column to use for the missing column
+    When I select an alternate column
     Then I should see the CSV data table

@@ -1,5 +1,5 @@
 def create_admin
-  @admin ||= Factory(:company, email: 'admin@mapbadger.com', :role => 'admin')
+  @admin ||= FactoryGirl.create(:company, email: 'admin@mapbadger.com', :role => 'admin')
 end
 
 def admin_sign_in

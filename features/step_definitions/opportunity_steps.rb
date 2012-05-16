@@ -25,8 +25,18 @@ end
 
 When /^I advanced upload an opportunity CSV file$/ do
   visit '/opportunities/advanced'
-  attach_file 'upload_csv', 'spec/fixtures/opportunities.csv'
+  attach_file 'upload_csv', 'spec/fixtures/opportunities_geo.csv'
   click_button 'Import'
+end
+
+When /^I advanced upload an opportunity CSV file with a misnamed column$/ do
+  visit '/opportunities/advanced'
+  attach_file 'upload_csv', 'spec/fixtures/misnamed_column_opps.csv'
+  click_button 'Import'
+end
+
+Then /^I should see a page to choose which column to use for the missing column$/ do
+  page.should have_content "Your CSV file appears to be missing the 'Address 1' column. Please select column from your file represents the data."
 end
 
 Then /^I should see the CSV data table$/ do

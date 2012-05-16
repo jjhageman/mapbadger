@@ -11,7 +11,7 @@ end
 def create_company
   create_visitor
   delete_company
-  @company = Factory(:company, company_name: 'Acme', email: @visitor[:email])
+  @company = FactoryGirl.create(:company, company_name: 'Acme', email: @visitor[:email])
 end
 
 def sign_in

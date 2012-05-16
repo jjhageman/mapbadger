@@ -13,7 +13,7 @@ eos
         :tempfile => File.new("#{Rails.root}/spec/fixtures/reps.csv")
       })
 
-      @company = Factory(:company)
+      @company = FactoryGirl.create(:company)
 
       expect {
         Representative.csv_import(csv_upload.read, @company)
