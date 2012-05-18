@@ -7,10 +7,10 @@ class Company < ActiveRecord::Base
   has_many :csvs
 
   # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :lockable and :omniauthable
+  # :token_authenticatable, :encryptable, :lockable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :timeoutable
+         :confirmable, :timeoutable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :company_name, :first_name, :last_name, :phone, :company_size,

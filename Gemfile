@@ -17,6 +17,8 @@ group :assets do
 end
 
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-salesforce'
 gem 'cancan'
 gem 'therubyracer'
 gem 'jquery-rails'
