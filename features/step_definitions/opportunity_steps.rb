@@ -36,7 +36,12 @@ When /^I advanced upload an opportunity CSV file with a misnamed column$/ do
 end
 
 Then /^I should see a page to choose which column to use for the missing column$/ do
+  pending
   page.should have_content "Your CSV file appears to be missing the 'Address 1' column. Please select column from your file represents the data."
+end
+
+When /^I select an alternate column$/ do
+  pending # express the regexp above with the code you wish you had
 end
 
 Then /^I should see the CSV data table$/ do

@@ -25,3 +25,8 @@ end
 Then /^my account should be confirmed$/ do
   page.should have_content 'Your account was successfully confirmed'
 end
+
+When /^I login via salesforce$/ do
+  visit '/login'
+  click_link ''
+end

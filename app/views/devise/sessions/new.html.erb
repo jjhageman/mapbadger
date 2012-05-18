@@ -2,6 +2,7 @@
 <div class="well row-fluid">
   <div class="span7">
     <%= link_to "Sign in with Salesforce", company_omniauth_authorize_path(:salesforce) %>
+    <%= link_to "callback", company_omniauth_callback_url(:salesforce) %>
     <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
       <%= f.label :email %>
       <%= f.email_field :email %>

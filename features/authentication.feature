@@ -9,3 +9,7 @@ Feature: User/Company authentication
     And I should receive a confirmation email
     When I follow the email link
     Then my account should be confirmed
+
+  Scenario: Salesforce authentication
+    When I login via salesforce
+    Then I should be on the welcome page
