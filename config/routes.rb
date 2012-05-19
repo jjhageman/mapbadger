@@ -1,6 +1,6 @@
 Mapbadger::Application.routes.draw do
 
-  devise_for :companies
+  devise_for :companies, :controllers => { :omniauth_callbacks => "companies/omniauth_callbacks" }
   devise_scope :company do
     get "login" => "devise/sessions#new"
     get '/' => 'devise/sessions#new'
